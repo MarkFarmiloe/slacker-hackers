@@ -4,7 +4,7 @@ const performance = [
 		"posts": 6,
 		"week": 35,
 		"location": "Birmingham",
-		"classes": "West Midlands class 2",
+		"class": "West Midlands class 2",
 		"performance": "Average",
 	},
 	{
@@ -12,7 +12,7 @@ const performance = [
 		"posts": 15,
 		"week": 80,
 		"location": "Birmingham",
-		"classes": "West Midlands class 1",
+		"class": "West Midlands class 1",
 		"performance": "Poor",
 	},
 	{
@@ -20,7 +20,7 @@ const performance = [
 		"posts": 4,
 		"week": 13,
 		"location": "Birmingham",
-		"classes": "West Midlands class 2",
+		"class": "West Midlands class 2",
 		"performance": "Poor",
 	},
 	{
@@ -28,7 +28,7 @@ const performance = [
 		"posts": 0,
 		"week": 21,
 		"location": "Manchester",
-		"classes": "Manchester class 1",
+		"class": "Manchester class 1",
 		"performance": "Average",
 	},
 	{
@@ -36,7 +36,7 @@ const performance = [
 		"posts": 6,
 		"week": 28,
 		"location": "Manchester",
-		"classes": "Manchester class 1",
+		"class": "Manchester class 1",
 		"performance": "Good",
 	},
 	{
@@ -44,7 +44,7 @@ const performance = [
 		"posts": 37,
 		"week": 57,
 		"location": "London",
-		"classes": "London class 1",
+		"class": "London class 1",
 		"performance": "Good",
 	},
 	{
@@ -52,7 +52,7 @@ const performance = [
 		"posts": 8,
 		"week": 8,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Poor",
 	},
 	{
@@ -60,7 +60,7 @@ const performance = [
 		"posts": 2,
 		"week": 6,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Poor",
 	},
 	{
@@ -68,7 +68,7 @@ const performance = [
 		"posts": 11,
 		"week": 34,
 		"location": "London",
-		"classes": "London class 1",
+		"class": "London class 1",
 		"performance": "Good",
 	},
 	{
@@ -76,7 +76,7 @@ const performance = [
 		"posts": 2,
 		"week": 2,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Average",
 	},
 	{
@@ -84,7 +84,7 @@ const performance = [
 		"posts": 11,
 		"week": 34,
 		"location": "London",
-		"classes": "London class 2",
+		"class": "London class 2",
 		"performance": "Poor",
 	},
 	{
@@ -92,7 +92,7 @@ const performance = [
 		"posts": 10,
 		"week": 23,
 		"location": "Birmingham",
-		"classes": "West Midlands class 1",
+		"class": "West Midlands class 1",
 		"performance": "Average",
 	},
 	{
@@ -100,7 +100,7 @@ const performance = [
 		"posts": 4,
 		"week": 7,
 		"location": "London",
-		"classes": "London class 1",
+		"class": "London class 1",
 		"performance": "Good",
 	},
 	{
@@ -108,7 +108,7 @@ const performance = [
 		"posts": 16,
 		"week": 35,
 		"location": "London",
-		"classes": "London class 1",
+		"class": "London class 1",
 		"performance": "Average",
 	},
 	{
@@ -116,7 +116,7 @@ const performance = [
 		"posts": 2,
 		"week": 10,
 		"location": "Manchester",
-		"classes": "GlManchesterasgow class 1",
+		"class": "Manchester class 1",
 		"performance": "Good",
 	},
 	{
@@ -124,7 +124,7 @@ const performance = [
 		"posts": 14,
 		"week": 25,
 		"location": "Birmingham",
-		"classes": "West Midlands class 2",
+		"class": "West Midlands class 2",
 		"performance": "Poor",
 	},
 	{
@@ -132,7 +132,7 @@ const performance = [
 		"posts": 5,
 		"week": 27,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Good",
 	},
 	{
@@ -140,7 +140,7 @@ const performance = [
 		"posts": 14,
 		"week": 34,
 		"location": "London",
-		"classes": "London class 1",
+		"class": "London class 1",
 		"performance": "Poor",
 	},
 	{
@@ -148,7 +148,7 @@ const performance = [
 		"posts": 16,
 		"week": 55,
 		"location": "London",
-		"classes": "London class 1",
+		"class": "London class 1",
 		"performance": "Average",
 	},
 	{
@@ -156,7 +156,7 @@ const performance = [
 		"posts": 0,
 		"week": 1,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Good",
 	},
 	{
@@ -164,7 +164,7 @@ const performance = [
 		"posts": 8,
 		"week": 33,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Poor",
 	},
 	{
@@ -172,7 +172,7 @@ const performance = [
 		"posts": 1,
 		"week": 9,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Average",
 	},
 	{
@@ -180,7 +180,7 @@ const performance = [
 		"posts": 10,
 		"week": 23,
 		"location": "Manchester",
-		"classes": "Manchester class 1",
+		"class": "Manchester class 1",
 		"performance": "Poor",
 	},
 	{
@@ -188,7 +188,7 @@ const performance = [
 		"posts": 11,
 		"week": 43,
 		"location": "Manchester",
-		"classes": "Manchester class 1",
+		"class": "Manchester class 1",
 		"performance": "Poor",
 	},
 	{
@@ -196,7 +196,7 @@ const performance = [
 		"posts": 15,
 		"week": 43,
 		"location": "Glasgow",
-		"classes": "Glasgow class 1",
+		"class": "Glasgow class 1",
 		"performance": "Average",
 	},
 ];
