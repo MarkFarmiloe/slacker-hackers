@@ -3,7 +3,7 @@ import { Router } from "express";
 
 import { Connection } from "./db";
 import filter from "./data/filter";
-//import testJSON from "./data/testPerformance.json";
+import testJSON from "./data/testPerformance";
 
 const router = new Router();
 
@@ -16,18 +16,18 @@ router.get("/", (_, res, next) => {
 		res.json({ message: "Hello, world!" });
 	});
 });
-/*
-router.get("/students", (_, res, next) => {
+
+router.get("/perform", (_, res, next) => {
 
 	Connection.connect((err) => {
 		if (err) {
 			return next(err);
 		}
-		console.log("responded to route /students");
+		console.log("responded to route /perform");
 		res.json(testJSON);
 	});
 });
-*/
+
 router.get("/filter", (_, res, next) => {
 
 	Connection.connect((err) => {
