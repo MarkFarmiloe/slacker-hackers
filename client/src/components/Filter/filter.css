@@ -1,0 +1,12 @@
+.filter-section{
+    width: 80%;
+    margin: 30px auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.select-location,
+.select-class,
+.search-input{
+    margin: 10px;
+}
