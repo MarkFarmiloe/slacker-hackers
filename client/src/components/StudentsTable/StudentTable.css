@@ -1,0 +1,16 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-size: 10px;
+}
+#studentContainer{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  
+}
+#studentContainer td,th{
+    text-align: justify;
+    font-size: 1.6rem;
+    width:5rem;
+}
