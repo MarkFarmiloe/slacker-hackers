@@ -69,7 +69,7 @@
     "helmet": "^3.23.3",
     "morgan": "^1.10.0",
     "pg": "^8.5.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
     "@slack/bolt": "^2.5.0",
     "sql": "^0.78.0"
   },
