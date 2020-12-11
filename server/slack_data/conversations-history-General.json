@@ -1,0 +1,185 @@
+{
+  "ok": true,
+  "messages": [
+    {
+      "type": "message",
+      "subtype": "channel_join",
+      "ts": "1607622113.002200",
+      "user": "U01GQC6H884",
+      "text": "<@U01GQC6H884> has joined the channel",
+      "inviter": "U01H4EEEUJC"
+    },
+    {
+      "type": "message",
+      "subtype": "channel_join",
+      "ts": "1607445106.002000",
+      "user": "U01H4EEEUJC",
+      "text": "<@U01H4EEEUJC> has joined the channel"
+    },
+    {
+      "client_msg_id": "2334f409-25ce-4bfc-986c-54ab97db92ac",
+      "type": "message",
+      "text": "test test test",
+      "user": "U01GYJH8N80",
+      "ts": "1607440773.001700",
+      "team": "T01GYJG0KC0",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "W72af",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [{ "type": "text", "text": "test test test" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "client_msg_id": "3f38d485-f0d4-4c55-b34b-0fddecf87d60",
+      "type": "message",
+      "text": "Hello World",
+      "user": "U01FU1B32SK",
+      "ts": "1607437366.001200",
+      "team": "T01GYJG0KC0",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "XgMt",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [{ "type": "text", "text": "Hello World" }]
+            }
+          ]
+        }
+      ],
+      "thread_ts": "1607437366.001200",
+      "reply_count": 1,
+      "reply_users_count": 1,
+      "latest_reply": "1607439152.001300",
+      "reply_users": ["U01GYJH8N80"],
+      "subscribed": false,
+      "reactions": [{ "name": "+1", "users": ["U01GYJH8N80"], "count": 1 }]
+    },
+    {
+      "client_msg_id": "3e3a5145-4a76-4513-9594-305544a5181a",
+      "type": "message",
+      "text": "test message three",
+      "user": "U01FU1B32SK",
+      "ts": "1607436329.001000",
+      "team": "T01GYJG0KC0",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "VTX",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [{ "type": "text", "text": "test message three" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "client_msg_id": "83fb779c-0f42-417a-bb9b-66209bbae21d",
+      "type": "message",
+      "text": "test message two",
+      "user": "U01FU1B32SK",
+      "ts": "1607436268.000800",
+      "team": "T01GYJG0KC0",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "1CH/j",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [{ "type": "text", "text": "test message two" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "client_msg_id": "05c208c5-2d18-4acf-b4c7-adbd625b3c60",
+      "type": "message",
+      "text": "a test message",
+      "user": "U01FU1B32SK",
+      "ts": "1607435650.000600",
+      "team": "T01GYJG0KC0",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "mqed",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [{ "type": "text", "text": "a test message" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "client_msg_id": "f5ce10fe-e27c-4cba-bc7d-a3c84991abc3",
+      "type": "message",
+      "text": "hello",
+      "user": "U01FU1B32SK",
+      "ts": "1607319123.000400",
+      "team": "T01GYJG0KC0",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "nCm",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [{ "type": "text", "text": "hello" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "client_msg_id": "85acf3a3-eaa6-495d-9c4c-acbc3348e8c1",
+      "type": "message",
+      "text": "hello",
+      "user": "U01FU1B32SK",
+      "ts": "1607307220.000200",
+      "team": "T01GYJG0KC0",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "glA",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [{ "type": "text", "text": "hello" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "subtype": "channel_join",
+      "ts": "1607209811.000600",
+      "user": "U01GYJH8N80",
+      "text": "<@U01GYJH8N80> has joined the channel"
+    },
+    {
+      "type": "message",
+      "subtype": "channel_join",
+      "ts": "1607208758.000200",
+      "user": "U01FU1B32SK",
+      "text": "<@U01FU1B32SK> has joined the channel"
+    }
+  ],
+  "has_more": false,
+  "pin_count": 0,
+  "channel_actions_ts": null,
+  "channel_actions_count": 0
+}

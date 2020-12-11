@@ -1,0 +1,11 @@
+// first part
+curl -F token=xoxb-1576628019408-1568414586276-IRrVkoO8hclJYgL9FguNG09T 
+// commands
+https://slack.com/api/conversations.list
+
+// need to invite bot to the channel first, for this to work (else error: not_in_channel)
+https://slack.com/api/conversations.history?channel=C01GETWS2JG
+// does not return any replies, but does return the reactions.
+
+https://slack.com/api/conversations.replies?channel=C01GETWS2JG&ts=1607440773.001700
+
