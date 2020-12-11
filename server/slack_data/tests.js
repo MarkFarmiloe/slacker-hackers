@@ -1,7 +1,7 @@
 // Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
 const { WebClient, LogLevel } = require("@slack/web-api");
 
-const token = process.env.SLACK_TOKEN || "xoxb-1576628019408-1568414586276-IRrVkoO8hclJYgL9FguNG09T";
+const token = process.env.SLACK_TOKEN;
 
 // WebClient instantiates a client that can call API methods
 // When using Bolt, you can use either `app.client` or the `client` passed to listeners.
