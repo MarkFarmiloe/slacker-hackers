@@ -64,13 +64,14 @@
     "webpack-merge": "^5.0.9"
   },
   "dependencies": {
+    "@slack/bolt": "^2.5.0",
+    "cors": "^2.8.5",
     "@babel/runtime": "^7.12.5",
     "express": "^4.17.1",
     "helmet": "^3.23.3",
     "morgan": "^1.10.0",
     "pg": "^8.5.1",
     "react-router-dom": "^5.2.0",
-    "@slack/bolt": "^2.5.0",
     "sql": "^0.78.0"
   },
   "engines": {
