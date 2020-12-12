@@ -11,7 +11,7 @@ const filter = {
 						  },
 						  {
 							  "city": "London",
-							 "classes": [ "London class 1",  "West Midlands class 2"],
+							 "classes": [ "London class 1",  "London class 2"],
 						  },
 						  {
 							  "city": "Manchester",
