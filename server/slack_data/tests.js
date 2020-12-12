@@ -1,4 +1,4 @@
-// Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
+const fs = require("fs");
 const { WebClient, LogLevel } = require("@slack/web-api");
 
 const token = process.env.SLACK_TOKEN;
@@ -17,14 +17,11 @@ let conversationHistory;
 async function fetchUsers() {
 	try {
 		const result = await web.users.list({
-			// The token you used to initialize your app
 			token: token,
 		});
-		// console.log(result);
 		const users = result.members;
-		// Print results
 		console.log(users.length + " users found");
-		console.log(users);
+		return users;
 	} catch (error) {
 		console.error(error);
 	}
@@ -34,14 +31,11 @@ async function fetchUsers() {
 async function fetchUserProfile(user) {
 	try {
 		const result = await web.users.profile.get({
-			// The token you used to initialize your app
 			token: token,
 			user: user,
 		});
-		// console.log(result);
 		const profile = result.profile;
-		// Print results
-		console.log(profile);
+		return profile;
 	} catch (error) {
 		console.error(error);
 	}
@@ -51,14 +45,11 @@ async function fetchUserProfile(user) {
 async function fetchConversations() {
 	try {
 		const result = await web.conversations.list({
-			// The token you used to initialize your app
 			token: token,
 		});
-		// console.log(result);
 		const conversations = result.channels;
-		// Print results
 		console.log(conversations.length + " conversations found");
-		console.log(conversations);
+		return conversations;
 	} catch (error) {
 		console.error(error);
 	}
@@ -68,14 +59,12 @@ async function fetchConversations() {
 async function fetchHistory(id) {
 	try {
 		const result = await web.conversations.history({
-			// The token you used to initialize your app
 			token: token,
 			channel: id,
 		});
 		conversationHistory = result.messages;
-		// Print results
 		console.log(conversationHistory.length + " messages found in " + id);
-		console.log(conversationHistory);
+		return conversationHistory;
 	} catch (error) {
 		console.error(error);
 	}
@@ -85,23 +74,36 @@ async function fetchHistory(id) {
 async function fetchReplies(id, ts) {
 	try {
 		const result = await web.conversations.replies({
-			// The token you used to initialize your app
 			token: token,
 			channel: id,
 			ts: ts,
 		});
 		const replies = result.messages;
-		// Print results
 		console.log(replies.length + " replies found in " + id + " with timestamp " + ts);
-		console.log(replies);
+		return replies;
 	} catch (error) {
 		console.error(error);
 	}
 }
 
-// fetchUsers();
+fetchUsers()
+	.then((data) => {
+		// console.log(data);
+		const users = data.filter((u) => !u.deleted).map((u) => {
+			return { slackUserId: u.id, name: u.real_name };
+		});
+		console.log(users);
+		fs.writeFile("slackUsers.json", JSON.stringify(users), (err) => {
+			if (err) {
+				throw err;
+			}
+			console.log("The slackUsers file has been saved!");
+		});
+	})
+	.catch((e) => console.log(e));
 
-fetchUserProfile("U01FU1B32SK");
+
+// fetchUserProfile("U01FU1B32SK");
 
 // fetchConversations();
 

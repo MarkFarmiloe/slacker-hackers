@@ -1,0 +1,42 @@
+[
+    {
+        "slackUserId": "USLACKBOT",
+        "name": "Slackbot"
+    },
+    {
+        "slackUserId": "U01FU1B32SK",
+        "name": "Leroy Douglas"
+    },
+    {
+        "slackUserId": "U01FU8TP695",
+        "name": "lcd-shackers"
+    },
+    {
+        "slackUserId": "U01G6T6SS6A",
+        "name": "test-app"
+    },
+    {
+        "slackUserId": "U01G8P54LJE",
+        "name": "afronaut"
+    },
+    {
+        "slackUserId": "U01GA38V059",
+        "name": "hello-world-bot"
+    },
+    {
+        "slackUserId": "U01GF8JNAJF",
+        "name": "my-new-app"
+    },
+    {
+        "slackUserId": "U01GQC6H884",
+        "name": "SH explore"
+    },
+    {
+        "slackUserId": "U01GYJH8N80",
+        "name": "Simon Gray"
+    },
+    {
+        "slackUserId": "U01H4EEEUJC",
+        "name": "mark"
+    }
+]
