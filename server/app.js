@@ -10,9 +10,10 @@ import { httpsOnly, logErrors, pushStateRouting } from "./middleware";
 const apiRoot = "/api";
 const staticDir = path.join(__dirname, "static");
 
-app.use(cors());
+
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(logErrors());
