@@ -63,7 +63,7 @@ export function StudentTable(prop){
     
     return(
         <div id="studentContainer">
-             <table class="table table-striped table-bordered table-sm">
+             <table className="table table-striped table-bordered table-sm">
             <thead>
                 <tr>
                         <th scope="col">Name</th>
@@ -96,15 +96,15 @@ function ROW(prop){
 
     }
     if(parseInt(prop.obj.posts)<5){
-        return(<tr style={{backgroundColor:'#eb5a46'}}><td>{prop.obj.name}</td><td>{prop.obj.location}</td><td>{prop.obj.class}</td><td>{parseInt(prop.obj.posts)}</td><td>{prop.obj.week}</td><td><button type="button" onClick={warnFunc} class="btn btn-danger">Profile</button></td></tr>
+        return(<tr key={prop.obj.id} style={{backgroundColor:'#eb5a46'}}><td>{prop.obj.name}</td><td>{prop.obj.location}</td><td>{prop.obj.class}</td><td>{parseInt(prop.obj.posts)}</td><td>{prop.obj.week}</td><td><button type="button" onClick={warnFunc} className="btn btn-danger">Profile</button></td></tr>
        )
     }else if(parseInt(prop.obj.posts)<10){
         return(
-            <tr style={{backgroundColor:'orange'}}><td>{prop.obj.name}</td><td>{prop.obj.location}</td><td>{prop.obj.class}</td><td>{prop.obj.posts}</td><td>{prop.obj.week}</td><td><button type="button" onClick={warnFunc} class="btn btn-warning">Profile</button></td></tr>
+            <tr key={prop.obj.id} style={{backgroundColor:'orange'}}><td>{prop.obj.name}</td><td>{prop.obj.location}</td><td>{prop.obj.class}</td><td>{prop.obj.posts}</td><td>{prop.obj.week}</td><td><button type="button" onClick={warnFunc} className="btn btn-warning">Profile</button></td></tr>
         )
     }else{
         return(
-            <tr style={{backgroundColor:'#90ee90'}}><td>{prop.obj.name}</td><td>{prop.obj.location}</td><td>{prop.obj.class}</td><td>{prop.obj.posts}</td><td>{prop.obj.week}</td><td><button type="button" onClick={warnFunc}  class="btn btn-success">Profile</button>
+            <tr key={prop.obj.id} style={{backgroundColor:'#90ee90'}}><td>{prop.obj.name}</td><td>{prop.obj.location}</td><td>{prop.obj.class}</td><td>{prop.obj.posts}</td><td>{prop.obj.week}</td><td><button type="button" onClick={warnFunc}  className="btn btn-success">Profile</button>
             </td></tr>
 
         )
