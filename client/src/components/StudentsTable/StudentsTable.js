@@ -38,7 +38,7 @@ export function StudentTable(prop){
         let temp=[];
         searchData=prop.Data.filter(function(obj){
             //return (obj.posts>5) && (obj.posts<10)
-            if((obj.posts>5) && (obj.posts<10)){
+            if((obj.posts>=5) && (obj.posts<10)){
                 return obj
             }else{
                 temp.push(obj)
@@ -50,7 +50,7 @@ export function StudentTable(prop){
         let temp=[]
         searchData=prop.Data.filter(function(obj){
             //return obj.posts>10;
-            if(obj.posts>10){
+            if(obj.posts>=10){
                 return obj
             }else{
                 temp.push(obj)

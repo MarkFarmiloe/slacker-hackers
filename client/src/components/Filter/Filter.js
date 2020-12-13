@@ -11,7 +11,6 @@ const performanceArr = ['Good','Average','Poor'];
     const [optionClass, setOptionClass] = useState('');
     const [optionPerformance, setPerformanceClass] = useState('');
     const [searchVal, setSearchVal] = useState('');
-    
     /////////////////////////////edit by zubeda
     function filterFunc(location){
       

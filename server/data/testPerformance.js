@@ -1,4 +1,5 @@
 const performance = [
+	/*
 	{
 		"name": "Eugenia Vazquez",
 		"posts": 6,
@@ -39,8 +40,7 @@ const performance = [
 		"class": "Manchester class 1",
 		"performance": "Good",
 	},
-];
-/*  ,
+	*/
 	{
 		"name": "Esther Graves",
 		"posts": 37,
@@ -201,6 +201,6 @@ const performance = [
 		"class": "Glasgow class 1",
 		"performance": "Average",
 	},
-]; */
+];
 
 export default performance;
