@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import './filter.css'
 
-const locationArr = ['Birmingham','London','Manchester','Glasgow'];
-const classArr = ['WestMidlands Class 1','WestMidlands Class 2','London Class 1','London Class 2'];
-const performanceArr = ['Good','Average','Poor'];
-
  function Filter(prop) {
 
+    const [data, setData] = useState({});
     const [optionLocation, setOptionLocation] = useState('');
     const [optionClass, setOptionClass] = useState('');
     const [optionPerformance, setPerformanceClass] = useState('');
     const [searchVal, setSearchVal] = useState('');
+
+
     /////////////////////////////edit by zubeda
     function filterFunc(location){
       
@@ -42,30 +41,46 @@ const performanceArr = ['Good','Average','Poor'];
         filterName(e.target.value) 
       
     }
-    
-    return (
+
+    useEffect(() => {
+        fetch('https://slacker-hackers.herokuapp.com/api/filter')
+        .then(res => res.json())
+        .then(data=> setData(data))
+        .catch(err => console.log(err))
+    }, [data])
+
+    //filter the data depending what a teacher select on the Location dropdown 
+    let filteredLocationObj;
+    Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : '';
+
+    return Object.entries(data) != 0 ? (
         <div className='filter-section'>
                 <div className='select-box'>
                     <span>Filter by:</span>
                     <select onChange={handleLocationChange} className='select-location'>
                         <option disabled selected hidden>Location</option>
                         {
-                            locationArr.map((location, index) => <option key={index}>{location}</option>)
+                            data.locations.map((location, index) => <option key={index}>{location.city}</option>)
                         }
                     </select>
                     <select onChange={handleClassChange} className='select-class'>
                         <option disabled selected hidden>Class</option>
                         {
-                            classArr.map((item,index) => <option key={index}>{item}</option>)
+                            filteredLocationObj.length > 0 
+                            ? 
+                            filteredLocationObj[0].classes.map((item,index) => <option key={index}>{item}</option>)
+                            :
+                            <option disabled>Select Location First</option>
                         }
                     </select>
                     <select onChange={handlePerformanceChange} className='select-performance'>
                         <option disabled selected hidden>Performance</option>
-                        {
-                            performanceArr.map((item,index) => <option key={index}>{item}</option>)
-                        }
                         {/* edit by zubeda */}
                         <option>Select All</option>
+                        {
+                            data.performance.map((performance, index) => <option key={index}>{performance}</option>)
+                        }
+                        
                     </select>
                 </div>
                 
@@ -79,6 +94,8 @@ const performanceArr = ['Good','Average','Poor'];
             
         </div>
     )
+    :
+    '';
 }
 
 export default Filter;
