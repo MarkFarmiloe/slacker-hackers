@@ -10,7 +10,7 @@ export default function Dashboard() {
         function(){
            // https://hackz.glitch.me/student'
             //https://slacker-hackers.herokuapp.com/api/perform
-        fetch('https://hackz.glitch.me/student')
+        fetch('https://slacker-hackers.herokuapp.com/api/perform')
             .then(function(obj){
                 return obj.json();
             })
@@ -23,6 +23,7 @@ export default function Dashboard() {
             });
         }
     ,[]);
+    
     //extract data when filters activated
     const [filter,setFilter]=useState('location');
     const [location,setLocation]=useState('location');
@@ -37,8 +38,6 @@ export default function Dashboard() {
     return (
         <div className='dashboard-page'>
             <Filter filterFunc={filterFunc} />
-            {/* {data&&(<StudentsTable Data={data} search={filter} />)}
-            {filter&&(<StudentsTable Data={data} search={filter} />)} */}
             {filter ? (<StudentsTable Data={data} search={filter} />):(<StudentsTable Data={data} search={filter} />)}
             
         </div>
