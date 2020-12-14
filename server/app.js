@@ -22,6 +22,7 @@ app.use(morgan("dev"));
 if (app.get("env") === "production") {
 	app.enable("trust proxy");
 	app.use(httpsOnly());
+	app.disable("etag");
 }
 
 app.use(apiRoot, router);
