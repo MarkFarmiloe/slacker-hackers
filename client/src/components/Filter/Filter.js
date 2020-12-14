@@ -27,6 +27,7 @@ import './filter.css'
         setOptionLocation(e.target.value);
         filterFunc(e.target.value)//edit by zubeda
         
+        
     }
     const handleClassChange = e => {
         setOptionClass(e.target.value)
@@ -47,8 +48,7 @@ import './filter.css'
         .then(res => res.json())
         .then(data=> setData(data))
         .catch(err => console.log(err))
-    }, [data])
-
+    }, [])
     //filter the data depending what a teacher select on the Location dropdown 
     let filteredLocationObj;
     Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : '';
