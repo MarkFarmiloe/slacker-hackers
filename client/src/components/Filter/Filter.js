@@ -8,6 +8,7 @@ import './filter.css'
     const [optionClass, setOptionClass] = useState('');
     const [optionPerformance, setPerformanceClass] = useState('');
     const [searchVal, setSearchVal] = useState('');
+    const [range, setRange] = useState('');
 
 
     /////////////////////////////edit by zubeda
@@ -40,6 +41,10 @@ import './filter.css'
     const handleSearch = e => {
         setSearchVal(e.target.value)
         filterName(e.target.value) 
+      
+    }
+    const handleRange = e => {
+        setRange(e.target.value) 
       
     }
 
@@ -87,6 +92,10 @@ import './filter.css'
                 <div className='search-box'>
                     <span>Search:</span>
                     <input onChange={handleSearch} className='search-input' type='search' placeholder='Search student name ...' />
+                </div>
+                <div className='data-range-box'>
+                    <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
+                    <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
                 </div>
 
            
