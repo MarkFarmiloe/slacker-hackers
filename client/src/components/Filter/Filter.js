@@ -9,6 +9,7 @@ import moment from 'moment'
     const [optionClass, setOptionClass] = useState('');
     const [optionPerformance, setPerformanceClass] = useState('');
     const [searchVal, setSearchVal] = useState('');
+    const [range, setRange] = useState('');
 
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
@@ -73,6 +74,7 @@ import moment from 'moment'
         filterLocation(e.target.value)//edit by zubeda
         
         
+        
     }
     const handleClassChange = e => {
         setOptionClass(e.target.value)
@@ -91,6 +93,10 @@ import moment from 'moment'
             filterName(e.target.value) 
         }
         
+      
+    }
+    const handleRange = e => {
+        setRange(e.target.value) 
       
     }
     const handleRange = e => {
@@ -152,6 +158,10 @@ import moment from 'moment'
                         <input type="date" id="endDate" name="endDate" onChange={handleEndDateChange } disabled={true} />
                         <button onClick={applyFunc} type="submit" id="btnDate" >Apply</button>
                    
+                </div>
+                <div className='data-range-box'>
+                    <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
+                    <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
                 </div>
 
                 {/* <div className='data-range-box'>

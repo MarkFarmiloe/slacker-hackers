@@ -10,10 +10,21 @@
 .select-location,
 .select-class,
 .select-performance,
-.search-input{
+.search-input,
+.data-range-box{
     margin: 1rem;
     font-size: 1.4rem;
     outline: none;
+}
+
+.data-range-box{
+    width: 22rem;
+    display: flex;
+    align-items: center;
+}
+.data-range-box__range{
+    color: red;
+    margin: 1rem;
 }
 
 .buttons-box__btn{
