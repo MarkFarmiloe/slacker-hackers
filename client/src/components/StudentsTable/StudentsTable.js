@@ -82,7 +82,7 @@ export function StudentTable(prop){
             if(searchData.length>0)
             searchData=searchData;
             else{
-                alert(searchData.length)
+              
                 searchData=prop.Data
             }
         
