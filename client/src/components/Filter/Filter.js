@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './filter.css'
+import moment from 'moment'
 
  function Filter(prop) {
 
@@ -8,37 +9,84 @@ import './filter.css'
     const [optionClass, setOptionClass] = useState('');
     const [optionPerformance, setPerformanceClass] = useState('');
     const [searchVal, setSearchVal] = useState('');
-
-
+    const [startDate,setStartDate]=useState(null);
+    const [endDate,setEndDate]=useState(null);
     /////////////////////////////edit by zubeda
-    function filterFunc(location){
-      
-        (prop.filterFunc(location))
+   function applyFunc(){
+    if(startDate && endDate){
+        var a = moment(startDate);
+        var b = moment(endDate);
+        var result=b.diff(a, 'weeks')
+        if(result<0){
+        alert("put end date less then start date")
+        }if(result<1){
+            alert("you must put 1 week gap between start and end date")
+        }
+        else{
+        (prop.setDateFunc(startDate,endDate,result))
+        }
     }
+    else{
+        alert("please insert both start and end date first")
+    }
+    
+   // (prop.setDateFunc(startDate,endDate))
+    // -1000
+    //alert(moment(startDate,"YYYY-MM-DD HH:mm:ss").diff(moment(endDate,"YYYY-MM-DD HH:mm:ss"))) // 1
+
+   }
+    
+    function filterDefault(val){
+        (prop. filterDefaultFunc(val))
+        
+    }
+   function filterName(name){
+       (prop.filterNameFunc(name))
+   }
+    
     function filterPerformance(performance){
-        (prop.filterFunc(performance))
+        (prop.filterPerformanceFunc(performance))
     }
-    function filterName(name){
-        (prop.filterFunc(name))
-    }
+   function filterLocation(location){
+       (prop.filterLocationFunc(location))
+   }
+   function filterClass(clas){
+    (prop.filterClassFunc(clas))
+}
     ////////////////////////////////////////
+    const handleStartDateChange = e => {
+        document.getElementById("endDate").disabled=false;
+        setStartDate(e.target.value);
+       //edit by zubeda
+        
+    }
+    const handleEndDateChange = e => {
+        setEndDate(e.target.value);
+       //edit by zubeda  
+    }
 
     const handleLocationChange = e => {
         setOptionLocation(e.target.value);
-        filterFunc(e.target.value)//edit by zubeda
+        filterLocation(e.target.value)//edit by zubeda
         
     }
     const handleClassChange = e => {
         setOptionClass(e.target.value)
-        filterFunc(e.target.value)//edit by zubeda
+        filterClass(e.target.value)//edit by zubeda
     }
     const handlePerformanceChange = e => {
         setPerformanceClass(e.target.value)
         filterPerformance(e.target.value)
     }
     const handleSearch = e => {
-        setSearchVal(e.target.value)
-        filterName(e.target.value) 
+       
+        if(e.target.value===""){
+            filterDefault("change")
+        }else{
+            setSearchVal(e.target.value)
+            filterName(e.target.value) 
+        }
+        
       
     }
 
@@ -47,12 +95,12 @@ import './filter.css'
         .then(res => res.json())
         .then(data=> setData(data))
         .catch(err => console.log(err))
-    }, [data])
+    }, [])
 
     //filter the data depending what a teacher select on the Location dropdown 
     let filteredLocationObj;
     Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : '';
-
+    
     return Object.entries(data) != 0 ? (
         <div className='filter-section'>
                 <div className='select-box'>
@@ -82,16 +130,22 @@ import './filter.css'
                         }
                         
                     </select>
+                   
                 </div>
                 
                 <div className='search-box'>
                     <span>Search:</span>
-                    <input onChange={handleSearch} className='search-input' type='search' placeholder='Search student name ...' />
+                    <input id="studentName" onChange={handleSearch} className='search-input' type='search' placeholder='Search student name ...' />
+                </div>    
+                {/* edit zubeda*/}
+                <div>
+                   
+                        <input type="date"  id="startDate" selected="startDate" name="startDate" onChange={handleStartDateChange } />
+                        <input type="date" id="endDate" name="endDate" onChange={handleEndDateChange } disabled={true} />
+                        <button onClick={applyFunc} type="submit" id="btnDate" >Apply</button>
+                   
                 </div>
-
-           
-
-            
+                {/* end of edit by zubeda*/}
         </div>
     )
     :

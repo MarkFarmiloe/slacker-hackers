@@ -25,21 +25,76 @@ export default function Dashboard() {
     ,[]);
     
     //extract data when filters activated
-    const [filter,setFilter]=useState('location');
-    const [location,setLocation]=useState('location');
-    const [className,setClassName]=useState('className');
+    const [byDefault,setDefault]=useState("default")
+    const [performance,setPerformance]=useState(null);
+    const [location,setLocation]=useState(null);
+    const [className,setClassName]=useState(null);
     const [name,setName]=useState(null);
-    function filterFunc(val){
-        
-        setFilter(val);
+    const [startDate,setStartDate]=useState(null);
+    const [endDate,setEndDate]=useState(null);
+    const [filterDate,setFilterDate]=useState(null)
+    function setDateFunc(start,end,filter){
+        setStartDate(start)
+        setEndDate(end)
+        setFilterDate(filter)
+        setDefault(null)
+        setName(null)
+        setPerformance(null);
+        setLocation(null)
+        setClassName(null)
+    }
+    function filterDefaultFunc(val){
+        setDefault(val)
+        setFilterDate(null)
+        setName(null)
+        setPerformance(null);
+        setLocation(null)
+        setClassName(null)
+        //setDefault(val)
+    }
+    function filterPerformanceFunc(performance){
+        setFilterDate(null)
+        setDefault(null)
+        setName(null)
+        setPerformance(performance);
+        setLocation(null)
+        setClassName(null)
+    }
+    function filterNameFunc(name){
+        setFilterDate(null)
+        setDefault(null)
+        setPerformance(null);
+        setName(name);
+        setLocation(null)
+        setClassName(null)
+    }
+    function filterLocationFunc(location){
+        setDefault(null)
+        setPerformance(null);
+        setName(null);
+        setLocation(location)
+        setClassName(null)
+    }
+    function filterClassFunc(clas){
+        setFilterDate(null)
+        setDefault(null)
+        setPerformance(null);
+        setName(null);
+        setLocation(null)
+        setClassName(clas)
     }
    
-    ////////////////////////////////
+    ///////////////////////////////
     return (
         <div className='dashboard-page'>
-            <Filter filterFunc={filterFunc} />
-            {filter ? (<StudentsTable Data={data} search={filter} />):(<StudentsTable Data={data} search={filter} />)}
-            
+            <Filter setDateFunc={setDateFunc} filterDefaultFunc={filterDefaultFunc} filterClassFunc={filterClassFunc} filterLocationFunc={filterLocationFunc} filterNameFunc={filterNameFunc} filterPerformanceFunc={filterPerformanceFunc}/>
+            {byDefault && (<StudentsTable Data={data} default={byDefault}/>)}
+            {performance && (<StudentsTable Data={data} search={performance} />)}
+            {name && (<StudentsTable Data={data} name={name} />)}
+            {location && (<StudentsTable Data={data} location={location} />)}
+            {className && (<StudentsTable Data={data} className={className} />)}
+            {filterDate && (<StudentsTable Data={data} filterDate={filterDate} startDate={startDate} endDate={endDate} />)}
+
         </div>
     )
 }
