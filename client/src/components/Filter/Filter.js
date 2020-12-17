@@ -159,14 +159,9 @@ import moment from 'moment'
                     <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
                 </div> */}
 
-           
-
-            
-
         </div>
     )
     :
     '';
 }
-
 export default Filter;
