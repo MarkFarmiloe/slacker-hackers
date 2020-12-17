@@ -9,8 +9,11 @@ import moment from 'moment'
     const [optionClass, setOptionClass] = useState('');
     const [optionPerformance, setPerformanceClass] = useState('');
     const [searchVal, setSearchVal] = useState('');
+
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
+    const [range, setRange] = useState('');
+
     /////////////////////////////edit by zubeda
    function applyFunc(){
     if(startDate && endDate){
@@ -69,6 +72,7 @@ import moment from 'moment'
         setOptionLocation(e.target.value);
         filterLocation(e.target.value)//edit by zubeda
         
+        
     }
     const handleClassChange = e => {
         setOptionClass(e.target.value)
@@ -87,6 +91,10 @@ import moment from 'moment'
             filterName(e.target.value) 
         }
         
+      
+    }
+    const handleRange = e => {
+        setRange(e.target.value) 
       
     }
 
@@ -145,7 +153,16 @@ import moment from 'moment'
                         <button onClick={applyFunc} type="submit" id="btnDate" >Apply</button>
                    
                 </div>
-                {/* end of edit by zubeda*/}
+
+                {/* <div className='data-range-box'>
+                    <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
+                    <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
+                </div> */}
+
+           
+
+            
+
         </div>
     )
     :
