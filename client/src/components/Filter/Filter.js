@@ -13,7 +13,7 @@ import moment from 'moment'
 
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
-    const [range, setRange] = useState('');
+ 
 
     /////////////////////////////edit by zubeda
    function applyFunc(){
@@ -99,11 +99,7 @@ import moment from 'moment'
         setRange(e.target.value) 
       
     }
-    const handleRange = e => {
-        setRange(e.target.value) 
-      
-    }
-
+    
     useEffect(() => {
         fetch('https://slacker-hackers.herokuapp.com/api/filter')
         .then(res => res.json())
@@ -159,24 +155,19 @@ import moment from 'moment'
                         <button onClick={applyFunc} type="submit" id="btnDate" >Apply</button>
                    
                 </div>
-                <div className='data-range-box'>
+                {/* <div className='data-range-box'>
                     <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
                     <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
-                </div>
+                </div> */}
 
                 {/* <div className='data-range-box'>
                     <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
                     <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
                 </div> */}
 
-           
-
-            
-
         </div>
     )
     :
     '';
 }
-
 export default Filter;
