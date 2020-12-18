@@ -85,13 +85,14 @@ import moment from 'moment'
         filterPerformance(e.target.value)
     }
     const handleSearch = e => {
-       
         if(e.target.value===""){
-            filterDefault("change")
+            filterName("empty") 
         }else{
-            setSearchVal(e.target.value)
             filterName(e.target.value) 
         }
+            setSearchVal(e.target.value)
+          
+        
         
       
     }
@@ -116,6 +117,7 @@ import moment from 'moment'
                 <div className='select-box'>
                     <span>Filter by:</span>
                     <select onChange={handleLocationChange} className='select-location'>
+                        <option>Select All</option>
                         <option disabled selected hidden>Location</option>
                         {
                             data.locations.map((location, index) => <option key={index}>{location.city}</option>)
@@ -131,18 +133,19 @@ import moment from 'moment'
                             <option disabled>Select Location First</option>
                         }
                     </select>
-                    <select onChange={handlePerformanceChange} className='select-performance'>
-                        <option disabled selected hidden>Performance</option>
+                    
+                   
+                </div>
+                
+                <select onChange={handlePerformanceChange} className='select-performance'>
+                        <option disabled selected hidden id="defaultPerformance">Performance</option>
                         {/* edit by zubeda */}
-                        <option>Select All</option>
+                       
                         {
                             data.performance.map((performance, index) => <option key={index}>{performance}</option>)
                         }
                         
                     </select>
-                   
-                </div>
-                
                 <div className='search-box'>
                     <span>Search:</span>
                     <input id="studentName" onChange={handleSearch} className='search-input' type='search' placeholder='Search student name ...' />
@@ -152,7 +155,7 @@ import moment from 'moment'
                    
                         <input type="date"  id="startDate" selected="startDate" name="startDate" onChange={handleStartDateChange } />
                         <input type="date" id="endDate" name="endDate" onChange={handleEndDateChange } disabled={true} />
-                        <button onClick={applyFunc} type="submit" id="btnDate" >Apply</button>
+                        <button onClick={applyFunc}  id="btnDate" >Apply</button>
                    
                 </div>
                 {/* <div className='data-range-box'>
