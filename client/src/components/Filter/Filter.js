@@ -61,18 +61,21 @@ import moment from 'moment'
     const handleStartDateChange = e => {
         document.getElementById("endDate").disabled=false;
         setStartDate(e.target.value);
+        setSearchVal('')
        //edit by zubeda
+       
         
     }
     const handleEndDateChange = e => {
         setEndDate(e.target.value);
+        setSearchVal('')
        //edit by zubeda  
     }
 
     const handleLocationChange = e => {
         setOptionLocation(e.target.value);
         filterLocation(e.target.value)//edit by zubeda
-        
+        setSearchVal('')
         
         
     }
@@ -83,6 +86,7 @@ import moment from 'moment'
     const handlePerformanceChange = e => {
         setPerformanceClass(e.target.value)
         filterPerformance(e.target.value)
+        setSearchVal('')
     }
     const handleSearch = e => {
         if(e.target.value===""){
@@ -148,7 +152,7 @@ import moment from 'moment'
                     </select>
                 <div className='search-box'>
                     <span>Search:</span>
-                    <input id="studentName" onChange={handleSearch} className='search-input' type='search' placeholder='Search student name ...' />
+                    <input id="studentName" onChange={handleSearch} className='search-input' type='search' value={searchVal} placeholder='Search student name ...' />
                 </div>    
                 {/* edit zubeda*/}
                 <div>
