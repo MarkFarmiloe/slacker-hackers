@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./StudentTable.css";
-let test=0;
-
 export function StudentTable(prop){
-    const [orange,setOrange]=useState(null);
-    const [red,setRed]=useState(null);
-    const [green,setGreen]=useState(null);
-    const [Data,setData]=useState(prop.Data)
-    //array of search data
-    let searchData=[];
-    //make a subset location wise
-    searchData=prop.Data
-    
-   
-    
+let searchData=[];
+searchData=prop.Data
     return(
         <div id="studentContainer">
              <table className="table table-striped table-bordered table-sm">
@@ -39,7 +28,7 @@ export function StudentTable(prop){
         </div>
     )
 }
-//Row
+//return each student table row
 function ROW(prop){
     function warnFunc(){
         var warn = prompt("Please enter your Message", "message");

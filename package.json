@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
+    "@material-ui/core": "^4.11.2",
     "@slack/bolt": "^2.5.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
