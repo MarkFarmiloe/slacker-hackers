@@ -15,6 +15,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Routes for signup  & login pages
+
+app.use("/auth", require("./routes/jwtAuth"));
+
 app.use(helmet());
 app.use(logErrors());
 app.use(morgan("dev"));
