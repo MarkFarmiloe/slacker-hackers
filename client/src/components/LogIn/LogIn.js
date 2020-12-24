@@ -76,8 +76,7 @@ export default function LogIn() {
 
         let userCredentials = {  // generate the object to be sent to the backend
             email: email,
-            password: password,
-            remember: check
+            password: password
         }
         
         const requestOptions = {  
@@ -88,7 +87,7 @@ export default function LogIn() {
             body: JSON.stringify(userCredentials),
         }
     
-        fetch("/", requestOptions) 
+        fetch("https://slacker-hackers.herokuapp.com/#/auth/login", requestOptions) 
         .then((res) => res.json())
         .then((res) => {
         if (res.success === true) {
@@ -116,7 +115,7 @@ export default function LogIn() {
             </Avatar>
 
             <Typography component="h1" variant="h5">
-                Sign in
+                Login
             </Typography>
 
             <form className={classes.form}>
