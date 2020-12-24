@@ -2,7 +2,26 @@
 .heading{
     padding: 10px 50px;
     box-shadow: 1px 1px 5px #787878;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .heading-logo{
-    width: 100px;
+    width: 150px;
+}
+
+.heading ul{
+    display: flex;
+    margin: 0;
+    list-style-type: none;
+}
+
+.heading ul a,
+.heading ul a:active,
+.heading ul a:visited{
+    color: #787878;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 16px;
+    align-self: center;
 }
