@@ -15,6 +15,17 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Routes for signup  & login pages
+
+app.use("/auth", require("./routes/jwtAuth"));
+
+// Route for the dashboard
+app.use("/dashboard", require("./routes/dashboard"));
+
+// Route to access Slack data
+//app.use("/slack", require("./routes/slackData"));
+
 app.use(helmet());
 app.use(logErrors());
 app.use(morgan("dev"));
