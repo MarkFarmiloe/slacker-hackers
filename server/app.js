@@ -20,6 +20,12 @@ app.use(express.json());
 
 app.use("/auth", require("./routes/jwtAuth"));
 
+// Route for the dashboard
+app.use("/dashboard", require("./routes/dashboard"));
+
+// Route to access Slack data
+//app.use("/slack", require("./routes/slackData"));
+
 app.use(helmet());
 app.use(logErrors());
 app.use(morgan("dev"));
