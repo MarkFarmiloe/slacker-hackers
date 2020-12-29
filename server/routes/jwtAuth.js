@@ -38,7 +38,7 @@ router.post("/signup",  validate, async (req, res) => {
 	}
 });
 
-router.get("/login",  validate, async (req, res) => {
+router.post("/login",  validate, async (req, res) => {
 	const { email, password } = req.body;
 	const client = await Connection.connect();
 	try {
@@ -54,7 +54,7 @@ router.get("/login",  validate, async (req, res) => {
 				//let token = await jwtGenerator(user.rows[0].user_id);
 				//const userAuth = { jwt: token, authLevel: 0 };
 				//res.json({ userAuth });
-				res.json(user.rows[0].username);
+				res.json({user: user.rows[0].username});
 			}
 		}
 	} catch (error) {
