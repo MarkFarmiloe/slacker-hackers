@@ -78,6 +78,8 @@ export default function LogIn() {
             email: email,
             password: password
         }
+
+        console.log('userStringify =', JSON.stringify(userCredentials) )
         
         const requestOptions = {  
             method: 'POST',
@@ -87,9 +89,10 @@ export default function LogIn() {
             body: JSON.stringify(userCredentials),
         }
     
-        fetch("https://slacker-hackers.herokuapp.com/#/auth/login", requestOptions) 
+        fetch("https://slacker-hackers.herokuapp.com/auth/login", requestOptions) 
         .then((res) => res.json())
         .then((res) => {
+           console.log('res=', res)
         if (res.success === true) {
             alert('Login successfully')
         } else {
@@ -98,7 +101,7 @@ export default function LogIn() {
         }
         })
         .catch((err) => {
-        alert("Error login in please try again!");
+        alert(err);
         });
 
         setEmail('');
