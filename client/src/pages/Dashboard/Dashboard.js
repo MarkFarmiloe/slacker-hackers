@@ -1,4 +1,4 @@
-import { updateLocale } from 'moment';
+
 import React, {useState, useEffect} from 'react'
 import Filter from '../../components/Filter/Filter'
 import StudentsTable from '../../components/StudentsTable/StudentsTable.js'
