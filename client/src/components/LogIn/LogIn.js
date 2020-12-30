@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import history from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -78,12 +79,10 @@ export default function LogIn() {
             email: email,
             password: password
         }
-
-        console.log('userStringify =', JSON.stringify(userCredentials) )
         
         const requestOptions = {  
             method: 'POST',
-            heders: {
+            headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(userCredentials),
@@ -93,12 +92,13 @@ export default function LogIn() {
         .then((res) => res.json())
         .then((res) => {
            console.log('res=', res)
-        if (res.success === true) {
-            alert('Login successfully')
-        } else {
-            const error = new Error(res.error);
-            throw error;
-        }
+           alert(`Hi, ${res.user}`)
+        // if (res.success === true) {
+        //     alert('Login successfully')
+        // } else {
+        //     const error = new Error(res.error);
+        //     throw error;
+        // }
         })
         .catch((err) => {
         alert(err);
