@@ -24,7 +24,7 @@ router.post("/signup",  validate, async (req, res) => {
 			const user = await client.query(insertQuery, [ name, email, encryptedPassword ]);
 			if(user.rowCount){
 				const token = await jwtGenerator(user.rows[0].user_id);
-				res.json({ token });
+				res.status(200).json({ token });
 			} else {
 				res.status(500).send("Database error trying to insert user");
 			}
