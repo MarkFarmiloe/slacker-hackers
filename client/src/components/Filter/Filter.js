@@ -34,10 +34,6 @@ import moment from 'moment'
         alert("please insert both start and end date first")
     }
     
-   // (prop.setDateFunc(startDate,endDate))
-    // -1000
-    //alert(moment(startDate,"YYYY-MM-DD HH:mm:ss").diff(moment(endDate,"YYYY-MM-DD HH:mm:ss"))) // 1
-
    }
     
     function filterDefault(val){
@@ -115,7 +111,6 @@ import moment from 'moment'
     //filter the data depending what a teacher select on the Location dropdown 
     let filteredLocationObj;
     Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : '';
-    
     return Object.entries(data) != 0 ? (
         <div className='filter-section'>
                 <div className='select-box'>

@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 import "./StudentTable.css";
 export function StudentTable(prop){
-let searchData=[];
+let searchData=[],cnt=0;
 searchData=prop.Data
+    function next(){
+        alert("next")
+    }
+  
     return(
         <div id="studentContainer">
-             <table className="table table-striped table-bordered table-sm">
+             <table style={{width:'80%'}} className="table table-striped table-bordered table-sm">
             <thead>
                 <tr>
                         <th scope="col" key={Math.random(1,5)}>Name</th>
@@ -19,11 +23,16 @@ searchData=prop.Data
             <tbody>
             {
                searchData.map(function(obj){
-                  return <ROW obj={obj} key={obj.id} />
+                   cnt=cnt+1;
+                   if(cnt<10){
+                    return <ROW obj={obj} key={obj.id} />
+                   }else{
+
+                   }
+                  
                 })
             }
             </tbody>
-                
             </table>
         </div>
     )

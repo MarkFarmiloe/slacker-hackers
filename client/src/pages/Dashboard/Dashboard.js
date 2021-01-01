@@ -6,6 +6,8 @@ export default function Dashboard() {
     //default data
     const [byDefault,setDefault]=useState("default")
     const [data,setData]=useState([]);
+    
+
     //default data update when location or class select
     const [updatedData,setUpdatedData]=useState(null)
     //data extract when location select
@@ -53,11 +55,12 @@ export default function Dashboard() {
     //activate when default data is called
     function filterDefaultFunc(val){
         setDefault(val)
-        setActivateDate(null)
-        setActiveName(null)
+       // setDefaultPerform(null)
+        setActivateLocation(null)
+        setActivateClassName(null)
         setActivatePerformance(null);
-        setActivateClassName(null)
-        setActivateClassName(null)
+        setActiveName(null)
+        setActivateDate(null)
     }
     ///activate when a location is selected
     function filterLocationFunc(location){
@@ -69,11 +72,11 @@ export default function Dashboard() {
             return obj.location.toLowerCase()===location.toLowerCase()
         })
             if(locationData.length>0){
-                setPerformData(null)
+                setDefault(null)
                 setLocData(locationData)
                 setUpdatedData(locationData)
                 setActivateLocation(location)
-                setDefault(null)
+                setPerformData(null)
                 setActivatePerformance(null);
                 setActiveName(null);
                 setLocation(location)
@@ -91,39 +94,56 @@ export default function Dashboard() {
             setPerformData(null)
             setUpdatedData(classData)
         }
-        setActivateClassName(clas)
-        setActivateDate(null)
         setDefault(null)
+        setActivateLocation(null)
+        setActivateClassName(clas)
+       // setDefaultPerform(null)
         setActivatePerformance(null);
         setActiveName(null);
-        setActivateLocation(null)
-        setClassName(clas)
+        setActivateDate(null)
+    //    setClassName(clas)
     }
    //activate when performance is selected against location and class
    function filterPerformanceFunc(val){
-    let performanceData=updatedData.filter(function(obj){
-        if(val==="Poor"){
-            return obj.posts<5
+        let performanceData=[]
+        if(updatedData){
+            performanceData=updatedData.filter(function(obj){
+                if(val==="Poor"){
+                    return obj.posts<5
+                }
+                if(val==="Average"){
+                    return obj.posts>=5 && obj.posts<=10
+                }
+                if(val==="Good"){
+                    return obj.posts>10;
+                }
+            })
+            
+        }else{
+            performanceData=data.filter(function(obj){
+                if(val==="Poor"){
+                    return obj.posts<5
+                }
+                if(val==="Average"){
+                    return obj.posts>=5 && obj.posts<=10
+                }
+                if(val==="Good"){
+                    return obj.posts>10;
+                }
+            })
+            
         }
-        if(val==="Average"){
-            return obj.posts>=5 && obj.posts<=10
+        if(performanceData.length>0){
+            setDefault(null)
+            setActivateLocation(null)
+            setActivateClassName(null)
+            setActivatePerformance(performanceData)
+            setActiveName(null)
+            setPerformData(performanceData)
+            setActivateDate(null)
+        }else{
+            alert(`${val} data is not exist`)
         }
-        if(val==="Good"){
-            return obj.posts>10;
-        }
-      })
-     if(performanceData.length>0){
-        setPerformData(performanceData)
-        setActivatePerformance(performanceData)
-        setActivateDate(null)
-        setDefault(null)
-        setActiveName(null)
-        setPerformance(performance);
-        setActivateLocation(null)
-        setActivateClassName(null)
-     }else{
-         alert(`${val} data is not exist`)
-     }
     }
     //activate when term/name is type against location/class/performance or combination of two or three 
     function filterNameFunc(val){
@@ -136,13 +156,11 @@ export default function Dashboard() {
                     return obj.name.toLowerCase().includes(val.toLowerCase());
                 })
                 if(nameArr.length>0){
-                  
                     setNameData(nameArr)
                     setActiveName(nameArr)
                 }else{
                     setNameData(performData)
                     setActiveName(performData)
-                    
                 }
             }
         }
@@ -151,7 +169,6 @@ export default function Dashboard() {
                 setActiveName("empty")
                 setNameData(updatedData)
             }else{
-                //updatedData
                 let nameArr=updatedData.filter(function(obj){
                     return obj.name.toLowerCase().includes(val.toLowerCase());
                 })
@@ -180,13 +197,14 @@ export default function Dashboard() {
                 }
             }
         }
-        setActivateDate(null)
         setDefault(null)
-        setActivatePerformance(null);
-        setName(val);
         setActivateLocation(null)
         setActivateClassName(null)
-    
+        setActivatePerformance(null);
+        setActivateDate(null)
+        //setName(val);
+       
+       
     }
 //activate when date range is selected against location/class/performance or combination of two or three 
     function setDateFunc(start,end,filter){
@@ -227,10 +245,10 @@ export default function Dashboard() {
         }
         setActivateDate(Math.random(100))
         setDefault(null)
-        setActiveName(null)
-        setActivatePerformance(null);
         setActivateLocation(null)
         setActivateClassName(null)
+        setActivatePerformance(null);
+        setActiveName(null)       
     }
     return (
         <div className='dashboard-page'>
