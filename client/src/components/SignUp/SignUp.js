@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
+import { useHistory } from 'react-router-dom';
+                
 
 function Copyright() {
   return (
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const history = useHistory();
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState('');
@@ -94,6 +97,7 @@ export default function SignUp() {
     .then(res => {
       if(res.status === 200){
         setAlertMessage('success')
+        history.push('/login'); //send user to login page
       }else if(res.status >= 400 && res.status < 499){
         setAlertMessage('error')
       }

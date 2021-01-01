@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import history from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import { UserContext } from '../../contexts/userContext';
 
 function Copyright() {
   return (
@@ -53,8 +55,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function LogIn() {
-
+function LogIn() {
+    const {user, setUser} = useContext(UserContext);
+    const history = useHistory();
     const classes = useStyles();
 
     //email, password and checkbox states
@@ -89,19 +92,19 @@ export default function LogIn() {
         }
     
         fetch("https://slacker-hackers.herokuapp.com/auth/login", requestOptions) 
-        .then((res) => res.json())
         .then((res) => {
-           console.log('res=', res)
-           alert(`Hi, ${res.user}`)
-        // if (res.success === true) {
-        //     alert('Login successfully')
-        // } else {
-        //     const error = new Error(res.error);
-        //     throw error;
-        // }
+            //check if login credentials matched the db 
+            if(res.status === 200){
+                history.push('/'); //send user to dashboard
+            }
+            return res.json();
+        })
+        .then(data =>  {
+            localStorage.setItem('user', data); // store the incoming data localy
+            setUser(data.user)
         })
         .catch((err) => {
-        alert(err);
+            alert(err);
         });
 
         setEmail('');
@@ -188,3 +191,5 @@ export default function LogIn() {
         
     )
 }
+
+export default withRouter(LogIn);
