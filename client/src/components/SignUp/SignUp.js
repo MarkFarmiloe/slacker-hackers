@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Alert from '@material-ui/lab/Alert';
 
 function Copyright() {
   return (
@@ -49,6 +50,69 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const handleFirstName = (e) => {
+    e.preventDefault();
+    setFirstName(e.target.value);
+  }
+  const handleLastName = (e) => {
+    e.preventDefault();
+    setLastName(e.target.value);
+  }
+  const handleEmail = (e) => {
+    e.preventDefault();
+    setEmail(e.target.value);
+  }
+  const handlePassword = (e) => {
+    e.preventDefault();
+    setPassword(e.target.value);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let signUpCredentials = {
+      name: `${firstName} ${lastName}`,
+      email: email,
+      password: password
+    }
+
+    let requestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+        },
+      body: JSON.stringify(signUpCredentials)
+    }
+
+    fetch('https://slacker-hackers.herokuapp.com/auth/signup', requestOptions)
+    .then(res => {
+      if(res.status === 200){
+        setAlertMessage('success')
+      }else if(res.status >= 400 && res.status < 499){
+        setAlertMessage('error')
+      }
+      res.json()
+    })
+    .then(data => {
+      console.log('status', data)
+    })
+    .catch(err => {
+      alert(err);
+    });
+
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPassword('');
+  }
+  
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -70,6 +134,7 @@ export default function SignUp() {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                onChange={handleFirstName}
                 autoFocus
               />
             </Grid>
@@ -82,6 +147,7 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                onChange={handleLastName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -93,6 +159,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={handleEmail}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,18 +172,37 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handlePassword}
               />
             </Grid>
           </Grid>
+          
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
+
+          
+            {
+              alertMessage === 'success' 
+              ?
+                <Alert variant="filled" severity="success">Successfully registered</Alert>
+              :
+              alertMessage === 'error'
+              ?
+                <Alert variant="filled" severity="error">Server error</Alert>
+              :
+              ''
+            
+            }
+          
+          
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="/#/login" variant="body2">
@@ -129,6 +215,7 @@ export default function SignUp() {
       <Box mt={5}>
         <Copyright />
       </Box>
+      
     </Container>
   );
 }
