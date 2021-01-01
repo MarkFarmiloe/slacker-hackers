@@ -24,7 +24,7 @@ app.use("/auth", require("./routes/jwtAuth"));
 app.use("/dashboard", require("./routes/dashboard"));
 
 // Route to access Slack data
-//app.use("/slack", require("./routes/slackData"));
+app.use("/slack", require("./routes/slackData"));
 
 app.use(helmet());
 app.use(logErrors());
