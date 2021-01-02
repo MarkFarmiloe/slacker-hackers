@@ -100,7 +100,7 @@ function LogIn() {
             return res.json();
         })
         .then(data =>  {
-            localStorage.setItem('user', data); // store the incoming data localy
+            localStorage.setItem('user', data.user); // store the incoming data localy
             setUser(data.user)
         })
         .catch((err) => {
