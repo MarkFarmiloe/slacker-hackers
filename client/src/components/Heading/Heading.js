@@ -11,7 +11,7 @@ export default function Heading() {
 
 
             <ul>
-                <Link to='/login'>LogIn</Link>
+                <Link to='/login'>Login</Link>
                 <Button 
                 href='/#/sign-up' 
                 variant='contained' 

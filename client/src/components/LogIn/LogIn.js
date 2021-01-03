@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import history from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -76,30 +77,31 @@ export default function LogIn() {
 
         let userCredentials = {  // generate the object to be sent to the backend
             email: email,
-            password: password,
-            remember: check
+            password: password
         }
         
         const requestOptions = {  
             method: 'POST',
-            heders: {
+            headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(userCredentials),
         }
     
-        fetch("/", requestOptions) 
+        fetch("https://slacker-hackers.herokuapp.com/auth/login", requestOptions) 
         .then((res) => res.json())
         .then((res) => {
-        if (res.success === true) {
-            alert('Login successfully')
-        } else {
-            const error = new Error(res.error);
-            throw error;
-        }
+           console.log('res=', res)
+           alert(`Hi, ${res.user}`)
+        // if (res.success === true) {
+        //     alert('Login successfully')
+        // } else {
+        //     const error = new Error(res.error);
+        //     throw error;
+        // }
         })
         .catch((err) => {
-        alert("Error login in please try again!");
+        alert(err);
         });
 
         setEmail('');
@@ -116,7 +118,7 @@ export default function LogIn() {
             </Avatar>
 
             <Typography component="h1" variant="h5">
-                Sign in
+                Login
             </Typography>
 
             <form className={classes.form}>
