@@ -2,11 +2,11 @@
 #studentContainer{
     /* background-color: blanchedalmond; */
 
-    width: 100%;
-    /* margin-left: auto;
-    margin-right: auto; */
-    display: flex;
-    justify-content: center;
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+    /* display: flex;
+    justify-content: center; */
 }
 .moveBar{
     background-color:brown;

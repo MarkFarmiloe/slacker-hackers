@@ -6,8 +6,6 @@ export default function Dashboard() {
     //default data
     const [byDefault,setDefault]=useState("default")
     const [data,setData]=useState([]);
-    
-
     //default data update when location or class select
     const [updatedData,setUpdatedData]=useState(null)
     //data extract when location select
@@ -34,12 +32,19 @@ export default function Dashboard() {
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
     const [activateDate,setActivateDate]=useState(null)//active
-    //extract data from server through API
+    //activate when filter week wise
+    const [count,setCount]=useState(1);
+    function filterWeekFunc1(weeks){
+        // alert(data.length)
+       // alert(weeks)
+        setCount(weeks)
+    }
+     //extract data from server through API
     useEffect(
         function(){
            // https://hackz.glitch.me/student'
             //https://slacker-hackers.herokuapp.com/api/perform
-        fetch('https://slacker-hackers.herokuapp.com/api/perform')
+        fetch(`https://slackerhackers.glitch.me/students/${count}`)
             .then(function(obj){
                 return obj.json();
             })
@@ -50,12 +55,24 @@ export default function Dashboard() {
             .then(function(error) {
                 console.log(error);
             });
+            if(data.length>0){
+                setDefault(count)
+                // setDefaultPerform(null)
+               
+                 setActivateLocation(null)
+                 setActivateClassName(null)
+                 setActivatePerformance(null);
+                 setActiveName(null)
+                 setActivateDate(null)
+            }
         }
-    ,[]); 
+    ,[count]); 
+    
     //activate when default data is called
     function filterDefaultFunc(val){
         setDefault(val)
        // setDefaultPerform(null)
+      
         setActivateLocation(null)
         setActivateClassName(null)
         setActivatePerformance(null);
@@ -82,6 +99,7 @@ export default function Dashboard() {
                 setLocation(location)
                 setActivateClassName(null)
                 setActivateDate(null)
+              
             }
         }
     }
@@ -101,6 +119,7 @@ export default function Dashboard() {
         setActivatePerformance(null);
         setActiveName(null);
         setActivateDate(null)
+       
     //    setClassName(clas)
     }
    //activate when performance is selected against location and class
@@ -121,6 +140,7 @@ export default function Dashboard() {
             
         }else{
             performanceData=data.filter(function(obj){
+                
                 if(val==="Poor"){
                     return obj.posts<5
                 }
@@ -141,6 +161,7 @@ export default function Dashboard() {
             setActiveName(null)
             setPerformData(performanceData)
             setActivateDate(null)
+         
         }else{
             alert(`${val} data is not exist`)
         }
@@ -202,6 +223,7 @@ export default function Dashboard() {
         setActivateClassName(null)
         setActivatePerformance(null);
         setActivateDate(null)
+      
         //setName(val);
        
        
@@ -248,18 +270,17 @@ export default function Dashboard() {
         setActivateLocation(null)
         setActivateClassName(null)
         setActivatePerformance(null);
-        setActiveName(null)       
+        setActiveName(null)   
     }
     return (
         <div className='dashboard-page'>
-            <Filter setDateFunc={setDateFunc} filterDefaultFunc={filterDefaultFunc} filterClassFunc={filterClassFunc} filterLocationFunc={filterLocationFunc} filterNameFunc={filterNameFunc} filterPerformanceFunc={filterPerformanceFunc}/>
+            <Filter setDateFunc={setDateFunc} filterWeekFunc={filterWeekFunc1} filterDefaultFunc={filterDefaultFunc} filterClassFunc={filterClassFunc} filterLocationFunc={filterLocationFunc} filterNameFunc={filterNameFunc} filterPerformanceFunc={filterPerformanceFunc}/>
             {byDefault && (<StudentsTable Data={data}/>)}
             {activatePerformance && (<StudentsTable Data={performData} />)}
             {activeName && (<StudentsTable Data={nameData} />)}
             {activateLocation && (<StudentsTable Data={updatedData} />)}
             {activateClassName && (<StudentsTable Data={updatedData} />)}
             {activateDate && (<StudentsTable filterDate={activateDate} Data={dateData} />)}
-
         </div>
     )
 }

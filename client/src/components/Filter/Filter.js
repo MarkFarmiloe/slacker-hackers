@@ -14,7 +14,6 @@ import moment from 'moment'
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
  
-
     /////////////////////////////edit by zubeda
    function applyFunc(){
     if(startDate && endDate){
@@ -91,10 +90,15 @@ import moment from 'moment'
             filterName(e.target.value) 
         }
             setSearchVal(e.target.value)
-          
+    }
+    const handleWeekChange=e=>{
         
-        
-      
+        const select = e.target;
+        const id= select.options[select.selectedIndex].id;
+        const days=parseInt(id);
+       
+       
+        (prop.filterWeekFunc(days))
     }
     const handleRange = e => {
         setRange(e.target.value) 
@@ -135,7 +139,15 @@ import moment from 'moment'
                     
                    
                 </div>
-                
+                 {/* test//onChange={handleWeekChange}  */}
+                 <select className='select-week' onChange={handleWeekChange}>
+                    <option id="1">last 7 days</option>
+                    <option id="2">last 14 days</option>
+                    <option id="3">last 21 days</option>
+                    <option id="4">last 28 days</option>
+                </select>
+                {/* end test */} 
+                {/* edit zubeda*/}
                 <select onChange={handlePerformanceChange} className='select-performance'>
                         <option disabled selected hidden id="defaultPerformance">Performance</option>
                         {/* edit by zubeda */}
@@ -143,13 +155,13 @@ import moment from 'moment'
                         {
                             data.performance.map((performance, index) => <option key={index}>{performance}</option>)
                         }
-                        
-                    </select>
+                </select>
+               
                 <div className='search-box'>
                     <span>Search:</span>
                     <input id="studentName" onChange={handleSearch} className='search-input' type='search' value={searchVal} placeholder='Search student name ...' />
-                </div>    
-                {/* edit zubeda*/}
+                </div>   
+                
                 <div>
                    
                         <input type="date"  id="startDate" selected="startDate" name="startDate" onChange={handleStartDateChange } />
