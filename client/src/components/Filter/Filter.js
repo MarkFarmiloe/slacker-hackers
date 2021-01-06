@@ -14,7 +14,6 @@ import moment from 'moment'
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
  
-
     /////////////////////////////edit by zubeda
    function applyFunc(){
     if(startDate && endDate){
@@ -34,10 +33,6 @@ import moment from 'moment'
         alert("please insert both start and end date first")
     }
     
-   // (prop.setDateFunc(startDate,endDate))
-    // -1000
-    //alert(moment(startDate,"YYYY-MM-DD HH:mm:ss").diff(moment(endDate,"YYYY-MM-DD HH:mm:ss"))) // 1
-
    }
     
     function filterDefault(val){
@@ -95,10 +90,15 @@ import moment from 'moment'
             filterName(e.target.value) 
         }
             setSearchVal(e.target.value)
-          
+    }
+    const handleWeekChange=e=>{
         
-        
-      
+        const select = e.target;
+        const id= select.options[select.selectedIndex].id;
+        const days=parseInt(id);
+       
+       
+        (prop.filterWeekFunc(days))
     }
     const handleRange = e => {
         setRange(e.target.value) 
@@ -115,7 +115,6 @@ import moment from 'moment'
     //filter the data depending what a teacher select on the Location dropdown 
     let filteredLocationObj;
     Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : '';
-    
     return Object.entries(data) != 0 ? (
         <div className='filter-section'>
                 <div className='select-box'>
@@ -140,7 +139,15 @@ import moment from 'moment'
                     
                    
                 </div>
-                
+                 {/* test//onChange={handleWeekChange}  */}
+                 <select className='select-week' onChange={handleWeekChange}>
+                    <option id="1">last 7 days</option>
+                    <option id="2">last 14 days</option>
+                    <option id="3">last 21 days</option>
+                    <option id="4">last 28 days</option>
+                </select>
+                {/* end test */} 
+                {/* edit zubeda*/}
                 <select onChange={handlePerformanceChange} className='select-performance'>
                         <option disabled selected hidden id="defaultPerformance">Performance</option>
                         {/* edit by zubeda */}
@@ -148,13 +155,13 @@ import moment from 'moment'
                         {
                             data.performance.map((performance, index) => <option key={index}>{performance}</option>)
                         }
-                        
-                    </select>
+                </select>
+               
                 <div className='search-box'>
                     <span>Search:</span>
                     <input id="studentName" onChange={handleSearch} className='search-input' type='search' value={searchVal} placeholder='Search student name ...' />
-                </div>    
-                {/* edit zubeda*/}
+                </div>   
+                
                 <div>
                    
                         <input type="date"  id="startDate" selected="startDate" name="startDate" onChange={handleStartDateChange } />

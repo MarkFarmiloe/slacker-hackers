@@ -7,11 +7,8 @@ import LogIn from "./components/LogIn/LogIn";
 import SignUp from "./components/SignUp/SignUp";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import StudenProfile from "./pages/SudentProfile/StudenProfile";
+
 import { UserContext } from './contexts/userContext';
-
-
- 
-
 export function App() {
 	const [user, setUser] = useState('');
 
@@ -34,7 +31,10 @@ export function App() {
 				<Route path='/login' component={LogIn} />
 				<Route path='/sign-up' component={SignUp} />
 				<Route path='/student-profile/:name' component={StudenProfile} />
+			
+
 			</UserContext.Provider>
+
 		</main>
 	);
 }
