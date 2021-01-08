@@ -3,7 +3,6 @@ const { App, LogLevel } = require("@slack/bolt");
 import { Connection } from "./db";
 import sql from "sql";
 import moment from "moment";
-import lcdUsers from "./data/lcd.json";
 //require("dotenv").config();
 
 
