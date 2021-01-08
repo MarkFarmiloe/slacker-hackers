@@ -116,7 +116,7 @@ router.get("/students/:weeks",  async (req, res, next) => {
 });
 
 
-router.get("/filter/test", async (_, res, next) => {   // New filter 
+router.get("/filter", async (_, res, next) => {   // New filter 
 	const client = await Connection.connect();
 	try {
 		const filter = {
@@ -132,7 +132,9 @@ router.get("/filter/test", async (_, res, next) => {   // New filter
 		}
 
 		selectQuery = "SELECT locations.name as city, classes.name as class, classes.channelname as channel FROM locations";
-		selectQuery += " INNER JOIN classes ON locations.id = classes.\'locationId\' ORDER BY locations.name, classes.name";
+		selectQuery += ` INNER JOIN classes ON locations.id = classes.locationid ORDER BY locations.name, classes.name`;
+
+		console.log(selectQuery)
 		const table = await client.query(selectQuery);
 
 		if(table.rowCount){
@@ -185,7 +187,7 @@ router.get("/filter/test", async (_, res, next) => {   // New filter
 });
 
 
-router.get("/filter", (_, res, next) => {
+router.get("/filter/test", (_, res, next) => {
 
 	/* Connection.connect((err) => {
 		if (err) {
