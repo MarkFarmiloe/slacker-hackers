@@ -130,9 +130,9 @@ router.get("/filter", async (_, res, next) => {   // New filter
 		} else {
 			filter.performance = [ "Good", "Average", "Poor" ];
 		}
-
+ 
 		selectQuery = "SELECT locations.name as city, classes.name as class, classes.channelname as channel FROM locations";
-		selectQuery += " INNER JOIN classes ON locations.id = classes.'locationId' ORDER BY locations.name, classes.name";
+		selectQuery += " INNER JOIN classes ON locations.id = classes.\'locationId\' ORDER BY locations.name, classes.name";
 		const table = await client.query(selectQuery);
 
 		if(table.rowCount){
