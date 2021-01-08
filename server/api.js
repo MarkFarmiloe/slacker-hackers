@@ -193,7 +193,7 @@ router.get("/filter", (_, res, next) => {
 		}
 		console.log("responded to route /filter");
 		res.json(filter);
-	}); 
+	}); */
 	res.json(filter);
 });
 
