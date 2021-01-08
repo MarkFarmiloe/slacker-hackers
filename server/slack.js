@@ -1,6 +1,11 @@
 // Require the Bolt for JavaScript package (github.com/slackapi/bolt)
 const { App, LogLevel } = require("@slack/bolt");
+import { Connection } from "./db";
+import sql from "sql";
+import moment from "moment";
+import lcdUsers from "./data/lcd.json";
 //require("dotenv").config();
+
 
 const token = process.env.slackToken;
 const secret = process.env.slackSigningSecret;
@@ -8,7 +13,7 @@ const slackApp = new App({
 	token: token,
 	signingSecret: secret,
 	// LogLevel can be imported and used to make debugging simpler
-	logLevel: LogLevel.DEBUG,
+	//logLevel: LogLevel.DEBUG,
 });
 
 //const SLACK_PORT = process.env.PORT || 3000;
@@ -18,6 +23,7 @@ const workSpace = {
 	private: 0,
 	userCount: 0,
 	channelCount: 0,
+	channelToClass: {},
 	users: {},			// Config data - A list of the available users in the Slack Workspace
 	channels: {},	// Config data - A ist of the availale channels in the Slack Workspace
 	 posts: [],			// All the posts returned by the Slack API
@@ -47,30 +53,36 @@ const workSpace = {
 	 setChannelCount: function(count){ this.channelCount = count },
 	 getUserCount: function(){ return this.userCount },
 	 getChannelCount: function(){ return this.channelCount },
-	 fetchChannelList: _ => fetchChannelList(),
+	 //fetchChannelList: _ => fetchChannelList(),
 	 getChannels: function(){ return this.channels },
-	 fetchUserList:  _ => fetchUserList() ,
+	 //fetchUserList:  _ => fetchUserList() ,
 	 getUsers: function(){ return this.users },
-	 selectSlackPosts: (startDate, endDate) => selectSlackPosts(startDate, endDate),
+	 selectSlackPosts: async (startDate, endDate) => await selectSlackPosts(startDate, endDate),
 	 getPosts: function(){ return this.posts },
 	 getReactions: function(){ return this.reactions },
 	 getAttachments: function(){ return this.attachments },
 	 getFiles: function(){ return this.files },
-	 getAll: function() { return this },
-	 getSlackConfig: async function(){
+	 getAll: async function() { return this },
+	 getSlackConfig:  async function(){
+		 console.log("About to reset stats");
 		this.reset();
-		await this.fetchUserList();
-		await this.fetchChannelList();
+		console.log("About to fetch User list");
+		 await fetchUserList();
+		console.log("About to fetch Channel list");
+		 await fetchChannelList(); 
 	 },
-	 archiveData: function(start, end) { archiveData(start, end); }
+	 archiveData: (startDate, endDate) => archiveData(startDate, endDate),
+	 updateDB: _ => updateDB()
 }
 //setTimeout(lcdLog, nextReset());
 
 const getReplyDate = (timestamp) => {
-	const months = [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ];
+	//const months = [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ];
 	let date = new Date(Number(timestamp) * 1000);
+	const mm = (date.getMonth() + 1).toString().padStart(2,'0');    // getMonth(January = 0)... starts at zero
+	const dd = date.getDate().toString().padStart(2,'0');
 	//console.log("getReplyDate()", `${date.getFullYear()}-${months[ date.getMonth() ]}-${date.getDate()}`);
-	return  `${date.getFullYear()}-${months[ date.getMonth() ]}-${date.getDate()}`;
+	return  `${date.getFullYear()}-${mm}-${dd}`;
 };
 
 // Fetch conversation replies
@@ -79,30 +91,29 @@ async function fetchReplies(id, scope) {
 		//scope = { token: process.env.SLACK_USER_TOKEN, channel:  id, ts: searchType.ts };
 		scope.token = token;
 		scope.channel = id;
-		scope.limit = 200;
+		//scope.limit = 200;
 		//console.log(scope);
-		//let userChannelStats = {};
+		//let userChannelStats = {}
+		//const classMap = workSpace.channelToClass.classMap; 
 		do {
 			const result = await slackApp.client.conversations.replies( scope );
 			const replies = result.messages;
 			//userChannelStats = { posts: 0, reactions: 0, attachments: 0, files: 0 };
-
 			replies.forEach( (reply) => {
 				/* if(workSpace.getChannels()[id].name === "westmidlands-class2")
 					console.log("REPLY[westmidlands-class2]", reply) */
 				//workSpace.users[ reply.user  ].channels[ id ] = userChannelStats;
 
-				// The reactions user array may contain a user ID that  doesn't already exist...
+				// The user array may contain a user ID that  doesn't already exist...
 				if( workSpace.users[ reply.user  ].channels[ id ] === undefined ){
-					//workSpace.users[ user ].channels = {};
-					/* console.log("workSpace.users[ user  ].channels[ id ] UNDEFINED")
-					console.log("USER: ", workSpace.users[ reply.user ].realName, 
-										" reaction: ", workSpace.getUsers()[ reply.user ].realName) */
 					workSpace.users[ reply.user ].channels[ id ] = { posts: 0, reactions: 0, attachments: 0, files: 0 };
 					workSpace.users[ reply.user ].channels[ id ].channelName = workSpace.getChannels()[id].name;
+					workSpace.users[ reply.user ].channels[ id ].className = workSpace.getChannels()[id].class;
+					workSpace.users[ reply.user ].date = getReplyDate(reply.ts);
+					//workSpace.users[ reply.user ].endDate = getReplyDate(scope.latest);
 				}
 				
-				if(reply.text.length){    					// Was a message actually posted?
+				if(reply.text.length){ // Was a message actually posted?...some people may sometimes only post attachments, reactions or files
 					let post = {
 						userId: reply.user, userName: workSpace.getUsers()[ reply.user ].realName,
 						channelId: id, channelName: workSpace.getChannels()[id].name,
@@ -115,6 +126,7 @@ async function fetchReplies(id, scope) {
 						post.parentUserId = reply.parent_user_id;
 					}
 
+					
 					workSpace.users[ reply.user  ].channels[ id ].posts++;
 					workSpace.channels[ id ].posts++;
 					++workSpace.postCount;
@@ -129,15 +141,20 @@ async function fetchReplies(id, scope) {
 							let reaction = {
 								userId: user, userName: workSpace.getUsers()[ user ].realName,
 								channelId: id, channelName: workSpace.getChannels()[ id ].name,
+								className: workSpace.getChannels()[ id ].class,
 								message: reply.text, messageId: reply.client_msg_id, name: name,
 								timestamp: reply.ts, date: getReplyDate(reply.ts),
 							};
 							++workSpace.reactionCount;
 							
-							// The user array may not contain a user ID that  doesn't already exist...
+							// The reactions user array may contain a user ID that  doesn't already exist in the wkspc user object ...
 							if( workSpace.users[ user  ].channels[ id ] === undefined ){
 								workSpace.users[ user ].channels[ id ] = { posts: 0, reactions: 0, attachments: 0, files: 0 };
-								workSpace.users[ user ].channels[ id ].chanelName = reaction.channelName;
+								workSpace.users[ user ].channels[ id ].channelName = reaction.channelName;
+								workSpace.users[ user ].channels[ id ].className = workSpace.getChannels()[id].class;
+								//workSpace.users[ user ].channels[ id ].date = getReplyDate(reply.ts);
+								workSpace.users[ user ].date = getReplyDate(reply.ts);
+								//workSpace.users[ reply.user ].endDate = getReplyDate(scope.latest);
 							}
 							workSpace.users[ user  ].channels[ id ].reactions++;
 							++workSpace.getChannels()[ id ].reactions;
@@ -147,11 +164,11 @@ async function fetchReplies(id, scope) {
 				}
 
 				if( "attachments" in reply){
-					//console.log("ATTACHMENTS:", reply.attachments);
 					reply.attachments.forEach( (file) => {
 						let attachment = {
 								userId: reply.user, userName: workSpace.getUsers()[ reply.user  ].realName,
 								channelId: id, channelName: workSpace.getChannels()[ id ].name,
+								className: workSpace.getChannels()[id].class,
 								message: reply.text, messageId: reply.client_msg_id,
 								title: file.title, url: file.title_link, 
 								timestamp: reply.ts, date: getReplyDate(reply.ts),
@@ -169,6 +186,7 @@ async function fetchReplies(id, scope) {
 						let file = {
 								userId: reply.user, userName: workSpace.getUsers()[ reply.user  ].realName,
 								channelId: id, channelName: workSpace.getChannels()[ id ].name,
+								className: workSpace.getChannels()[id].class,
 								message: reply.text, messageId: reply.client_msg_id,
 								title: currentFile.title, 
 								timestamp: reply.ts, date: getReplyDate(reply.ts),
@@ -183,8 +201,8 @@ async function fetchReplies(id, scope) {
 			});
 			if( "response_metadata" in result && "next_cursor" in result.response_metadata ){
 					scope.cursor = result.response_metadata.next_cursor;  // Ah, there is more data to retrieve....
-					//console.log("Getting more replies")
-				}
+					//console.log("fetchReplies: Getting more replies")
+			}
 		} while ("cursor" in scope && scope.cursor.length);
 	} catch (error) {
 		console.error(error);
@@ -203,47 +221,43 @@ async function fetchConversationHistory(startDate = null, endDate = null) {     
 		}
 		//console.log("fetchConversationHistory(SCOPE)",scope.oldest, scope.latest);
 		const channels = workSpace.getChannels();
+		//console.log("Channel list", channels)
 		for (let channel in channels) {
-			//console.log("fetchConversationHistory(): ", channels[channel].name);
-			
 			//console.log("fetchConversationHistory(PASSED THE TEST): ", channels[channel].name);
 			// Call the conversations.history method using the built-in WebClient
 			const result = await slackApp.client.conversations.history({
 				token: token,    // The token you used to initialize your app
 				channel: channel,
+				oldest: scope.oldest,
+				latest: scope.latest,
+
 			});
 
-			//console.log("fetchConversationHistory:SCOPE = ", scope.oldest, scope.latest);
-			//console.log("fetchConversationHistory", result.messages)
 			result.messages.forEach( (conversation) => {
-				
-				if( conversation.ts >= scope.oldest && conversation.ts <= scope.latest){
-					//console.log("fetchConversationHistory: TS = ", conversation.ts);
-			//		console.log("fetchConversationHistory(CONVERSATION)", conversation)
 					if( conversation.type === "message" && "subtype" in conversation === false){
-						/*! ("oldest" in scope) && */ scope.ts = conversation.ts;  // No date range?, so lets grab every
+						scope.ts = conversation.ts;                  // timestamp & identifier of the parent message
 						fetchReplies(channel, scope);
 					}
-				}
-			});
+			});	
 		}
 		//console.log("About to display posts.....")
 		//console.log("POSTS: ", workSpace.posts);
+		return await workSpace.getAll();
 	} catch (error) {
 		console.error(error);
 	}
 }
 
 // Fetch users using the users.list method
-const fetchUserList = async  _ => {
+const fetchUserList = async _ => {
 	try {
 		let scope = {
 			token: token,   // // The token you used to initialize your app
 			limit: 200,
 		};
-		
+		console.log("fetchUserList: ")
 		let resourceCount = 0;
-		(async () => {
+		//(async () => {
 			do {								// Call the users.list method using the built-in WebClient
 			const result =  await slackApp.client.users.list( scope );
 			/* if(resourceCount === 0)
@@ -259,8 +273,7 @@ const fetchUserList = async  _ => {
 		console.log("USERS[SIZE]", workSpace.getUserCount())
 		//console.log("About to return from fetchUserList()")
 		return  workSpace.users;
-		})();
-		
+		//}//)();
 	} catch (error) {
 		console.error(error);
 	}
@@ -282,12 +295,15 @@ const buildUserTable =  (userList) => {
 		user.realName = currentUser.profile.real_name;
 		user.displayName = currentUser.profile.display_name;
 		user.channels = {};
+		user.date = '';
 		user.team = "";
 		workSpace.users[userId] = user;
 	});
 }
 
 const  fetchChannelList = async _ => {
+	console.log("fetchChannelList: ")
+	const client = await Connection.connect();
 	try {
 		let scope = { 
 			token: token,            // Not allowed to access any resources without a valid token
@@ -295,14 +311,23 @@ const  fetchChannelList = async _ => {
 			//types: "public_channel, private_channel",  <---- DO NOT ENABLE ABILITY TO VIEW PRIVATE CHANNELS
 		};
 		let resourceCount = 0;
+		
+		const selectQuery = "SELECT name, channelname from classes";
+		const classes = await client.query(selectQuery);
+		const primaryChannels = classes.rows.map(currClass => currClass.channelname);
+		workSpace.channelToClass  = { primaryChannels: primaryChannels, classMap: {} }; 
+
+		classes.rows.forEach( currentClass => { 					// Let us map the Slack Channel name to the CYF class name...
+			workSpace.channelToClass.classMap[currentClass.channelname] = currentClass.name;
+		});
+		//console.log(classesMap)
+		/* if(classes.rowCount){
+		} */
 		//console.log("fetchChannelList( START )  -  EVERYTHING: ");
 		do {			// Call the conversations.list method using the built-in WebClient
 			let result =  await slackApp.client.conversations.list( scope );
-			//console.log(result.channels);
-			/* if(resourceCount === 0)
-				console.log("CHANNEL: ",result.channels[0]); */
 			resourceCount += result.channels.length;
-			 buildChannelTable(result.channels);
+			buildChannelTable(result.channels, workSpace.channelToClass);
 			//console.log(result);
 			if( "response_metadata" in result && "next_cursor" in result.response_metadata ){
 				scope.cursor = result.response_metadata.next_cursor;  // Ah, there is more data to retrieve....
@@ -311,19 +336,30 @@ const  fetchChannelList = async _ => {
 		workSpace.setChannelCount(resourceCount);
 		console.log("CHANNELS[SIZE]", workSpace.getChannelCount())
 		//console.log("fetchChannelList(END) - EVERYTHING: ");
+		return workSpace.channels;
 	} catch (error) {
 		console.error(error);
+	} finally {
+		client.release();
+		console.log("Pool released....");
 	}
 };
 
 
-function buildChannelTable(channelList) {
+function buildChannelTable(channelList, classesMap) {
 	let channelId = "";
-
+	console.log("CLASSES:[buildChannelTable] ", classesMap)
+	
+	//console.log("PRIMARY CHANNELS", primaryChannels);
 	channelList.forEach((currentChannel) => {
-		if(currentChannel.name !== "westmidlands-class1" && currentChannel.name !== "westmidlands-class2"){
+		if(classesMap.primaryChannels.includes(currentChannel.name) === false){
+		//if(currentChannel.name !== "westmidlands-class1" && currentChannel.name !== "westmidlands-class2"){
+			return;
+		} 
+		console.log("Accepting - ", currentChannel.name);
+		/* if(currentChannel.name !== "westmidlands-class1" && currentChannel.name !== "westmidlands-class2"){
 				return;     // Still in TESTING MODE, so ONLY monitor these groups.....
-		}
+		} */
 		if(currentChannel.is_archived || currentChannel.is_private){
 			if(currentChannel.is_archived) workSpace.archived++;
 			if(currentChannel.is_private) workSpace.private++
@@ -333,6 +369,7 @@ function buildChannelTable(channelList) {
 		let  channel = {};
 		channelId = currentChannel["id"];
 		channel["name"] = currentChannel["name"];
+		channel["class"] = classesMap.classMap[ currentChannel["name"] ];  /// map the slack Channel name to CYF class name...
 		channel.posts = 0;
 		channel.reactions = 0;
 		channel.files = 0;
@@ -350,19 +387,124 @@ function buildChannelTable(channelList) {
 	});
 }
 
-const selectSlackPosts = async (startDate, endDate) => { 
+const getSlackConfig = async _ => {
+	console.log("About to reset stats");
+	workSpace.reset();
+	console.log("About to fetch User list");
+	 await fetchUserList();
+	console.log("About to fetch Channel list");
+	 await fetchChannelList(); 
+};
+
+const formatSlackData = async _ => {
+	let slackActivity = [];
+	try {
+		let users = workSpace.users;
+		const userList = Object.keys(users);
+		let userCount  = 0;
+
+		userList.forEach( user => {
+			if( users[user].date !== ""){                                  // The date indicates activity for that....No date?, no Data
+				userCount++;
+				let channels = users[user].channels;
+				//console.log("get channels for user: ", users[user].name, channels);
+				for(let channel in channels){
+					let activity = {};
+					activity.username = users[ user ].realName;
+					//activity.name = users[ user ].name;
+					//activity.displayName = users[ user ].displayName;
+					activity.classname = channels[channel].className;
+					activity.date = users[ user ].date;
+				
+					//activity.channelName = channels[channel].channelName;
+					activity.posts = channels[channel].posts;
+					activity.attachments = channels[channel].attachments;
+					activity.reactions = channels[channel].reactions;
+					activity.files = channels[channel].files;
+					console.log("Activity recored: ", activity)
+					slackActivity.push(activity);
+				}
+			}
+		});
+		//for(let user in users){
+			//console.log("Current User: ", users[ user ].realName)
+		console.log("leaving formatSlackData(USER COUNT)", userCount)
+		return slackActivity;
+	} catch (error) {
+		//console.log("formatSlackData")
+		console.error("formatSlackData(): ",error.message);
+	}
+}
+
+const updateDB = async (startDate, endDate) => {
+	//const insertQuery = slackActivitySchema.insert(usersToInsert).returning(performSchema.id).toQuery();
+	let  client;
+	try {
+		client = await Connection.connect();
+		const usersToInsert = await formatSlackData();
+		console.log("usersToInsert: ", usersToInsert)
+		const  slackActivitySchema = sql.define({
+		name: "slackactivity",
+		columns: [
+            "id",
+            //"name",
+            //"displayName",
+            //"realName",
+			"username",
+            //"channelName",
+            "classname",
+			"date",
+			"posts",
+			"reactions",
+			"attachments",
+			"files",
+			],
+		});
+		const insertQuery = slackActivitySchema.insert(usersToInsert).returning(slackActivitySchema.id).toQuery();
+		//console.log(insertQuery)
+		const result =  await client.query(insertQuery); 
+        console.log("Number of rows inserted: ", result.rowCount)
+	} catch (error) {
+		
+		console.error(error.message);
+	} finally {
+		client.release();
+		console.log("Pool released....");
+	}
+  
+	/* for( let user in workSpace.users){
+		if(moment(workSpace[user].date).isBetween(startDate, endDate, 'day', [])){
+			console.log(workSpace[user])
+		}
+	} */
+}
+
+const archiveData =  async (startDate, endDate) => {
+	
+	console.log("Request Workspace Config")
+	await getSlackConfig();
+	console.log(`Request Workspace Activty for ${startDate} - ${endDate}`)
+	const users = await selectSlackPosts(startDate, endDate);
+	return users;
+	//updateDB(startDate, endDate);
+}
+
+const selectSlackPosts =  async (startDate, endDate) => { 
 	// date is in 'YYYY-MM-DD' format
 	//const ts = 1607435650  * 1000; // Start time: 1607385600  End time: 1607471999
 	//date = "2020-12-08";    Start time: 1607385600  End time: 1607471999
-	  fetchConversationHistory(startDate, endDate);
-	 return workSpace.getAll();
+	console.log("selectSlackPosts[START]: ", startDate, endDate)
+	const users = await fetchConversationHistory(startDate, endDate);
+	//console.log("selectSlackPosts[END]: ", users)
+	  //await Promise.all(posts);
+	return users; 
 }
 
-const archiveData = async (startDate, endDate) => {
+/* const archiveData = async (startDate, endDate) => {
 	await fetchConversationHistory(startDate, endDate);
 	await archiveLog();
 	
-}
+} */
 
 export {  workSpace  } ;
 
