@@ -2,6 +2,8 @@
 import React, {useState, useEffect} from 'react'
 import Filter from '../../components/Filter/Filter'
 import StudentsTable from '../../components/StudentsTable/StudentsTable.js'
+import ThresholdBanner from '../../components/ThresholdBanner/ThresholdBanner.js'
+import CircularProgress from '@material-ui/core/CircularProgress';
 export default function Dashboard() {
     //default data
     const [byDefault,setDefault]=useState("default")
@@ -272,15 +274,20 @@ export default function Dashboard() {
         setActivatePerformance(null);
         setActiveName(null)   
     }
-    return (
-        <div className='dashboard-page'>
-            <Filter setDateFunc={setDateFunc} filterWeekFunc={filterWeekFunc1} filterDefaultFunc={filterDefaultFunc} filterClassFunc={filterClassFunc} filterLocationFunc={filterLocationFunc} filterNameFunc={filterNameFunc} filterPerformanceFunc={filterPerformanceFunc}/>
+    return data.length > 0 ? (
+        <div className='dashboard-page' style={{margin: '20px 5%'}}>
+            <ThresholdBanner />
+            <Filter setDateFunc={setDateFunc} filterWeekFunc={filterWeekFunc1} filterDefaultFunc={filterDefaultFunc} filterClassFunc={filterClassFunc} filterLocationFunc={filterLocationFunc} filterNameFunc={filterNameFunc} filterPerformanceFunc={filterPerformanceFunc}/>  
             {byDefault && (<StudentsTable Data={data}/>)}
             {activatePerformance && (<StudentsTable Data={performData} />)}
             {activeName && (<StudentsTable Data={nameData} />)}
             {activateLocation && (<StudentsTable Data={updatedData} />)}
             {activateClassName && (<StudentsTable Data={updatedData} />)}
-            {activateDate && (<StudentsTable filterDate={activateDate} Data={dateData} />)}
+            {activateDate && (<StudentsTable filterDate={activateDate} Data={dateData} />)})
         </div>
     )
+    :
+    <div style={{display: 'flex',justifyContent:'center', margin: '100px auto'}}>
+        <CircularProgress />
+    </div>
 }
