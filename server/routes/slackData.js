@@ -2,6 +2,7 @@
 const router  = require("express").Router();
 import { Connection } from "../db";
 import sql from "sql";
+import moment from "moment";
 import { workSpace, users } from "../slack";
 
 
@@ -104,7 +105,7 @@ router.get("/files", (_, res, next) => {
 
 router.get("/posts", (_, res, next) => {
 	console.log("responded to route /posts");
-	res.json(workSpace.getAll());
+	res.json(workSpace.users);
 });
 
 
@@ -113,9 +114,9 @@ router.get("/posts/:date", async (req, res, next) => {
 		const [ startDate, endDate ] = timestampRange(req.params.date, req.params.date);
 		//const posts =
 		//await workSpace.reset();
-		 const wkSpaceData = await workSpace.selectSlackPosts(startDate, endDate);
-		//console.log(workSpace.posts);
-		await res.json(wkSpaceData);
+		 const posts = await workSpace.selectSlackPosts(startDate, endDate);
+		//console.log(posts, );
+		await res.json(posts.users);
 	} else {
 		res.status(400).send("Invalid Date Format");
 	}
@@ -140,19 +141,71 @@ router.get("/posts/:startDate/:endDate", async (req, res, next) => {
 
 router.get("/config", async (req, res, next) => {
     await workSpace.getSlackConfig();
-    await res.send("Slack config reset requested....")
+    res.json({ msg: "Slack config reset requested....", data: workSpace.users } )
 });
 
-router.post("/archive/:date", async (req, res, next) => {
-	if(req.params.date && isValidDate(req.params.date)){
-		const [ startDate, endDate ] = timestampRange(req.params.date, req.params.date);
-		await workSpace.archiveData(startDate, endDate);
-		//console.log(workSpace.posts);
-		await res.json(wkSpaceData);
-	} else {
-		res.status(400).send("Invalid Date Format");
-	}
-    await res.send("Slack config reset requested....")
+const calculateArchiveRange = async archiveDays => {
+	const startDate =  moment().subtract(archiveDays,'day').format('YYYY-MM-DD');
+	const endDate = moment().subtract(1,'day').format('YYYY-MM-DD');
+	return timestampRange(startDate, endDate);
+};
+
+router.get("/students/:weeks",  async (req, res, next) => {
+		try {
+			const weeks = body.params;
+			//const today = moment().format('x'); //.format('YYYY-MM-DD')
+			if(weeks && weeks >= 1 && weeks <= 4){
+				const [ startDate, endDate ] = await calculateArchiveRange( weeks * 7 );     // returns the range for the last 7 days...
+				const summary = await workSpace.archiveData(startDate, endDate);
+				console.log("Just received posts to be archived")
+				res.json({ msg: `Requested Data from Slack for the data range: [ ${startDate}, ${endDate}]`, data: summary.users });
+			} else {
+				res.status(400).send("Invalid value for number of archive weeks");
+			}
+			
+			//res.json({ range: { start: startDate, end: endDate } } );
+		} catch (error) {
+			console.error(error.message);
+		}
+});
+
+router.get("/archive",  (req, res, next) => {
+		try {
+			//const today = moment().format('x'); //.format('YYYY-MM-DD')
+			const [ startDate, endDate ] =  calculateArchiveRange(1);     // returns the range for the last 7 days...
+			const summary =  workSpace.archiveData(startDate, endDate);
+			console.log("Just received posts to be archived")
+			//await workSpace.updateDB();
+			res.json({ msg: `Requested Data from Slack for the data range: [ ${startDate}, ${endDate}]`, data: summary.users });
+			//res.json({ range: { start: startDate, end: endDate } } );
+		} catch (error) {
+			console.error(error.message);
+		}
+});
+
+router.get("/archive/:date",  async (req, res, next) => {
+		try {
+			//const today = moment().format('x'); //.format('YYYY-MM-DD')
+			//const [ startDate, endDate ] =  calculateArchiveRange(1);     // returns the range for the last 7 days...
+			const date = req.params.date;
+			const [ startDate, endDate ] = timestampRange(date, date);
+			const summary =  await workSpace.archiveData(startDate, endDate);
+			console.log("Just received posts to be archived")
+			//await workSpace.updateDB();
+			res.json({ msg: `Requested Data from Slack for the data range: [ ${date}, ${date}]`, data: summary.users });
+			//res.json({ range: { start: startDate, end: endDate } } );
+		} catch (error) {
+			console.error(error.message);
+		}
+});
+
+router.get("/update/db",  async (req, res, next) => {
+		try {
+			workSpace.updateDB();
+			res.send("requested update");
+		} catch (error) {
+			console.error(error.message);
+		}
 });
 
 module.exports = router;
