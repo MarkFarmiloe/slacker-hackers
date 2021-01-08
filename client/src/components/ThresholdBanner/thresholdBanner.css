@@ -1,0 +1,19 @@
+.thresholdBanner{
+    padding: 20px 100px;
+    
+    background: #f3f3f3;
+   
+}
+
+.bannersContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.bannerHeading{
+    text-align: center;
+}
+
+.banner{
+    margin: 30px;
+}

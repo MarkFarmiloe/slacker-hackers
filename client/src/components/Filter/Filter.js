@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './filter.css'
 import moment from 'moment'
 
+
  function Filter(prop) {
 
     const [data, setData] = useState({});
@@ -67,13 +68,13 @@ import moment from 'moment'
        //edit by zubeda  
     }
 
-    const handleLocationChange = e => {
-        setOptionLocation(e.target.value);
-        filterLocation(e.target.value)//edit by zubeda
-        setSearchVal('')
+    // const handleLocationChange = e => {
+    //     setOptionLocation(e.target.value);
+    //     filterLocation(e.target.value)//edit by zubeda
+    //     setSearchVal('')
         
         
-    }
+    // }
     const handleClassChange = e => {
         setOptionClass(e.target.value)
         filterClass(e.target.value)//edit by zubeda
@@ -119,13 +120,13 @@ import moment from 'moment'
         <div className='filter-section'>
                 <div className='select-box'>
                     <span>Filter by:</span>
-                    <select onChange={handleLocationChange} className='select-location'>
+                    {/* <select onChange={handleLocationChange} className='select-location'>
                         <option>Select All</option>
                         <option disabled selected hidden>Location</option>
                         {
                             data.locations.map((location, index) => <option key={index}>{location.city}</option>)
                         }
-                    </select>
+                    </select> */}
                     <select onChange={handleClassChange} className='select-class'>
                         <option disabled selected hidden>Class</option>
                         {
@@ -162,23 +163,6 @@ import moment from 'moment'
                     <input id="studentName" onChange={handleSearch} className='search-input' type='search' value={searchVal} placeholder='Search student name ...' />
                 </div>   
                 
-                <div>
-                   
-                        <input type="date"  id="startDate" selected="startDate" name="startDate" onChange={handleStartDateChange } />
-                        <input type="date" id="endDate" name="endDate" onChange={handleEndDateChange } disabled={true} />
-                        <button onClick={applyFunc}  id="btnDate" >Apply</button>
-                   
-                </div>
-                {/* <div className='data-range-box'>
-                    <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
-                    <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
-                </div> */}
-
-                {/* <div className='data-range-box'>
-                    <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
-                    <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
-                </div> */}
-
         </div>
     )
     :
