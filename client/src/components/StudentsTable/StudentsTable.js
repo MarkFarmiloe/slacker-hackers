@@ -133,7 +133,6 @@ const useStyles2 = makeStyles({
         <TableBody >
         <TableRow>
           <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold' }} align="left">Name</TableCell>
-          <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Location</TableCell>
           <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Class</TableCell>
           <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Posts</TableCell>
           <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Reactions</TableCell>
@@ -153,14 +152,10 @@ const useStyles2 = makeStyles({
                   {obj.username}
                 </a>
               </TableCell>
+             
               <TableCell style={{ width: 'auto' }} align="left">
                 <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.location}
-                </a>
-              </TableCell>
-              <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.class}
+                  {obj.classname}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
