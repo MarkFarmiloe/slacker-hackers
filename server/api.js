@@ -81,6 +81,64 @@ const calculateArchiveRange = archiveDays => {
 	return [ startDate, endDate ];
 };
 
+const buildFilterOptions = async _ => {
+	const client = await Connection.connect();
+
+	try {
+		const filter = {
+					"locations": [],
+					"performance": [],
+		};
+		
+		let selectQuery = "SELECT performance from performance";
+		const performance = await client.query(selectQuery);
+		if(performance.rowCount){
+			filter.performance = performance.rows.map(row => row.performance);
+		} else {
+			filter.performance = [ "Good", "Average", "Poor" ];
+		}
+
+		selectQuery = "SELECT locations.name as city, classes.name as class, classes.channelname as channel FROM locations";
+		selectQuery += ` INNER JOIN classes ON locations.id = classes.locationid ORDER BY locations.name, classes.name`;
+
+		console.log(selectQuery)
+		const table = await client.query(selectQuery);
+
+		if(table.rowCount){
+			let city = "";
+			let classList = [];
+			table.rows.forEach( (row, index) => {
+				if( row.city === city || city === "" ){ 
+					row.class.length && classList.push(row.class);
+				}
+				if( ((row.city !== city) && city)){
+					
+					filter.locations.push( { city: city, classes: classList } );
+					console.log("location:", filter)
+					classList = [];
+					row.class.length && classList.push(row.class);
+				}
+
+				if(table.rowCount === (index + 1)){
+					filter.locations.push( { city: row.city, classes: classList } );
+				}
+				
+				city = row.city;
+			});
+			return filter;
+		} else {
+			res.status(404).send("No locations were found in the table");
+		}
+	} catch (error) {
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	} finally {
+		client.release();
+		console.log("Pool released....");
+	}
+};
+
+
 router.get("/students/:weeks",  async (req, res, next) => {
 	let client =  await Connection.connect();
 	try {
@@ -103,7 +161,8 @@ router.get("/students/:weeks",  async (req, res, next) => {
 
 		if( result.rowCount){
 			console.log("sending results to client")
-			res.json( { dateRange: `${startDate} ${endDate}`, report: result.rows } );
+			const filter = await buildFilterOptions();
+			res.json( { dateRange: `${startDate} ${endDate}`, filter: filter, report: result.rows } );
 			//res.json( { filter: { filterOption: "options" }, thresholds: { posts: 0, reactions: 0, attachments: 0, files: 0 }, users: result.rows} )
 		} else {
 			res.status(404).send(`No activity found for date range(${startDate} - ${endDate})`);
@@ -132,7 +191,9 @@ router.get("/filter", async (_, res, next) => {   // New filter
 		}
 
 		selectQuery = "SELECT locations.name as city, classes.name as class, classes.channelname as channel FROM locations";
-		selectQuery += " INNER JOIN classes ON locations.id = classes.locationId ORDER BY locations.name, classes.name";
+		selectQuery += ` INNER JOIN classes ON locations.id = classes.locationid ORDER BY locations.name, classes.name`;
+
+		console.log(selectQuery)
 		const table = await client.query(selectQuery);
 
 		if(table.rowCount){
@@ -157,21 +218,6 @@ router.get("/filter", async (_, res, next) => {   // New filter
 				city = row.city;
 			});
 			await res.json(filter);
-			/* const classes = await client.query("SELECT * FROM classes");
-			if(classes.rowCount){
-				locations.rows.forEach( location => {
-					const classList = [];
-					classes.rows.forEach( c  => {
-						if( location.id == c.locationid){
-							classList.push(c.name);
-						}
-					});
-					filter.locations.push( { city: location.name, classes: classList } );
-				});
-				await res.json(filter);
-			} else {
-					res.status(404).send("No classes were found in the table")
-			}  */
 		} else {
 			res.status(404).send("No locations were found in the table");
 		}
@@ -185,7 +231,7 @@ router.get("/filter", async (_, res, next) => {   // New filter
 });
 
 
-/* router.get("/filter", (_, res, next) => {
+router.get("/filter/test", (_, res, next) => {
 
 	/* Connection.connect((err) => {
 		if (err) {
@@ -193,9 +239,9 @@ router.get("/filter", async (_, res, next) => {   // New filter
 		}
 		console.log("responded to route /filter");
 		res.json(filter);
-	}); 
+	}); */
 	res.json(filter);
-}); */
+});
 
 router.get("/filter/locations", (_, res, next) => {
 

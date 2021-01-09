@@ -4,16 +4,15 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { UserContext } from '../../contexts/userContext';
+import { useHistory } from 'react-router-dom';
 
-const options = [
-  'Logout'
-];
 
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu() {
 
   const {user, setUser} = useContext(UserContext);
+  const history = useHistory();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -55,11 +54,20 @@ export default function LongMenu() {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClickOption}>
-            {option}
-          </MenuItem>
-        ))}
+        {
+          <div>
+            <MenuItem key={0} onClick={() => {
+              history.push('/threshold') 
+              handleClose(); 
+              }
+          }>
+              Threshold
+            </MenuItem>
+            <MenuItem key={1} onClick={handleClickOption}>
+              Logout
+            </MenuItem>
+          </div>
+        }
       </Menu>
     </div>
   );
