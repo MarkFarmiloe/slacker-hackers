@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     const [classs, setClasss] = useState('');
     const [week, setWeek] = useState('');
     const [perform, setPerform] = useState('');
-    // const [optionPerformance, setPerformanceClass] = useState("");
 
     function filterDefault(val){
         (prop. filterDefaultFunc(val))
@@ -55,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
     }
 
     const handlePerformanceChange = e => {
-        // setPerformanceClass(e.target.value)
         filterPerformance(e.target.value)
         setSearchVal('')
         setPerform(e.target.value)
@@ -119,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
                             value={week}
                             onChange={handleWeekChange}
                         >
-                            
+            
                             <MenuItem id={1} value='last 7 days' >last 7 days</MenuItem>
                             <MenuItem id={2} value='last 14 days'>last 14 days</MenuItem>
                             <MenuItem id={3} value='last 21 days'>last 21 days</MenuItem>
@@ -127,14 +125,6 @@ const useStyles = makeStyles((theme) => ({
                             
                         </Select>
                 </FormControl>
-                
-                {/* <select
-                     onChange={handlePerformanceChange} className='select-performance'>
-                        <option disabled selected  id="defaultPerformance">Performance</option>
-                        {
-                            data.performance.map((performance, index) => <option key={index}>{performance}</option>)
-                        }
-                </select> */}
 
                 <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label1">Performance</InputLabel>
@@ -153,12 +143,9 @@ const useStyles = makeStyles((theme) => ({
                         </Select>
                 </FormControl>
                
-                {/* <div className='search-box'> */}
-                    <form className={classes.formControl} noValidate autoComplete="off">
-                        <TextField onChange={handleSearch} value={searchVal} id="standard-basic" label="Search student name ..." />
-                        
-                    </form>
-                {/* </div>    */}
+                <form className={classes.formControl} noValidate autoComplete="off">
+                    <TextField onChange={handleSearch} value={searchVal} id="standard-basic" label="Search student name ..." />
+                </form>
                 
         </div>
     )
