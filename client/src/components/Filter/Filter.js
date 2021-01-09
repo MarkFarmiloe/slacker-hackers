@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import './filter.css'
-import moment from 'moment'
+import React, {useState, useEffect} from "react";
+import "./filter.css";
+import moment from "moment";
 
  function Filter(prop) {
 
     const [data, setData] = useState({});
-    const [optionLocation, setOptionLocation] = useState('');
-    const [optionClass, setOptionClass] = useState('');
-    const [optionPerformance, setPerformanceClass] = useState('');
-    const [searchVal, setSearchVal] = useState('');
-    const [range, setRange] = useState('');
+    const [optionLocation, setOptionLocation] = useState("");
+    const [optionClass, setOptionClass] = useState("");
+    const [optionPerformance, setPerformanceClass] = useState("");
+    const [searchVal, setSearchVal] = useState("");
+    const [range, setRange] = useState("");
 
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
@@ -17,9 +17,9 @@ import moment from 'moment'
     /////////////////////////////edit by zubeda
    function applyFunc(){
     if(startDate && endDate){
-        var a = moment(startDate);
-        var b = moment(endDate);
-        var result=b.diff(a, 'weeks')
+        let a = moment(startDate);
+        let b = moment(endDate);
+        let result=b.diff(a,"weeks");
         if(result<0){
         alert("put end date less then start date")
         }if(result<1){
@@ -40,6 +40,7 @@ import moment from 'moment'
         
     }
    function filterName(name){
+    
        (prop.filterNameFunc(name))
    }
     
@@ -56,21 +57,19 @@ import moment from 'moment'
     const handleStartDateChange = e => {
         document.getElementById("endDate").disabled=false;
         setStartDate(e.target.value);
-        setSearchVal('')
+        setSearchVal("");
        //edit by zubeda
-       
-        
     }
     const handleEndDateChange = e => {
         setEndDate(e.target.value);
-        setSearchVal('')
+        setSearchVal("")
        //edit by zubeda  
     }
 
     const handleLocationChange = e => {
         setOptionLocation(e.target.value);
         filterLocation(e.target.value)//edit by zubeda
-        setSearchVal('')
+        setSearchVal("")
         
         
     }
@@ -81,9 +80,11 @@ import moment from 'moment'
     const handlePerformanceChange = e => {
         setPerformanceClass(e.target.value)
         filterPerformance(e.target.value)
-        setSearchVal('')
+       setSearchVal("")
     }
     const handleSearch = e => {
+       // alert(e.target.value)
+
         if(e.target.value===""){
             filterName("empty") 
         }else{
@@ -106,7 +107,9 @@ import moment from 'moment'
     }
     
     useEffect(() => {
-        fetch('https://slacker-hackers.herokuapp.com/api/filter')
+        //https://slackerhackers.glitch.me/filter
+        //https://slacker-hackers.herokuapp.com/api/filter
+        fetch("https://slacker-hackers.herokuapp.com/api/filter")
         .then(res => res.json())
         .then(data=> setData(data))
         .catch(err => console.log(err))
@@ -114,19 +117,19 @@ import moment from 'moment'
 
     //filter the data depending what a teacher select on the Location dropdown 
     let filteredLocationObj;
-    Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : '';
+    Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : "";
     return Object.entries(data) != 0 ? (
-        <div className='filter-section'>
-                <div className='select-box'>
+        <div className="filter-section">
+                <div className="select-box">
                     <span>Filter by:</span>
-                    <select onChange={handleLocationChange} className='select-location'>
+                    <select onChange={handleLocationChange} className="select-location">
                         <option>Select All</option>
                         <option disabled selected hidden>Location</option>
                         {
                             data.locations.map((location, index) => <option key={index}>{location.city}</option>)
                         }
                     </select>
-                    <select onChange={handleClassChange} className='select-class'>
+                    <select onChange={handleClassChange} className="select-class">
                         <option disabled selected hidden>Class</option>
                         {
                             filteredLocationObj.length > 0 
@@ -140,7 +143,7 @@ import moment from 'moment'
                    
                 </div>
                  {/* test//onChange={handleWeekChange}  */}
-                 <select className='select-week' onChange={handleWeekChange}>
+                 <select className="select-week" onChange={handleWeekChange}>
                     <option id="1">last 7 days</option>
                     <option id="2">last 14 days</option>
                     <option id="3">last 21 days</option>
@@ -148,7 +151,7 @@ import moment from 'moment'
                 </select>
                 {/* end test */} 
                 {/* edit zubeda*/}
-                <select onChange={handlePerformanceChange} className='select-performance'>
+                <select onChange={handlePerformanceChange} className="select-performance">
                         <option disabled selected hidden id="defaultPerformance">Performance</option>
                         {/* edit by zubeda */}
                        
@@ -157,9 +160,9 @@ import moment from 'moment'
                         }
                 </select>
                
-                <div className='search-box'>
+                <div className="search-box">
                     <span>Search:</span>
-                    <input id="studentName" onChange={handleSearch} className='search-input' type='search' value={searchVal} placeholder='Search student name ...' />
+                    <input id="studentName" onChange={handleSearch} className="search-input" type="search" value={searchVal} placeholder="Search student name ..." />
                 </div>   
                 
                 <div>
@@ -169,19 +172,19 @@ import moment from 'moment'
                         <button onClick={applyFunc}  id="btnDate" >Apply</button>
                    
                 </div>
-                {/* <div className='data-range-box'>
-                    <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
-                    <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
+                {/* <div className="data-range-box">
+                    <span className="data-range-box__title">Range: <span className="data-range-box__range">{range}</span></span>
+                    <input onChange={handleRange}  type="range" min="0" max="100" step="10"/>
                 </div> */}
 
-                {/* <div className='data-range-box'>
-                    <span className='data-range-box__title'>Range: <span className='data-range-box__range'>{range}</span></span>
-                    <input onChange={handleRange}  type='range' min='0' max='100' step='10'/>
+                {/* <div className="data-range-box">
+                    <span className="data-range-box__title">Range: <span className="data-range-box__range">{range}</span></span>
+                    <input onChange={handleRange}  type="range" min="0" max="100" step="10"/>
                 </div> */}
 
         </div>
     )
     :
-    '';
+    "";
 }
 export default Filter;

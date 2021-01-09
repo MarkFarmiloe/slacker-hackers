@@ -98,7 +98,14 @@ const useStyles2 = makeStyles({
 });
  function StudentTable(prop) {
   let searchData=[],cnt=0;
-  searchData=prop.Data
+  let temp=[];
+  searchData=prop.Data;
+ 
+  // temp=prop.Data.filter(function(obj){
+  //   console.log(obj)
+  //   return obj.report
+  // })
+  //////////
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -119,7 +126,8 @@ const useStyles2 = makeStyles({
   };
   
   return (
-   
+    
+  
     <TableContainer component={Paper} >
       <Table  id="studentContainer" className={classes.table} aria-label="custom pagination table">
         <TableBody >
@@ -139,10 +147,10 @@ const useStyles2 = makeStyles({
             : searchData
           ).map((obj) => (
            
-            <TableRow  id={"/#/student-profile/:".concat(obj.name)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('red'):obj.posts>=5 && obj.posts<=10?('orange'):'#90ee90'}}>
+            <TableRow  id={"/#/student-profile/:".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('red'):obj.posts>=5 && obj.posts<=10?('orange'):'#90ee90'}}>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.name}
+                <a href={"/#/student-profile/:".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+                  {obj.username}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
@@ -167,7 +175,7 @@ const useStyles2 = makeStyles({
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
                 <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.Attachments}
+                  {obj.attachments}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
