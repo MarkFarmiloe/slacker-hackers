@@ -1,91 +1,64 @@
-import React, {useState, useEffect} from "react";
-import "./filter.css";
-import moment from "moment";
+import React, {useState, useEffect} from 'react';
+import './filter.css'
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select'
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 200,
+      margin: '30px'
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    }
+  }));
 
  function Filter(prop) {
 
-    const [data, setData] = useState({});
-    const [optionLocation, setOptionLocation] = useState("");
-    const [optionClass, setOptionClass] = useState("");
-    const [optionPerformance, setPerformanceClass] = useState("");
-    const [searchVal, setSearchVal] = useState("");
-    const [range, setRange] = useState("");
+    const classes = useStyles();
 
-    const [startDate,setStartDate]=useState(null);
-    const [endDate,setEndDate]=useState(null);
- 
-    /////////////////////////////edit by zubeda
-   function applyFunc(){
-    if(startDate && endDate){
-        let a = moment(startDate);
-        let b = moment(endDate);
-        let result=b.diff(a,"weeks");
-        if(result<0){
-        alert("put end date less then start date")
-        }if(result<1){
-            alert("you must put 1 week gap between start and end date")
-        }
-        else{
-        (prop.setDateFunc(startDate,endDate,result))
-        }
-    }
-    else{
-        alert("please insert both start and end date first")
-    }
-    
-   }
-    
+    const [data, setData] = useState({});
+    const [searchVal, setSearchVal] = useState('');
+    const [classs, setClasss] = useState('');
+    const [week, setWeek] = useState('');
+    const [perform, setPerform] = useState('');
+
     function filterDefault(val){
         (prop. filterDefaultFunc(val))
         
     }
-   function filterName(name){
-    
-       (prop.filterNameFunc(name))
-   }
+
+    function filterName(name){
+        (prop.filterNameFunc(name))
+    }
     
     function filterPerformance(performance){
         (prop.filterPerformanceFunc(performance))
     }
-   function filterLocation(location){
-       (prop.filterLocationFunc(location))
-   }
-   function filterClass(clas){
-    (prop.filterClassFunc(clas))
-}
-    ////////////////////////////////////////
-    const handleStartDateChange = e => {
-        document.getElementById("endDate").disabled=false;
-        setStartDate(e.target.value);
-        setSearchVal("");
-       //edit by zubeda
+
+    function filterClass(clas){
+        (prop.filterClassFunc(clas))
     }
-    const handleEndDateChange = e => {
-        setEndDate(e.target.value);
-        setSearchVal("")
-       //edit by zubeda  
+ 
+
+   
+    const handleClassChange = e => {
+        setClasss(e.target.value)
+        filterClass(e.target.value)//edit by zubeda
+        
     }
 
-    // const handleLocationChange = e => {
-    //     setOptionLocation(e.target.value);
-    //     filterLocation(e.target.value)//edit by zubeda
-    //     setSearchVal('')
-        
-        
-    // }
-    const handleClassChange = e => {
-        setOptionClass(e.target.value)
-        filterClass(e.target.value)//edit by zubeda
-    }
     const handlePerformanceChange = e => {
-        setPerformanceClass(e.target.value)
         filterPerformance(e.target.value)
-       setSearchVal("")
+        setSearchVal('')
+        setPerform(e.target.value)
     }
     const handleSearch = e => {
-       // alert(e.target.value)
-
         if(e.target.value===""){
             filterName("empty") 
         }else{
@@ -93,82 +66,90 @@ import moment from "moment";
         }
             setSearchVal(e.target.value)
     }
-    const handleWeekChange=e=>{
+    const handleWeekChange = e =>{
+        setWeek(e.target.value)
+        const id= e.currentTarget.getAttribute("id");
         
-        const select = e.target;
-        const id= select.options[select.selectedIndex].id;
         const days=parseInt(id);
-       
-       
+        
+        
         (prop.filterWeekFunc(days))
-    }
-    const handleRange = e => {
-        setRange(e.target.value) 
-      
     }
     
     useEffect(() => {
-        //https://slackerhackers.glitch.me/filter
-        //https://slacker-hackers.herokuapp.com/api/filter
-        fetch("https://slacker-hackers.herokuapp.com/api/filter")
+        fetch('https://slacker-hackers.herokuapp.com/api/filter')
         .then(res => res.json())
         .then(data=> setData(data))
         .catch(err => console.log(err))
     }, [])
 
-    //filter the data depending what a teacher select on the Location dropdown 
-    let filteredLocationObj;
-    Object.entries(data) != 0 ? filteredLocationObj = data.locations.filter(item => item.city == optionLocation ) : "";
     return Object.entries(data) != 0 ? (
-        <div className="filter-section">
-                <div className="select-box">
-                    <span>Filter by:</span>
-                    {/* <select onChange={handleLocationChange} className='select-location'>
-                        <option>Select All</option>
-                        <option disabled selected hidden>Location</option>
-                        {
-                            data.locations.map((location, index) => <option key={index}>{location.city}</option>)
-                        }
-                    </select> */}
-                    <select onChange={handleClassChange} className='select-class'>
-                        <option disabled selected hidden>Class</option>
-                        {
-                            filteredLocationObj.length > 0 
-                            ? 
-                            filteredLocationObj[0].classes.map((item,index) => <option key={index}>{item}</option>)
-                            :
-                            <option disabled>Select Location First</option>
-                        }
-                    </select>
-                    
+        <div className='filter-section'>
+
+            <h6 className='filter-text'>Filter by:</h6>
+
+                <div className='select-box'>
                    
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                        <Select
+                            
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={classs}
+                            onChange={handleClassChange}
+                        >
+                            
+                            {
+                            data.locations[0].classes.map((loc, index) =><MenuItem value={loc}  key={index}>{loc}</MenuItem>) 
+                            }
+                        </Select>
+                    </FormControl>
+                    
                 </div>
-                 {/* test//onChange={handleWeekChange}  */}
-                 <select className="select-week" onChange={handleWeekChange}>
-                    <option id="1">last 7 days</option>
-                    <option id="2">last 14 days</option>
-                    <option id="3">last 21 days</option>
-                    <option id="4">last 28 days</option>
-                </select>
-                {/* end test */} 
-                {/* edit zubeda*/}
-                <select onChange={handlePerformanceChange} className="select-performance">
-                        <option disabled selected hidden id="defaultPerformance">Performance</option>
-                        {/* edit by zubeda */}
-                       
-                        {
-                            data.performance.map((performance, index) => <option key={index}>{performance}</option>)
-                        }
-                </select>
+
+                <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label1">Week</InputLabel>
+                        <Select
+                            
+                            labelId="demo-simple-select-label1"
+                            id="demo-simple-select1"
+                            value={week}
+                            onChange={handleWeekChange}
+                        >
+            
+                            <MenuItem id={1} value='last 7 days' >last 7 days</MenuItem>
+                            <MenuItem id={2} value='last 14 days'>last 14 days</MenuItem>
+                            <MenuItem id={3} value='last 21 days'>last 21 days</MenuItem>
+                            <MenuItem id={4} value='last 28 days'>last 28 days</MenuItem>
+                            
+                        </Select>
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label1">Performance</InputLabel>
+                        <Select
+                            
+                            labelId="demo-simple-select-label1"
+                            id="demo-simple-select1"
+                            value={perform}
+                            onChange={handlePerformanceChange}
+                        >
+                            {
+                                data.performance.map((perf, index) => <MenuItem key={index} value={perf} >{perf}</MenuItem>)
+                            }
+                            
+                            
+                        </Select>
+                </FormControl>
                
-                <div className="search-box">
-                    <span>Search:</span>
-                    <input id="studentName" onChange={handleSearch} className="search-input" type="search" value={searchVal} placeholder="Search student name ..." />
-                </div>   
+                <form className={classes.formControl} noValidate autoComplete="off">
+                    <TextField onChange={handleSearch} value={searchVal} id="standard-basic" label="Search student name ..." />
+                </form>
                 
         </div>
     )
     :
-    "";
+    '';
 }
 export default Filter;

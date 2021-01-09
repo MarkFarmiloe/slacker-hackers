@@ -2,9 +2,14 @@
     width: 100%;
     margin: 30px auto;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     font-size: 16px;
+}
+
+.filter-text{
+    font-size: 18px;
+    font-weight: 300;
 }
 
 .select-location,
