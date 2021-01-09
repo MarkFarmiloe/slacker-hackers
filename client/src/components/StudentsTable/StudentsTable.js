@@ -146,7 +146,7 @@ const useStyles2 = makeStyles({
             : searchData
           ).map((obj) => (
            
-            <TableRow  id={"/#/student-profile/:".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('red'):obj.posts>=5 && obj.posts<=10?('orange'):'#90ee90'}}>
+            <TableRow  id={"/#/student-profile/:".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('#F1959B'):obj.posts>=5 && obj.posts<=10?('#FFFFB7'):'#ABE098'}}>
               <TableCell style={{ width: 'auto' }} align="left">
                 <a href={"/#/student-profile/:".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}

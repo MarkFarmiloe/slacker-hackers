@@ -99,13 +99,13 @@ export default function ThresholdForm({level, color}) {
 
     return (
         <div className={classes.thresholdCard}> 
-            <List subheader={<ListSubheader style={{backgroundColor: color}}>{level} </ListSubheader>} className={classes.root}>
+            <List subheader={<ListSubheader style={{backgroundColor: color, fontSize: '16px', fontWeight: '600'}}>{level} </ListSubheader>} className={classes.root}>
             <hr style={{margin: '0'}}/>   
             <ListItem>
                 <ListItemIcon>
-                <PostAddSharpIcon />
+                    <PostAddSharpIcon />
                 </ListItemIcon>
-                <ListItemText id="switch-list-label-wifi" primary="Posts" />
+                <ListItemText id="switch-list-label-wifi" primary="Posts"/>
                 <ListItemSecondaryAction>
                   {
                     editable
