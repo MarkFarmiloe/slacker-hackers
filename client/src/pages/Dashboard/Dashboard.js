@@ -46,13 +46,16 @@ export default function Dashboard() {
         function(){
            // https://hackz.glitch.me/student'
             //https://slacker-hackers.herokuapp.com/api/perform
-        fetch(`https://slackerhackers.glitch.me/students/${count}`)
+            //https://slackerhackers.glitch.me/students/${count}
+        fetch(`https://slacker-hackers.herokuapp.com/api/students/${count}`)
             .then(function(obj){
                 return obj.json();
             })
             .then(function(db){
-                console.log("data")
-                setData(db);
+                //console.log(db.report)
+                console.log(db.dateRange)
+                setData(db.report);
+                
             })
             .then(function(error) {
                 console.log(error);
@@ -88,7 +91,8 @@ export default function Dashboard() {
             window.location.reload()
         }else{
             let locationData=data.filter(function(obj){
-            return obj.location.toLowerCase()===location.toLowerCase()
+             
+            return obj.locations.toLowerCase()===location.toLowerCase()
         })
             if(locationData.length>0){
                 setDefault(null)
@@ -170,13 +174,17 @@ export default function Dashboard() {
     }
     //activate when term/name is type against location/class/performance or combination of two or three 
     function filterNameFunc(val){
+       
+
         if(performData){
+            
             if(val==="empty"){
                 setActiveName("empty")
                 setNameData(performData)
             }else{
+                
                 let nameArr=performData.filter(function(obj){
-                    return obj.name.toLowerCase().includes(val.toLowerCase());
+                    return obj.username.toLowerCase().includes(val.toLowerCase());
                 })
                 if(nameArr.length>0){
                     setNameData(nameArr)
@@ -188,12 +196,13 @@ export default function Dashboard() {
             }
         }
         else if(updatedData){
+           
             if(val==="empty"){
                 setActiveName("empty")
                 setNameData(updatedData)
             }else{
                 let nameArr=updatedData.filter(function(obj){
-                    return obj.name.toLowerCase().includes(val.toLowerCase());
+                    return obj.username.toLowerCase().includes(val.toLowerCase());
                 })
                 if(nameArr.length>0){
                     setNameData(nameArr)
@@ -204,21 +213,27 @@ export default function Dashboard() {
                 }
             }
         }else{
+            
             if(val==="empty"){
                 setActiveName("empty")
                 setNameData(data)
             }else{
+              
                 let nameArr=data.filter(function(obj){
-                    return obj.name.toLowerCase().includes(val.toLowerCase());
-                })
+                    return obj.username.toLowerCase().includes(val.toLowerCase());
+                });
+              
                 if(nameArr.length>0){
+                    
                     setNameData(nameArr)
                     setActiveName(nameArr)
                 }else{
+                   
                     setNameData(data)
                     setActiveName(data)
                 }
             }
+          
         }
         setDefault(null)
         setActivateLocation(null)
@@ -283,7 +298,7 @@ export default function Dashboard() {
             {activeName && (<StudentsTable Data={nameData} />)}
             {activateLocation && (<StudentsTable Data={updatedData} />)}
             {activateClassName && (<StudentsTable Data={updatedData} />)}
-            {activateDate && (<StudentsTable filterDate={activateDate} Data={dateData} />)})
+            {activateDate && (<StudentsTable filterDate={activateDate} Data={dateData} />)}
         </div>
     )
     :
