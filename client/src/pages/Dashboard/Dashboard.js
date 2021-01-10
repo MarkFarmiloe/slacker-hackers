@@ -85,9 +85,13 @@ export default function Dashboard() {
         if(classData.length>0){
             setPerformData(null)
             setUpdatedData(classData)
+            setActivateClassName(clas)
+        }else{
+            setUpdatedData(data)
+            setActivateClassName(data)
         }
         setDefault(null)
-        setActivateClassName(clas)
+        
        // setDefaultPerform(null)
         setActivatePerformance(null);
         setActiveName(null);
@@ -97,6 +101,7 @@ export default function Dashboard() {
    //activate when performance is selected against location and class
    function filterPerformanceFunc(val){
         let performanceData=[]
+        let allData=[]
         if(updatedData){
             performanceData=updatedData.filter(function(obj){
                 if(val==="Poor"){
@@ -111,7 +116,7 @@ export default function Dashboard() {
                 
             })
             
-            
+            allData=updatedData;
         }else{
             performanceData=data.filter(function(obj){
                 
@@ -125,7 +130,7 @@ export default function Dashboard() {
                     return obj.posts>10;
                 }
             })
-            
+            allData=data;
         }
         if(performanceData.length>0){
            
@@ -137,8 +142,13 @@ export default function Dashboard() {
            
          
         }else{
-          
+          if(val==="All"){
+            setActivatePerformance(allData)
+            setPerformData(allData)
+          }else{
             alert(`${val} data is not exist`)
+          }
+           
             
         }
     }

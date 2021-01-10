@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-
+import Button from '@material-ui/core/Button';
+import RefreshOutlinedIcon from '@material-ui/icons/RefreshOutlined';
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -27,13 +28,7 @@ const useStyles = makeStyles((theme) => ({
     const [classs, setClasss] = useState('');
     const [week, setWeek] = useState("last 7 days");
     const [perform, setPerform] = useState('');
-    /////////////////////
-    function classFunc(){
-        return (<>
-
-        </>)
-    }
-    ////////////////////////////
+  
     function filterDefault(val){
         (prop. filterDefaultFunc(val))
         
@@ -57,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
         setSearchVal("")
         setPerform("")
         setClasss(e.target.value)
-        filterClass(e.target.value)//edit by zubeda
+        filterClass(e.target.value)
+        prop.filterClassFunc()
+        //edit by zubeda
         
     }
 
@@ -84,6 +81,14 @@ const useStyles = makeStyles((theme) => ({
         setClasss("")
         setPerform("")
     }
+
+    const handleReset = e => {
+        setSearchVal("")
+        setPerform("")
+        setClasss('')
+        setWeek("last 7 days");
+        prop.filterDefaultFunc(Math.random())
+    }
     
     useEffect(() => {
         fetch('https://slacker-hackers.herokuapp.com/api/filter')
@@ -93,69 +98,73 @@ const useStyles = makeStyles((theme) => ({
     }, [])
 
     return Object.entries(data) != 0 ? (
-        <div className='filter-section' >
-
-            <h6 className='filter-text'>Filter by:</h6>
-
-                
-
-                <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label1">Days</InputLabel>
-                        <Select
-                            
-                            labelId="demo-simple-select-label1"
-                            id="demo-simple-select1"
-                            value={week}
-                            onChange={handleWeekChange}
-                        >
-            
-                            <MenuItem id={1} value='last 7 days' >last 7 days</MenuItem>
-                            <MenuItem id={2} value='last 14 days'>last 14 days</MenuItem>
-                            <MenuItem id={3} value='last 21 days'>last 21 days</MenuItem>
-                            <MenuItem id={4} value='last 28 days'>last 28 days</MenuItem>
-                            
-                        </Select>
-                </FormControl>
-                <div className='select-box'>
-                   
-                   { <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">Class</InputLabel>
-                        <Select
-                            
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={classs}
-                            onChange={handleClassChange}
-                        >
-                            
-                            {
-                            data.locations[0].classes.map((loc, index) =><MenuItem value={loc}  key={index}>{loc}</MenuItem>) 
-                            }
-                        </Select>
-                    </FormControl>}
+        <div className='filter-section'>
+        <div style={{width:'100%',textAlign:'right'}}><RefreshOutlinedIcon onClick={handleReset} /></div>
+        
+            <div className='filter-container'>
+                <h6 className='filter-text'>Filter by:</h6>
+                    <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-label1">Days</InputLabel>
+                            <Select
+                                
+                                labelId="demo-simple-select-label1"
+                                id="demo-simple-select1"
+                                value={week}
+                                onChange={handleWeekChange}
+                            >
+                                
+                                <MenuItem id={1} value='last 7 days' >last 7 days</MenuItem>
+                                <MenuItem id={2} value='last 14 days'>last 14 days</MenuItem>
+                                <MenuItem id={3} value='last 21 days'>last 21 days</MenuItem>
+                                <MenuItem id={4} value='last 28 days'>last 28 days</MenuItem>
+                                
+                            </Select>
+                    </FormControl>
+                    <div className='select-box'>
                     
+                    { <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                            <Select
+                                
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={classs}
+                                onChange={handleClassChange}
+                            >
+                                 <MenuItem key="All" value="All">All</MenuItem>
+                                {
+                                data.locations[0].classes.map((loc, index) =><MenuItem value={loc}  key={index}>{loc}</MenuItem>) 
+                                }
+                            </Select>
+                        </FormControl>}
+                        
+                    </div>
+                    <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-label1">Performance</InputLabel>
+                            <Select
+                                
+                                labelId="demo-simple-select-label1"
+                                id="demo-simple-select1"
+                                value={perform}
+                                onChange={handlePerformanceChange}
+                            >
+                             <MenuItem key="All" value="All">All</MenuItem>
+                                {
+                                   
+                                    data.performance.map((perf, index) => <MenuItem key={index} value={perf} >{perf}</MenuItem>)
+                                }
+                                
+                                
+                            </Select>
+                    </FormControl>
+                
+                    <form className={classes.formControl} noValidate autoComplete="off">
+                        <TextField onChange={handleSearch} value={searchVal} id="standard-basic" label="Search student name ..." />
+                    </form>
+
                 </div>
-                <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label1">Performance</InputLabel>
-                        <Select
-                            
-                            labelId="demo-simple-select-label1"
-                            id="demo-simple-select1"
-                            value={perform}
-                            onChange={handlePerformanceChange}
-                        >
-                            
-                            {
-                                data.performance.map((perf, index) => <MenuItem key={index} value={perf} >{perf}</MenuItem>)
-                            }
-                            
-                            
-                        </Select>
-                </FormControl>
-               
-                <form className={classes.formControl} noValidate autoComplete="off">
-                    <TextField onChange={handleSearch} value={searchVal} id="standard-basic" label="Search student name ..." />
-                </form>
+
+                <Button color="secondary" style={{textTransform: 'none'}} onClick={handleReset}>Reset filters</Button>
                 
         </div>
     )
