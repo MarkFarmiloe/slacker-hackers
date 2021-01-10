@@ -146,35 +146,35 @@ const useStyles2 = makeStyles({
             : searchData
           ).map((obj) => (
            
-            <TableRow  id={"/#/student-profile/:".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('#F1959B'):obj.posts>=5 && obj.posts<=10?('#FFFFB7'):'#ABE098'}}>
+            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('#F1959B'):obj.posts>=5 && obj.posts<=10?('#FFFFB7'):'#ABE098'}}>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}
                 </a>
               </TableCell>
              
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
                   {obj.classname}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
                   {obj.posts}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
                   {obj.reactions}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
                   {obj.attachments}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/:".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
                   {obj.files}
                 </a>
               </TableCell>

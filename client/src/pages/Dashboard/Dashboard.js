@@ -10,21 +10,16 @@ export default function Dashboard() {
     const [data,setData]=useState([]);
     //default data update when location or class select
     const [updatedData,setUpdatedData]=useState(null)
-    //data extract when location select
-    const [locData,setLocData]=useState(null)
+    
     //data select when location,class,performance activate
     const [performData,setPerformData]=useState(null)
     //data select against term/name
     const [nameData,setNameData]=useState(null);
-    //data select against a date range
-    const [dateData,setDateData]=useState(null);
+    
     //data select against performance and activate it
     const [performance,setPerformance]=useState(null);
     const [activatePerformance,setActivatePerformance]=useState(null);//active
-    //location
-    const [location,setLocation]=useState(null);
-    const [activateLocation,setActivateLocation]=useState(null);//active
-    //class
+    
     const [className,setClassName]=useState(null);
     const [activateClassName,setActivateClassName]=useState(null);//active
     //name
@@ -33,7 +28,6 @@ export default function Dashboard() {
     ///data select against date range
     const [startDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
-    const [activateDate,setActivateDate]=useState(null)//active
     //activate when filter week wise
     const [count,setCount]=useState(1);
     function filterWeekFunc1(weeks){
@@ -64,11 +58,9 @@ export default function Dashboard() {
                 setDefault(count)
                 // setDefaultPerform(null)
                
-                 setActivateLocation(null)
                  setActivateClassName(null)
                  setActivatePerformance(null);
                  setActiveName(null)
-                 setActivateDate(null)
             }
         }
     ,[count]); 
@@ -78,53 +70,26 @@ export default function Dashboard() {
         setDefault(val)
        // setDefaultPerform(null)
       
-        setActivateLocation(null)
         setActivateClassName(null)
         setActivatePerformance(null);
         setActiveName(null)
-        setActivateDate(null)
+
     }
-    ///activate when a location is selected
-    function filterLocationFunc(location){
-        if(location==="Select All"){
-            setUpdatedData(data)
-            window.location.reload()
-        }else{
-            let locationData=data.filter(function(obj){
-             
-            return obj.locations.toLowerCase()===location.toLowerCase()
-        })
-            if(locationData.length>0){
-                setDefault(null)
-                setLocData(locationData)
-                setUpdatedData(locationData)
-                setActivateLocation(location)
-                setPerformData(null)
-                setActivatePerformance(null);
-                setActiveName(null);
-                setLocation(location)
-                setActivateClassName(null)
-                setActivateDate(null)
-              
-            }
-        }
-    }
+   
     //activate when class is selected against location
     function filterClassFunc(clas){
-        let classData=locData.filter(function(obj){
-            return obj.class.toLowerCase()===clas.toLowerCase()
+        let classData=data.filter(function(obj){
+            return obj.classname.toLowerCase()===clas.toLowerCase()
           })
         if(classData.length>0){
             setPerformData(null)
             setUpdatedData(classData)
         }
         setDefault(null)
-        setActivateLocation(null)
         setActivateClassName(clas)
        // setDefaultPerform(null)
         setActivatePerformance(null);
         setActiveName(null);
-        setActivateDate(null)
        
     //    setClassName(clas)
     }
@@ -161,12 +126,10 @@ export default function Dashboard() {
         }
         if(performanceData.length>0){
             setDefault(null)
-            setActivateLocation(null)
             setActivateClassName(null)
             setActivatePerformance(performanceData)
             setActiveName(null)
             setPerformData(performanceData)
-            setActivateDate(null)
          
         }else{
             alert(`${val} data is not exist`)
@@ -236,69 +199,22 @@ export default function Dashboard() {
           
         }
         setDefault(null)
-        setActivateLocation(null)
         setActivateClassName(null)
         setActivatePerformance(null);
-        setActivateDate(null)
       
         //setName(val);
        
        
     }
-//activate when date range is selected against location/class/performance or combination of two or three 
-    function setDateFunc(start,end,filter){
-        setStartDate(start)
-        setEndDate(end)
-        if(performData){
-            let dateDateArr=performData.filter(function(obj){
-                return (obj.date>=start) && (obj.date<=end)
-                })
-                if(dateDateArr.length>0){
-                    setDateData(dateDateArr)
-                }else{
-                    setDateData(performData)
-                    setActivateDate(performData)
-                    alert("no record exist between these dates")
-                }
-        }else if(updatedData) {
-            //updatedData
-            let dateDateArr=updatedData.filter(function(obj){
-            return (obj.date>=start) && (obj.date<=end)
-            })
-            if(dateDateArr.length>0){
-                setDateData(dateDateArr)
-            }else{
-                alert("No post exist in this date range")
-                setDateData(updatedData)
-            }
-        }else{
-            let dateDateArr=data.filter(function(obj){
-                return (obj.date>=start) && (obj.date<=end)
-                })
-                if(dateDateArr.length>0){
-                    setDateData(dateDateArr)
-                }else{
-                    alert("No post exist in this date range")
-                    setDateData(data)
-                }
-        }
-        setActivateDate(Math.random(100))
-        setDefault(null)
-        setActivateLocation(null)
-        setActivateClassName(null)
-        setActivatePerformance(null);
-        setActiveName(null)   
-    }
+
     return data.length > 0 ? (
         <div className='dashboard-page' style={{margin: '20px 5%'}}>
             <ThresholdBanner />
-            <Filter setDateFunc={setDateFunc} filterWeekFunc={filterWeekFunc1} filterDefaultFunc={filterDefaultFunc} filterClassFunc={filterClassFunc} filterLocationFunc={filterLocationFunc} filterNameFunc={filterNameFunc} filterPerformanceFunc={filterPerformanceFunc}/>  
+            <Filter  filterWeekFunc={filterWeekFunc1} filterDefaultFunc={filterDefaultFunc} filterClassFunc={filterClassFunc}  filterNameFunc={filterNameFunc} filterPerformanceFunc={filterPerformanceFunc}/>  
             {byDefault && (<StudentsTable Data={data}/>)}
             {activatePerformance && (<StudentsTable Data={performData} />)}
             {activeName && (<StudentsTable Data={nameData} />)}
-            {activateLocation && (<StudentsTable Data={updatedData} />)}
             {activateClassName && (<StudentsTable Data={updatedData} />)}
-            {activateDate && (<StudentsTable filterDate={activateDate} Data={dateData} />)}
         </div>
     )
     :

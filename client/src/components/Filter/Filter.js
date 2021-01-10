@@ -25,9 +25,15 @@ const useStyles = makeStyles((theme) => ({
     const [data, setData] = useState({});
     const [searchVal, setSearchVal] = useState('');
     const [classs, setClasss] = useState('');
-    const [week, setWeek] = useState('');
+    const [week, setWeek] = useState("last 7 days");
     const [perform, setPerform] = useState('');
+    /////////////////////
+    function classFunc(){
+        return (<>
 
+        </>)
+    }
+    ////////////////////////////
     function filterDefault(val){
         (prop. filterDefaultFunc(val))
         
@@ -48,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 
    
     const handleClassChange = e => {
+        setSearchVal("")
+        setPerform("")
         setClasss(e.target.value)
         filterClass(e.target.value)//edit by zubeda
         
@@ -67,13 +75,14 @@ const useStyles = makeStyles((theme) => ({
             setSearchVal(e.target.value)
     }
     const handleWeekChange = e =>{
+        let clasName=document.getElementById("classForm")
         setWeek(e.target.value)
         const id= e.currentTarget.getAttribute("id");
-        
         const days=parseInt(id);
-        
-        
         (prop.filterWeekFunc(days))
+        setSearchVal("")
+        setClasss("")
+        setPerform("")
     }
     
     useEffect(() => {
@@ -84,32 +93,14 @@ const useStyles = makeStyles((theme) => ({
     }, [])
 
     return Object.entries(data) != 0 ? (
-        <div className='filter-section'>
+        <div className='filter-section' >
 
             <h6 className='filter-text'>Filter by:</h6>
 
-                <div className='select-box'>
-                   
-                    <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">Class</InputLabel>
-                        <Select
-                            
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={classs}
-                            onChange={handleClassChange}
-                        >
-                            
-                            {
-                            data.locations[0].classes.map((loc, index) =><MenuItem value={loc}  key={index}>{loc}</MenuItem>) 
-                            }
-                        </Select>
-                    </FormControl>
-                    
-                </div>
+                
 
                 <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label1">Week</InputLabel>
+                        <InputLabel id="demo-simple-select-label1">Days</InputLabel>
                         <Select
                             
                             labelId="demo-simple-select-label1"
@@ -125,7 +116,25 @@ const useStyles = makeStyles((theme) => ({
                             
                         </Select>
                 </FormControl>
-
+                <div className='select-box'>
+                   
+                   { <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                        <Select
+                            
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={classs}
+                            onChange={handleClassChange}
+                        >
+                            
+                            {
+                            data.locations[0].classes.map((loc, index) =><MenuItem value={loc}  key={index}>{loc}</MenuItem>) 
+                            }
+                        </Select>
+                    </FormControl>}
+                    
+                </div>
                 <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label1">Performance</InputLabel>
                         <Select
