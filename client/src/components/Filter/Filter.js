@@ -99,7 +99,6 @@ const useStyles = makeStyles((theme) => ({
 
     return Object.entries(data) != 0 ? (
         <div className='filter-section'>
-        <div style={{width:'100%',textAlign:'right'}}><RefreshOutlinedIcon onClick={handleReset} /></div>
         
             <div className='filter-container'>
                 <h6 className='filter-text'>Filter by:</h6>
@@ -163,8 +162,8 @@ const useStyles = makeStyles((theme) => ({
                     </form>
 
                 </div>
-
-                <Button color="secondary" style={{textTransform: 'none'}} onClick={handleReset}>Reset filters</Button>
+                <Button color="secondary" style={{textTransform: 'none'}}><RefreshOutlinedIcon  onClick={handleReset} /></Button>
+                {/* <Button color="secondary" style={{textTransform: 'none'}} onClick={handleReset}>Reset filters</Button> */}
                 
         </div>
     )
