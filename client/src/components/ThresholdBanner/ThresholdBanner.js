@@ -26,10 +26,9 @@ const useStyles = makeStyles((theme) => ({
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
-      flexBasis: '33.33%',
+      flexBasis: '50%',
       flexShrink: 0,
       alignSelf: 'center',
-  
       
     },
     subheading: {
@@ -52,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     },
     act: {
         margin: '0 10px',
-        minWidth: '150px',
         padding: '10px'
     },
     span: {
@@ -105,7 +103,7 @@ export default function ThresholdBanner() {
     };
 
     return (
-        <div className=''>
+        <div style={{width: '100%'}}>
 
         <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
             <AccordionSummary
@@ -137,8 +135,7 @@ export default function ThresholdBanner() {
                                             return <p className={classes.act} key={index}>{key}: <span className={classes.span}>{value}</span> </p>
                                         })
                                     }
-                                    
-                                    
+
                                 </div>
                             )
                         })

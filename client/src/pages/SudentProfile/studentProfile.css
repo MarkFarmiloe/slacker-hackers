@@ -1,0 +1,35 @@
+.studentProfile-page{
+    padding: 20px 5%;
+
+}
+.studentProfile-info{
+    display: flex;
+    width: 100%;
+    background: #ffffff;
+    padding: 20px; 
+}
+.studentProfile-heading{
+    background-color: #3F0F3F;
+    width: max-content;
+    padding: 10px ;
+    color: white
+}
+.studentProfile-charts{
+    display: flex;
+    margin: 20px 0;
+}
+.studentProfile-chart{
+    background: #ffffff;
+    width: 50%;
+    padding: 20px; 
+}
+.studentProfile-chart:first-child{
+    margin-right: 50px;
+}
+.studentProfile-chart-line{
+    width: 100%;
+    background: #ffffff;
+    padding: 20px; 
+}
+
+

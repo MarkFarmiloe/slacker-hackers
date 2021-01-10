@@ -24,7 +24,7 @@ export function App() {
 
 
 	return (
-		<main role="main">
+		<main role="main" style={{ backgroundColor: 'rgb(243,244,246)', minHeight: '100vh'}}>
 			<UserContext.Provider value={{user, setUser}}>
 				<Heading />
 				<Route exact path='/' component={Dashboard} />
