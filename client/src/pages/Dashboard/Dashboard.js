@@ -4,6 +4,7 @@ import Filter from '../../components/Filter/Filter'
 import StudentsTable from '../../components/StudentsTable/StudentsTable.js'
 import ThresholdBanner from '../../components/ThresholdBanner/ThresholdBanner.js'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { updateLocale } from 'moment';
 export default function Dashboard() {
     //default data
     const [byDefault,setDefault]=useState("default")
@@ -107,7 +108,9 @@ export default function Dashboard() {
                 if(val==="Good"){
                     return obj.posts>10;
                 }
+                
             })
+            
             
         }else{
             performanceData=data.filter(function(obj){
@@ -125,14 +128,18 @@ export default function Dashboard() {
             
         }
         if(performanceData.length>0){
+           
+            setActivatePerformance(performanceData)
+            setPerformData(performanceData)
             setDefault(null)
             setActivateClassName(null)
-            setActivatePerformance(performanceData)
             setActiveName(null)
-            setPerformData(performanceData)
+           
          
         }else{
+          
             alert(`${val} data is not exist`)
+            
         }
     }
     //activate when term/name is type against location/class/performance or combination of two or three 

@@ -144,6 +144,7 @@ const useStyles = makeStyles((theme) => ({
                             value={perform}
                             onChange={handlePerformanceChange}
                         >
+                            
                             {
                                 data.performance.map((perf, index) => <MenuItem key={index} value={perf} >{perf}</MenuItem>)
                             }
