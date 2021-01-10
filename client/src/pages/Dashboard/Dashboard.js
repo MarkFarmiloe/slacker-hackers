@@ -4,6 +4,7 @@ import Filter from '../../components/Filter/Filter'
 import StudentsTable from '../../components/StudentsTable/StudentsTable.js'
 import ThresholdBanner from '../../components/ThresholdBanner/ThresholdBanner.js'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { updateLocale } from 'moment';
 export default function Dashboard() {
     //default data
     const [byDefault,setDefault]=useState("default")
@@ -84,9 +85,13 @@ export default function Dashboard() {
         if(classData.length>0){
             setPerformData(null)
             setUpdatedData(classData)
+            setActivateClassName(clas)
+        }else{
+            setUpdatedData(data)
+            setActivateClassName(data)
         }
         setDefault(null)
-        setActivateClassName(clas)
+        
        // setDefaultPerform(null)
         setActivatePerformance(null);
         setActiveName(null);
@@ -96,6 +101,7 @@ export default function Dashboard() {
    //activate when performance is selected against location and class
    function filterPerformanceFunc(val){
         let performanceData=[]
+        let allData=[]
         if(updatedData){
             performanceData=updatedData.filter(function(obj){
                 if(val==="Poor"){
@@ -107,8 +113,10 @@ export default function Dashboard() {
                 if(val==="Good"){
                     return obj.posts>10;
                 }
+                
             })
             
+            allData=updatedData;
         }else{
             performanceData=data.filter(function(obj){
                 
@@ -122,17 +130,26 @@ export default function Dashboard() {
                     return obj.posts>10;
                 }
             })
-            
+            allData=data;
         }
         if(performanceData.length>0){
+           
+            setActivatePerformance(performanceData)
+            setPerformData(performanceData)
             setDefault(null)
             setActivateClassName(null)
-            setActivatePerformance(performanceData)
             setActiveName(null)
-            setPerformData(performanceData)
+           
          
         }else{
+          if(val==="All"){
+            setActivatePerformance(allData)
+            setPerformData(allData)
+          }else{
             alert(`${val} data is not exist`)
+          }
+           
+            
         }
     }
     //activate when term/name is type against location/class/performance or combination of two or three 

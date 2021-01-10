@@ -7,7 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import RefreshOutlinedIcon from '@material-ui/icons/RefreshOutlined';
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
         setSearchVal("")
         setPerform("")
         setClasss(e.target.value)
-        filterClass(e.target.value)//edit by zubeda
+        filterClass(e.target.value)
+        prop.filterClassFunc()
+        //edit by zubeda
         
     }
 
@@ -85,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
         setPerform("")
         setClasss('')
         setWeek("last 7 days");
+        prop.filterDefaultFunc(Math.random())
     }
     
     useEffect(() => {
@@ -96,11 +99,10 @@ const useStyles = makeStyles((theme) => ({
 
     return Object.entries(data) != 0 ? (
         <div className='filter-section'>
+        <div style={{width:'100%',textAlign:'right'}}><RefreshOutlinedIcon onClick={handleReset} /></div>
+        
             <div className='filter-container'>
                 <h6 className='filter-text'>Filter by:</h6>
-
-                    
-
                     <FormControl className={classes.formControl}>
                             <InputLabel id="demo-simple-select-label1">Days</InputLabel>
                             <Select
@@ -110,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
                                 value={week}
                                 onChange={handleWeekChange}
                             >
-                
+                                
                                 <MenuItem id={1} value='last 7 days' >last 7 days</MenuItem>
                                 <MenuItem id={2} value='last 14 days'>last 14 days</MenuItem>
                                 <MenuItem id={3} value='last 21 days'>last 21 days</MenuItem>
@@ -129,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
                                 value={classs}
                                 onChange={handleClassChange}
                             >
-                                
+                                 <MenuItem key="All" value="All">All</MenuItem>
                                 {
                                 data.locations[0].classes.map((loc, index) =><MenuItem value={loc}  key={index}>{loc}</MenuItem>) 
                                 }
@@ -146,7 +148,9 @@ const useStyles = makeStyles((theme) => ({
                                 value={perform}
                                 onChange={handlePerformanceChange}
                             >
+                             <MenuItem key="All" value="All">All</MenuItem>
                                 {
+                                   
                                     data.performance.map((perf, index) => <MenuItem key={index} value={perf} >{perf}</MenuItem>)
                                 }
                                 
