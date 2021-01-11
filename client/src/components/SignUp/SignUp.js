@@ -3,8 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel'; 
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -14,6 +13,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 import { useHistory } from 'react-router-dom';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Radio from '@material-ui/core/Radio';
+
                 
 
 function Copyright() {
@@ -56,8 +60,13 @@ export default function SignUp() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [slackId, setSlackId] = useState('');
+  const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
+  //for radion btns
+  const [role, setRole] = React.useState('');
+  const [helperRadio, setHelperRadio] = React.useState(false);
 
   const handleFirstName = (e) => {
     e.preventDefault();
@@ -71,6 +80,24 @@ export default function SignUp() {
     e.preventDefault();
     setEmail(e.target.value);
   }
+  const handleSlackId = (e) => {
+    e.preventDefault();
+    setSlackId(e.target.value);
+  }
+  const handleRadioChange = (event) => {
+    if(event.target.value == 'student'){
+      setHelperRadio(false)
+      setToken('');
+    }
+    if(event.target.value == 'mentor'){
+      setHelperRadio(true)
+    }
+    setRole(event.target.value);
+  };
+  const handleToken = (e) => {
+    e.preventDefault();
+    setToken(e.target.value);
+  }
   const handlePassword = (e) => {
     e.preventDefault();
     setPassword(e.target.value);
@@ -79,11 +106,27 @@ export default function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let signUpCredentials = {
-      name: `${firstName} ${lastName}`,
-      email: email,
-      password: password
+    let signUpCredentials = {}
+    if(role == 'student'){
+      signUpCredentials = {
+        name: `${firstName} ${lastName}`,
+        email: email,
+        role: role,
+        slackId: slackId,
+        password: password
+      }
+    }else{
+      signUpCredentials = {
+        name: `${firstName} ${lastName}`,
+        email: email,
+        role: role,
+        token: token,
+        slackId: slackId,
+        password: password
+      }
     }
+
+    
 
     let requestOptions = {
       method: 'POST',
@@ -104,7 +147,7 @@ export default function SignUp() {
       res.json()
     })
     .then(data => {
-      console.log('status', data)
+      // console.log('status', data)
     })
     .catch(err => {
       alert(err);
@@ -115,6 +158,10 @@ export default function SignUp() {
     setEmail('');
     setPassword('');
   }
+
+  
+
+  
   
 
   return (
@@ -166,6 +213,49 @@ export default function SignUp() {
                 onChange={handleEmail}
               />
             </Grid>
+            <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="slackId"
+                  label="Slack Id"
+                  name="slackId"
+                  autoComplete="slackId"
+                  onChange={handleSlackId}
+              />
+              </Grid>
+            <Grid item xs={12}>
+              <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">I'm a:</FormLabel>
+                <RadioGroup aria-label="quiz" name="quiz" value={role} onChange={handleRadioChange} style={{display: 'flex', flexDirection: 'row'}}>
+                  <FormControlLabel value="student" control={<Radio />} label="Student" />
+                  <FormControlLabel value="mentor" control={<Radio />} label="Mentor" />
+                </RadioGroup>
+              </FormControl>
+
+
+            </Grid>
+            {
+              helperRadio 
+              ?
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="token"
+                  label="Private Token"
+                  name="token"
+                  autoComplete="Token"
+                  onChange={handleToken}
+              />
+              </Grid>
+              :
+              ''
+            }
+            
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"

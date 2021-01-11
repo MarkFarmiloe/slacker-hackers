@@ -11,8 +11,8 @@ import RefreshOutlinedIcon from '@material-ui/icons/RefreshOutlined';
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 200,
-      margin: '30px'
+      minWidth: '200px',
+      margin: '10px 20px'
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
