@@ -162,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
                     </form>
 
                 </div>
-                <Button color="secondary" style={{textTransform: 'none'}}><RefreshOutlinedIcon  onClick={handleReset} /></Button>
+                <Button color="secondary"  onClick={handleReset} style={{textTransform: 'none'}}><RefreshOutlinedIcon   />  Reset filters</Button>
                 {/* <Button color="secondary" style={{textTransform: 'none'}} onClick={handleReset}>Reset filters</Button> */}
                 
         </div>
@@ -171,3 +171,6 @@ const useStyles = makeStyles((theme) => ({
     '';
 }
 export default Filter;
+
+
+
