@@ -17,23 +17,33 @@ export default function Dashboard() {
   const [nameData, setNameData] = useState(null);
 
   //data select against performance and activate it
-  const [performance, setPerformance] = useState(null);
+//   const [performance, setPerformance] = useState(null);
   const [activatePerformance, setActivatePerformance] = useState(null); //active
 
-  const [className, setClassName] = useState(null);
+//   const [className, setClassName] = useState(null);
   const [activateClassName, setActivateClassName] = useState(null); //active
   //name
-  const [name, setName] = useState(null);
+//   const [name, setName] = useState(null);
   const [activeName, setActiveName] = useState(null); //active
   ///data select against date range
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+//   const [startDate, setStartDate] = useState(null);
+//   const [endDate, setEndDate] = useState(null);
   //activate when filter week wise
   const [count, setCount] = useState(1);
   function filterWeekFunc1(weeks) {
-    // alert(data.length)
-    // alert(weeks)
+    alert("new")
+    // setDefault(null);
+    // setActivateClassName(null);
+    // setActivatePerformance(null);
+    // setActiveName(null);
+
+    // setUpdatedData(null)
+    // setData(null)
+    // setNameData(null)
+    // setPerformData(null)
+
     setCount(weeks);
+  
   }
   //extract data from server through API
   useEffect(
@@ -46,19 +56,21 @@ export default function Dashboard() {
           return obj.json();
         })
         .then(function (db) {
-          //console.log(db.report)
-          console.log(db.dateRange);
+        setDefault(count);
           setData(db.report);
         })
         .then(function (error) {
           console.log(error);
         });
-      if (data.length > 0) {
-        setDefault(count);
+       
+        
         setActivateClassName(null);
         setActivatePerformance(null);
         setActiveName(null);
-      }
+        setUpdatedData(null)
+        setPerformData(null)
+        setNameData(null)
+      
     },
     [count]
   );
@@ -66,8 +78,6 @@ export default function Dashboard() {
   //activate when default data is called
   function filterDefaultFunc(val) {
     setDefault(val);
-    // setDefaultPerform(null)
-
     setActivateClassName(null);
     setActivatePerformance(null);
     setActiveName(null);
@@ -79,16 +89,18 @@ export default function Dashboard() {
       return obj.classname.toLowerCase() === clas.toLowerCase();
     });
     if (classData.length > 0) {
-      setPerformData(null);
       setUpdatedData(classData);
-      setActivateClassName(clas);
+      setActivateClassName(classData);
     } else {
       setUpdatedData(data);
       setActivateClassName(data);
     }
-    setDefault(null);
+    setPerformData(null);
     setActivatePerformance(null);
+    setDefault(null);
+   // setData(null)
     setActiveName(null);
+    setNameData(null)
   }
   //activate when performance is selected against location and class
   function filterPerformanceFunc(val) {
@@ -106,7 +118,6 @@ export default function Dashboard() {
           return obj.posts > 10;
         }
       });
-
       allData = updatedData;
     } else {
       performanceData = data.filter(function (obj) {
@@ -138,6 +149,8 @@ export default function Dashboard() {
     setDefault(null);
     setActivateClassName(null);
     setActiveName(null);
+    setNameData(null)
+   
   }
   //activate when term/name is type against location/class/performance or combination of two or three
   function filterNameFunc(val) {
