@@ -6,7 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { updateLocale } from "moment";
 export default function Dashboard() {
   //default data
-  const [byDefault, setDefault] = useState("default");
+  const [byDefault, setDefault] = useState(null);
   const [data, setData] = useState([]);
   //default data update when location or class select
   const [updatedData, setUpdatedData] = useState(null);
@@ -31,17 +31,14 @@ export default function Dashboard() {
   //activate when filter week wise
   const [count, setCount] = useState(1);
   function filterWeekFunc1(weeks) {
-    alert("new")
-    // setDefault(null);
-    // setActivateClassName(null);
-    // setActivatePerformance(null);
-    // setActiveName(null);
-
-    // setUpdatedData(null)
+     setDefault(null)
     // setData(null)
-    // setNameData(null)
-    // setPerformData(null)
-
+    setActivateClassName(null);
+    setUpdatedData(null)
+    setActivatePerformance(null);
+    setPerformData(null)
+    setActiveName(null);
+    setNameData(null)
     setCount(weeks);
   
   }
@@ -56,8 +53,9 @@ export default function Dashboard() {
           return obj.json();
         })
         .then(function (db) {
-        setDefault(count);
-          setData(db.report);
+            setData(db.report);
+            setDefault(db.report);
+           
         })
         .then(function (error) {
           console.log(error);
