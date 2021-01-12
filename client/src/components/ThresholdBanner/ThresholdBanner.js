@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 let threshold1 = {
-    thresholdLevel: 'Good',
+    thresholdLevel: 'High',
     thresholdValues: {
         posts: 1,
         reacts: 2, 
@@ -70,7 +70,7 @@ let threshold1 = {
    
 }
 let threshold2 = {
-    thresholdLevel: 'Average',
+    thresholdLevel: 'Medium',
     thresholdValues: {
         posts: 1,
         reacts: 2, 
@@ -80,7 +80,7 @@ let threshold2 = {
    
 }
 let threshold3 = {
-    thresholdLevel: 'Poor',
+    thresholdLevel: 'Low',
     thresholdValues: {
         posts: 1,
         reacts: 2, 
@@ -121,7 +121,7 @@ export default function ThresholdBanner() {
                     {
                         thresholds.map((threshold, index) => {
                             return (
-                                <div className={`${classes.details} ${threshold.thresholdLevel =='Good' ? classes.subheadingGreen : (threshold.thresholdLevel == 'Average' ? classes.subheadingYellow : classes.subheadingRed)}`}>
+                                <div className={`${classes.details} ${threshold.thresholdLevel =='High' ? classes.subheadingGreen : (threshold.thresholdLevel == 'Medium' ? classes.subheadingYellow : classes.subheadingRed)}`}>
                                     
                                     <h4 
                                         className={classes.subheading}

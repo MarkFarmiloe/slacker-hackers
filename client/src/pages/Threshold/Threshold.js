@@ -28,9 +28,9 @@ export default function Threshold() {
     <div  className={classes.container}>
         <h1 className={classes.heading}>Configure the thresholds</h1>
         <div className={classes.box} >
-            <ThresholdForm level={'Good'} color={'#ABE098'} />
-            <ThresholdForm level={'Average'} color={'#FFFFB7'}  />
-            <ThresholdForm level={'Poor'} color={'#F1959B'} />
+            <ThresholdForm level={'High'} color={'#ABE098'} />
+            <ThresholdForm level={'Medium'} color={'#FFFFB7'}  />
+            <ThresholdForm level={'Low'} color={'#F1959B'} />
         </div>
     </div>
   );
