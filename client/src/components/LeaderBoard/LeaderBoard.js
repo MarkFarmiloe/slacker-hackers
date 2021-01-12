@@ -135,7 +135,7 @@ const useStyles2 = makeStyles({
   let data1=data.sort(function(a, b) {
     return parseInt(b.posts) - parseInt(a.posts);
 });
-
+data1=data1.slice(0,3);
   ///////////////////////////////
  
   // temp=prop.Data.filter(function(obj){
@@ -161,7 +161,11 @@ const useStyles2 = makeStyles({
   
    
   };
-  
+  const studentContainer={
+    width: '98%',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }
   return (
     <>
     {/* <div style={{width:'100%',textAlign:'center'}}>
@@ -172,7 +176,7 @@ const useStyles2 = makeStyles({
     </div> */}
    
     <TableContainer component={Paper} >
-      <Table  id="studentContainer" className={classes.table} aria-label="custom pagination table">
+      <Table  style={studentContainer} className={classes.table} aria-label="custom pagination table">
         <TableBody >
         <TableRow>
           <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold' }} align="left">Name</TableCell>
