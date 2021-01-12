@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import StudenProfile from "./pages/SudentProfile/StudenProfile";
 import { UserContext } from './contexts/userContext';
 import Threshold from "./pages/Threshold/Threshold";
+import LeaderBoard from "./components/LeaderBoard/LeaderBoard"
 
 export function App() {
 	const [user, setUser] = useState('');
@@ -32,6 +33,7 @@ export function App() {
 				<Route path='/sign-up' component={SignUp} />
 				<Route path='/student-profile/:name' component={StudenProfile} />
 				<Route path='/threshold' component={Threshold} />
+				<Route path='/leaderboard' component={LeaderBoard} />
 			</UserContext.Provider>
 			
 		</main>

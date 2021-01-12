@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -14,7 +14,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import './StudentTable.css'
+import '/home/cyf/Desktop/slacker-zubeda/slacker-hackers/client/src/components/StudentsTable/StudentTable.css'
 import moment from 'moment'
 
 
@@ -96,10 +96,47 @@ const useStyles2 = makeStyles({
     minWidth: 500,
   },
 });
- function StudentTable(prop) {
-  let searchData=[],cnt=0;
-  let temp=[];
-  searchData=prop.Data;
+ function LeaderBoard() {
+
+  /////////////////////////////////
+  const [byDefault, setDefault] = useState(null);
+  const [data, setData] = useState([]);
+  let cnt=1;
+  function handleDays(e){
+   
+    // setCnt(e.target.value)
+    // alert(cnt)
+  }
+  useEffect(
+    function () {
+      // https://hackz.glitch.me/student'
+      //https://slacker-hackers.herokuapp.com/api/perform
+      //https://slackerhackers.glitch.me/students/${count}
+      fetch(`https://slacker-hackers.herokuapp.com/api/students/${cnt}`)
+        .then(function (obj) {
+          return obj.json();
+        })
+        .then(function (db) {
+            setData(db.report);
+            setDefault(db.report);
+           
+        })
+        .then(function (error) {
+          console.log(error);
+        });
+       
+        
+       
+      
+    },
+    [cnt]
+  );
+  //b.posts+b.reactions+b.files+b.attachments
+  let data1=data.sort(function(a, b) {
+    return parseInt(b.posts) - parseInt(a.posts);
+});
+
+  ///////////////////////////////
  
   // temp=prop.Data.filter(function(obj){
   //   console.log(obj)
@@ -110,7 +147,7 @@ const useStyles2 = makeStyles({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage,searchData.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage,data1.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     
@@ -124,9 +161,16 @@ const useStyles2 = makeStyles({
   
    
   };
-  return (
-    
   
+  return (
+    <>
+    {/* <div style={{width:'100%',textAlign:'center'}}>
+    <select onChange={handleDays}>
+        <option>3</option>
+        <option>4</option>
+    </select>
+    </div> */}
+   
     <TableContainer component={Paper} >
       <Table  id="studentContainer" className={classes.table} aria-label="custom pagination table">
         <TableBody >
@@ -141,8 +185,8 @@ const useStyles2 = makeStyles({
 
         </TableRow>
           {(rowsPerPage > 0
-            ? searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : searchData
+            ? data1.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : data1
           ).map((obj) => (
            
             <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('#F1959B'):obj.posts>=5 && obj.posts<=10?('#FFFFB7'):'#ABE098'}}>
@@ -192,7 +236,7 @@ const useStyles2 = makeStyles({
             <TablePagination
               rowsPerPageOptions={[5,10, 15, 20, { label: 'All', value: -1 }]}
               colSpan={3}
-              count={searchData.length}
+              count={data1.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
@@ -207,7 +251,8 @@ const useStyles2 = makeStyles({
         </TableFooter>
       </Table>
     </TableContainer>
+    </>
   );
 }
 
-export default StudentTable;
+export default LeaderBoard;
