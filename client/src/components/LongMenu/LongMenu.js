@@ -68,6 +68,13 @@ export default function LongMenu() {
           }>
               Threshold
             </MenuItem>
+            <MenuItem key={0} onClick={() => {
+              history.push('/settings') 
+              handleClose(); 
+              }
+          }>
+              Settings
+            </MenuItem>
             <MenuItem key={2}>
               <a href="/#/leaderboard/" style={{textDecoration:'none',color:'black'}}>LeaderBoard</a>
             </MenuItem>

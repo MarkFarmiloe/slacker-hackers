@@ -385,5 +385,49 @@ router.get("/threshold", async (req, res, next) => {
 		console.log("Pool released....");
 	}
 })
+router.post("/token", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		let recievedToken = req.body.token;
+		let updateQuery = `UPDATE token SET "token" = $1 where "id" = $2 `;
+		let queryDb = `SELECT token FROM token WHERE id = 1 `
+		let x = client.query(updateQuery, [recievedToken, 1]);
+		let y = await client.query(queryDb);
+
+		if(x.rowCount < 1){
+			await res.json({ message: 'wasnt updated' });
+		}else{
+			await res.json(y.rows); //sending an array with all thresholds
+		}
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
+router.get("/token", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		
+		let queryDb = `SELECT token FROM token WHERE id = 1 `
+		let y = await client.query(queryDb);
+
+		if(y.rowCount < 1){
+			await res.json({ message: 'wasnt updated' });
+		}else{
+			await res.json(y.rows); //sending an array with all thresholds
+		}
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
 
 export default router;
