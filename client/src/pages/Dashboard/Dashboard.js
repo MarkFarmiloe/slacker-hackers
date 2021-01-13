@@ -8,6 +8,7 @@ export default function Dashboard() {
   //default data
   const [byDefault, setDefault] = useState(null);
   const [data, setData] = useState([]);
+  const [thresholds, setThresholds] = useState({});
   //default data update when location or class select
   const [updatedData, setUpdatedData] = useState(null);
 
@@ -56,6 +57,7 @@ export default function Dashboard() {
         .then(function (db) {
             setData(db.report);
             setDefault(db.report);
+            setThresholds(db.thresholds);
            
         })
         .then(function (error) {
@@ -73,7 +75,6 @@ export default function Dashboard() {
     },
     [count]
   );
-
   //activate when default data is called
   function filterDefaultFunc(val) {
     setDefault(val);
@@ -209,9 +210,10 @@ export default function Dashboard() {
     setActivateClassName(null);
     setActivatePerformance(null);
   }
+ 
   return data.length > 0 ? (
     <div className="dashboard-page" style={{ margin: "20px 5%" }}>
-      <ThresholdBanner />
+      <ThresholdBanner data={thresholds}/>
       <Filter
         filterWeekFunc={filterWeekFunc1}
         filterDefaultFunc={filterDefaultFunc}

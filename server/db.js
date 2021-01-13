@@ -14,9 +14,10 @@ if (process.env.DATABASE_URL) { //it's set in Heroku
 	};
 } else { //default local config
 	config = {
+		user: "lcd",
 		host: "localhost",
-		database: "cyf_hotel",
-		password: "",
+		database: "jwtlcd",
+		password: "lcd",
 		port: 5432,
 	};
 }

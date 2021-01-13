@@ -10,6 +10,7 @@ import StudenProfile from "./pages/SudentProfile/StudenProfile";
 import { UserContext } from './contexts/userContext';
 import Threshold from "./pages/Threshold/Threshold";
 import LeaderBoard from "./components/LeaderBoard/LeaderBoard"
+import Settings from "./pages/Settings/Settings";
 
 export function App() {
 	const [user, setUser] = useState('');
@@ -29,11 +30,12 @@ export function App() {
 			<UserContext.Provider value={{user, setUser}}>
 				<Heading />
 				<Route exact path='/' component={Dashboard} />
-				<Route  path='/login' component={LogIn} />
-				<Route	path='/sign-up' component={SignUp} />
-				<Route  path='/student-profile/:name' component={StudenProfile} />
-				<Route  path='/threshold' component={Threshold} />
-				<Route  path='/leaderboard' component={LeaderBoard} />
+				<Route path='/login' component={LogIn} />
+				<Route path='/sign-up' component={SignUp} />
+				<Route path='/student-profile/:name' component={StudenProfile} />
+				<Route path='/threshold' component={Threshold} />
+				<Route path='/leaderboard' component={LeaderBoard} />
+				<Route path='/settings' component={Settings} />
 			</UserContext.Provider>
 		</main>
 	);

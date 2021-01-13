@@ -50,7 +50,7 @@ topThreeList=topThreeList.slice(0,3);
     marginLeft: 'auto',
     marginRight: 'auto'
   }
-  console.log("zubeda")
+ 
  
   return (
     <>

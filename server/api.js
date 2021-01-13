@@ -8,6 +8,7 @@ import { workSpace, users } from "./slack";
 import filter from "./data/filter";
 import testJSON from "./data/testPerformance";
 
+
 const router = new Router();
  
 router.get("/", (_, res, next) => {
@@ -95,7 +96,7 @@ const buildFilterOptions = async _ => {
 		if(performance.rowCount){
 			filter.performance = performance.rows.map(row => row.performance);
 		} else {
-			filter.performance = [ "Good", "Average", "Poor" ];
+			filter.performance = [ "High", "Medium", "Low" ];
 		}
 
 		selectQuery = "SELECT locations.name as city, classes.name as class, classes.channelname as channel FROM locations";
@@ -138,6 +139,49 @@ const buildFilterOptions = async _ => {
 	}
 };
 
+router.get("/thresholds/test", async (req, res) =>{
+ 	const thresholds = await getThresholds();
+
+	 	if(thresholds){
+			await res.json({thresholds});
+		 } else {
+			 res.status(500).send("Server Error: Could not retrieve the thresholds")
+		 }
+	
+});
+
+const getThresholds = async _ => {
+	let client;
+
+	try {
+		let thresholds = {
+					"high": { posts: 0, reacts: 0, files: 0, attachments: 0},
+					"medium": { posts: 0, reacts: 0, files: 0, attachments: 0},
+					"low": { posts: 0, reacts: 0, files: 0, attachments: 0}
+		};
+		
+		client = await Connection.connect();
+		let selectQuery = 'SELECT level, "postsWeight", "reactsWeight", "attachmentsWeight", "filesWeight"  FROM "thresholds"';
+		console.log(selectQuery);
+		const thresholdsRows = await client.query(selectQuery);
+		if(thresholdsRows.rowCount){
+			thresholdsRows.rows.forEach(thresholdRow => {
+					thresholds[ thresholdRow.level ].posts = thresholdRow.postsWeight;
+					thresholds[ thresholdRow.level ].reacts = thresholdRow.reactsWeight;
+					thresholds[ thresholdRow.level ].attachments = thresholdRow.attachmentsWeight;
+					thresholds[ thresholdRow.level ].files = thresholdRow.filesWeight;
+				});
+
+			return thresholds;
+		} else {
+			return null;
+		}
+	} catch (error) {
+		console.error("/thresholds: ", error.message);
+	} finally{
+		client.release();
+	}
+};
 
 router.get("/students/:weeks",  async (req, res, next) => {
 	let client =  await Connection.connect();
@@ -162,8 +206,13 @@ router.get("/students/:weeks",  async (req, res, next) => {
 		if( result.rowCount){
 			console.log("sending results to client")
 			const filter = await buildFilterOptions();
-			res.json( { dateRange: `${startDate} ${endDate}`, filter: filter, report: result.rows } );
-			//res.json( { filter: { filterOption: "options" }, thresholds: { posts: 0, reactions: 0, attachments: 0, files: 0 }, users: result.rows} )
+			const thresholds = await getThresholds();
+			res.json({ 
+				dateRange: `${startDate} ${endDate}`, 
+							  filter: filter, 
+							  thresholds: thresholds,
+							  report: result.rows 
+			});
 		} else {
 			res.status(404).send(`No activity found for date range(${startDate} - ${endDate})`);
 		}
@@ -290,5 +339,95 @@ router.get("/test", (_, res, next) => {
 		res.send("The ROUTE is /api/test");
 	});
 });
+router.post("/threshold", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		let thresholdObj = req.body;
+		let thresholdValuesObj = thresholdObj.thresholdValues;
+		let posts = thresholdValuesObj.posts;
+		let reacts = thresholdValuesObj.reacts;
+		let files = thresholdValuesObj.files;
+		let attachments = thresholdValuesObj.attachments;
+		let level = thresholdObj.thresholdLevel;
+		let updateQuery = `UPDATE thresholds SET "postsWeight" = $1, "reactsWeight"=$2, "filesWeight"=$3, "attachmentsWeight" =$4 where "level" = $5 `;
+		let queryDb = `SELECT "postsWeight", "reactsWeight", "filesWeight", "attachmentsWeight", "level" from thresholds`;
+		
+		let x = client.query(updateQuery, [posts,reacts,files,attachments,level]);
+		let y = await client.query(queryDb);
+		
+		if(x.rowCount < 1){
+			await res.json({ message: 'wasnt updated' });
+		}else{
+			await res.json(y.rows); //sending an array with all thresholds
+		}
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
+router.get("/threshold", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		let queryDb = `SELECT "postsWeight", "reactsWeight", "filesWeight", "attachmentsWeight", "level" from thresholds`;
+		let y = await client.query(queryDb);
+		console.log(y)
+		await res.json(y.rows)
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
+router.post("/token", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		let recievedToken = req.body.token;
+		let updateQuery = `UPDATE token SET "token" = $1 where "id" = $2 `;
+		let queryDb = `SELECT token FROM token WHERE id = 1 `
+		let x = client.query(updateQuery, [recievedToken, 1]);
+		let y = await client.query(queryDb);
+
+		if(x.rowCount < 1){
+			await res.json({ message: 'wasnt updated' });
+		}else{
+			await res.json(y.rows); //sending an array with all thresholds
+		}
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
+router.get("/token", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		
+		let queryDb = `SELECT token FROM token WHERE id = 1 `
+		let y = await client.query(queryDb);
+
+		if(y.rowCount < 1){
+			await res.json({ message: 'wasnt updated' });
+		}else{
+			await res.json(y.rows); //sending an array with all thresholds
+		}
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
 
 export default router;

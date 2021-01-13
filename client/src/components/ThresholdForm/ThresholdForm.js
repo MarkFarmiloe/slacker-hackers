@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{ useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,7 +18,7 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 
 
-export default function ThresholdForm({level, color}) {
+export default function ThresholdForm({level, color, postsWeight, reactsWeight, filesWeight, attachmentsWeight}) {
     const useStyles = makeStyles((theme) => ({
         root: {
           width: '100%',
@@ -44,10 +44,10 @@ export default function ThresholdForm({level, color}) {
     const classes = useStyles();
     
 
-    const [posts, setPosts]=useState(0);
-    const [reacts, setReacts]=useState(0);
-    const [files, setFiles]=useState(0);
-    const [attachements, setAttachements]=useState(0);
+    const [posts, setPosts]=useState(postsWeight);
+    const [reacts, setReacts]=useState(reactsWeight);
+    const [files, setFiles]=useState(filesWeight);
+    const [attachments, setAttachments]=useState(attachmentsWeight);
     const [editable, setEditable]=useState(false);
 
     const handleEdit = e => {
@@ -58,12 +58,12 @@ export default function ThresholdForm({level, color}) {
         setEditable(false)
         let thresholdLevel = level;
         let objectToBeSend = {
-            thresholdLevel: thresholdLevel,
+            thresholdLevel: thresholdLevel.toLowerCase(),
             thresholdValues: {
                 posts: Number(posts),
                 reacts: Number(reacts), 
                 files: Number(files),
-                attachements: Number(attachements)
+                attachments: Number(attachments)
             }
            
         }
@@ -76,12 +76,13 @@ export default function ThresholdForm({level, color}) {
           body: JSON.stringify(objectToBeSend),
           } 
           
-          useEffect(() => {
-            fetch("/", requestOptions)
-            .then(res => res.json())
-            .catch(err => alert(err));
+         
+         
+        fetch("https://slacker-hackers.herokuapp.com/api/threshold", requestOptions)
+        .then(res => res.json())
+        .catch(err => alert(err));
             
-          }, [])
+          
         
     }
     const handleChangePosts = e => {
@@ -93,8 +94,8 @@ export default function ThresholdForm({level, color}) {
     const handleChangeFiles = e => {
         setFiles(e.target.value)
     }
-    const handleChangeAttachements = e => {
-        setAttachements(e.target.value)
+    const handleChangeAttachments = e => {
+        setAttachments(e.target.value)
     }
 
     return (
@@ -168,19 +169,19 @@ export default function ThresholdForm({level, color}) {
                 <ListItemIcon>
                 <AttachFileSharpIcon />
                 </ListItemIcon>
-                <ListItemText id="switch-list-label-bluetooth" primary="Attachements" />
+                <ListItemText id="switch-list-label-bluetooth" primary="Attachments" />
                 <ListItemSecondaryAction>
                 {
                     editable
                     ?
                     <Input
                         className={classes.inputNumber}
-                        value={attachements}
-                        onChange={handleChangeAttachements}
+                        value={attachments}
+                        onChange={handleChangeAttachments}
                         inputProps={{ maxLength: 2 }}
                     />
                     :
-                    <h6 className={classes.button}>{attachements}</h6>
+                    <h6 className={classes.button}>{attachments}</h6>
                   }  
                 </ListItemSecondaryAction>
             </ListItem>
