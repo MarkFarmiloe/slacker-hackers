@@ -139,7 +139,7 @@ const buildFilterOptions = async _ => {
 	}
 };
 
-router.get("/thresholds", async (req, res) =>{
+router.get("/thresholds/test", async (req, res) =>{
  	const thresholds = await getThresholds();
 
 	 	if(thresholds){
@@ -339,5 +339,51 @@ router.get("/test", (_, res, next) => {
 		res.send("The ROUTE is /api/test");
 	});
 });
+router.post("/threshold", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		let thresholdObj = req.body;
+		let thresholdValuesObj = thresholdObj.thresholdValues;
+		let posts = thresholdValuesObj.posts;
+		let reacts = thresholdValuesObj.reacts;
+		let files = thresholdValuesObj.files;
+		let attachments = thresholdValuesObj.attachments;
+		let level = thresholdObj.thresholdLevel;
+		let updateQuery = `UPDATE thresholds SET "postsWeight" = $1, "reactsWeight"=$2, "filesWeight"=$3, "attachmentsWeight" =$4 where "level" = $5 `;
+		let queryDb = `SELECT "postsWeight", "reactsWeight", "filesWeight", "attachmentsWeight", "level" from thresholds`;
+		
+		let x = client.query(updateQuery, [posts,reacts,files,attachments,level]);
+		let y = await client.query(queryDb);
+		
+		if(x.rowCount < 1){
+			await res.json({ message: 'wasnt updated' });
+		}else{
+			await res.json(y.rows); //sending an array with all thresholds
+		}
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
+router.get("/threshold", async (req, res, next) => {
+	let client = await Connection.connect();
+	try{
+		let queryDb = `SELECT "postsWeight", "reactsWeight", "filesWeight", "attachmentsWeight", "level" from thresholds`;
+		let y = await client.query(queryDb);
+		console.log(y)
+		await res.json(y.rows)
+	}
+	catch(error){
+		console.error(error.message);
+		return res.status(500).send("Server error");
+	}finally {
+		client.release();
+		console.log("Pool released....");
+	}
+})
 
 export default router;
