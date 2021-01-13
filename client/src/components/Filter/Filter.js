@@ -7,7 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import RefreshOutlinedIcon from '@material-ui/icons/RefreshOutlined';
+// import RefreshOutlinedIcon from '@material-ui/icons/RefreshOutlined';
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -162,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
                     </form>
 
                 </div>
-                <Button color="secondary"  onClick={handleReset} style={{textTransform: 'none'}}><RefreshOutlinedIcon   />  Reset filters</Button>
+                {/* <Button color="secondary"  onClick={handleReset} style={{textTransform: 'none'}}><RefreshOutlinedIcon   />  Reset filters</Button> */}
                 {/* <Button color="secondary" style={{textTransform: 'none'}} onClick={handleReset}>Reset filters</Button> */}
                 
         </div>
