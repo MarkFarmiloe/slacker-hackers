@@ -139,7 +139,7 @@ const buildFilterOptions = async _ => {
 	}
 };
 
-router.get("/thresholds", async (req, res) =>{
+router.get("/thresholds/test", async (req, res) =>{
  	const thresholds = await getThresholds();
 
 	 	if(thresholds){
