@@ -103,7 +103,7 @@ export default function SignUp() {
     setPassword(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
 
     let signUpCredentials = {}
