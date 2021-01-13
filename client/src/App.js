@@ -29,13 +29,12 @@ export function App() {
 			<UserContext.Provider value={{user, setUser}}>
 				<Heading />
 				<Route exact path='/' component={Dashboard} />
-				<Route path='/login' component={LogIn} />
-				<Route path='/sign-up' component={SignUp} />
-				<Route path='/student-profile/:name' component={StudenProfile} />
-				<Route path='/threshold' component={Threshold} />
-				<Route path='/leaderboard' component={LeaderBoard} />
+				<Route  path='/login' component={LogIn} />
+				<Route	path='/sign-up' component={SignUp} />
+				<Route  path='/student-profile/:name' component={StudenProfile} />
+				<Route  path='/threshold' component={Threshold} />
+				<Route  path='/leaderboard' component={LeaderBoard} />
 			</UserContext.Provider>
-			
 		</main>
 	);
 }

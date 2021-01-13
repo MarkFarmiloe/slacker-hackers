@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     }
 
     function filterClass(clas){
+        
         (prop.filterClassFunc(clas))
     }
  
@@ -53,8 +54,7 @@ const useStyles = makeStyles((theme) => ({
         setPerform("")
         setClasss(e.target.value)
         filterClass(e.target.value)
-        prop.filterClassFunc()
-        //edit by zubeda
+       
         
     }
 
