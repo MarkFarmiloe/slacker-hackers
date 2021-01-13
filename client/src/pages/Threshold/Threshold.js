@@ -34,7 +34,7 @@ export default function Threshold() {
   // }
 
   useEffect( () => {
-    fetch("http://localhost:3100/api/threshold")
+    fetch("https://slacker-hackers.herokuapp.com/api/threshold")
     .then(res => res.json())
     .then(data=> {
       setData(data)

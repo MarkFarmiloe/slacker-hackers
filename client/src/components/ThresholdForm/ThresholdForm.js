@@ -50,12 +50,6 @@ export default function ThresholdForm({level, color, postsWeight, reactsWeight, 
     const [attachments, setAttachments]=useState(attachmentsWeight);
     const [editable, setEditable]=useState(false);
 
-
-    
-       
-    
-    
-
     const handleEdit = e => {
         setEditable(true)
     }
@@ -82,11 +76,10 @@ export default function ThresholdForm({level, color, postsWeight, reactsWeight, 
           body: JSON.stringify(objectToBeSend),
           } 
           
-          console.log('obj', JSON.stringify(objectToBeSend))
          
-        fetch("http://localhost:3100/api/threshold", requestOptions)
+         
+        fetch("https://slacker-hackers.herokuapp.com/api/threshold", requestOptions)
         .then(res => res.json())
-        .then(data=> console.log('inside', data))
         .catch(err => alert(err));
             
           
