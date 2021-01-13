@@ -9,7 +9,7 @@ export default function Token() {
     const [editable, setEditable]= useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/token')
+        fetch('https://slacker-hackers.herokuapp.com/api/token')
         .then(res => res.json())
         .then(data => setValue(data[0].token))
         .catch(err => alert(err))
@@ -32,7 +32,7 @@ console.log(value)
             body: JSON.stringify(objectToBeSend),
         }
 
-        fetch('http://localhost:3000/api/token', requestOptions)
+        fetch('https://slacker-hackers.herokuapp.com/api/token', requestOptions)
         .then(res => res.json())
         .then(data => setValue(data[0].token))
         .catch(err => alert(err))

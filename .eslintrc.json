@@ -1,7 +1,8 @@
 {
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "linebreak-style": [2, "windows"]
   },
   "extends": [
     "@codeyourfuture/standard"

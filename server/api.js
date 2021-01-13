@@ -155,9 +155,9 @@ const getThresholds = async _ => {
 
 	try {
 		let thresholds = {
-					"high": [],
-					"medium": [],
-					"low": []
+					"high": { posts: 0, reacts: 0, files: 0, attachments: 0},
+					"medium": { posts: 0, reacts: 0, files: 0, attachments: 0},
+					"low": { posts: 0, reacts: 0, files: 0, attachments: 0}
 		};
 		
 		client = await Connection.connect();
@@ -166,10 +166,10 @@ const getThresholds = async _ => {
 		const thresholdsRows = await client.query(selectQuery);
 		if(thresholdsRows.rowCount){
 			thresholdsRows.rows.forEach(thresholdRow => {
-					thresholds[ thresholdRow.level ][ 0] = thresholdRow.postsWeight;
-					thresholds[ thresholdRow.level ][ 1] = thresholdRow.reactsWeight;
-					thresholds[ thresholdRow.level ][ 2 ] = thresholdRow.attachmentsWeight;
-					thresholds[ thresholdRow.level ][ 3] = thresholdRow.filesWeight;
+					thresholds[ thresholdRow.level ].posts = thresholdRow.postsWeight;
+					thresholds[ thresholdRow.level ].reacts = thresholdRow.reactsWeight;
+					thresholds[ thresholdRow.level ].attachments = thresholdRow.attachmentsWeight;
+					thresholds[ thresholdRow.level ].files = thresholdRow.filesWeight;
 				});
 
 			return thresholds;
