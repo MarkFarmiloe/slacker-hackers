@@ -11,6 +11,11 @@
     width: 150px;
 }
 
+
+.heading ul li a:hover{
+
+    color: #D12F2F;
+}
 .heading ul{
     display: flex;
     margin: 0;
