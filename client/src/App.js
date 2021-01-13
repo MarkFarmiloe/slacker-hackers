@@ -11,6 +11,7 @@ import { UserContext } from './contexts/userContext';
 import Threshold from "./pages/Threshold/Threshold";
 import LeaderBoard from "./components/LeaderBoard/LeaderBoard"
 import Settings from "./pages/Settings/Settings";
+import AccessDenied from "./components/AccessDenied/AccessDenied";
 
 export function App() {
 	const [user, setUser] = useState('');
@@ -24,6 +25,9 @@ export function App() {
 		}
 	  }, []);
 
+	  let role = localStorage.getItem('role');
+	  console.log('role', role)
+
 
 	return (
 		<main role="main" style={{ backgroundColor: 'rgb(243,244,246)', minHeight: '100vh'}}>
@@ -33,9 +37,9 @@ export function App() {
 				<Route path='/login' component={LogIn} />
 				<Route path='/sign-up' component={SignUp} />
 				<Route path='/student-profile/:name' component={StudenProfile} />
-				<Route path='/threshold' component={Threshold} />
-				<Route path='/leaderboard' component={LeaderBoard} />
-				<Route path='/settings' component={Settings} />
+				<Route path='/threshold' component={role == 'mentor' || role == 'admin' ? Threshold : AccessDenied} />
+				<Route path='/leaderboard' component={ LeaderBoard} />
+				<Route path='/settings' component={role == 'admin' ? Settings : AccessDenied} /> 
 			</UserContext.Provider>
 		</main>
 	);

@@ -81,10 +81,11 @@ router.post("/login",  validate, async (req, res) => {
 					//let token = await jwtGenerator(user.rows[0].user_id);
 					//const userAuth = { jwt: token, authLevel: 0 };
 					//res.json({ userAuth });
+					let isTheMentorAdmin = userMentor.rows[0].isadmin == 'true' ? 'admin' : 'mentor';
 					res.json({
 						user: userMentor.rows[0].username,
 						isAdmin: userMentor.rows[0].isadmin,
-						role: 'mentor'
+						role: isTheMentorAdmin 
 					});
 				}
 			}
