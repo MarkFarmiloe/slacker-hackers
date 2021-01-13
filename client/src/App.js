@@ -37,7 +37,6 @@ export function App() {
 				<Route path='/leaderboard' component={LeaderBoard} />
 				<Route path='/settings' component={Settings} />
 			</UserContext.Provider>
-			
 		</main>
 	);
 }

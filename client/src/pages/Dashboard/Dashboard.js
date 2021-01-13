@@ -46,6 +46,7 @@ export default function Dashboard() {
   //extract data from server through API
   useEffect(
     function () {
+     
       // https://hackz.glitch.me/student'
       //https://slacker-hackers.herokuapp.com/api/perform
       //https://slackerhackers.glitch.me/students/${count}
@@ -84,9 +85,11 @@ export default function Dashboard() {
 
   //activate when class is selected against location
   function filterClassFunc(clas) {
-    let classData = data.filter(function (obj) {
+    let classData
+     classData = data.filter(function (obj) {
       return obj.classname.toLowerCase() === clas.toLowerCase();
     });
+  
     if (classData.length > 0) {
       setUpdatedData(classData);
       setActivateClassName(classData);
@@ -207,7 +210,7 @@ export default function Dashboard() {
     setActivateClassName(null);
     setActivatePerformance(null);
   }
-
+ 
   return data.length > 0 ? (
     <div className="dashboard-page" style={{ margin: "20px 5%" }}>
       <ThresholdBanner data={thresholds}/>
