@@ -18,7 +18,10 @@ export default function Heading() {
             user.length > 0 
             ?
             <ul>
-                <li style={{textAlign: 'center', marginRight: '10px'}}>Hi,<br/> <span style={{fontWeight: '600'}}>{user} </span></li>
+                <li><Link to='/'>Home</Link></li>
+                <li><Link to='/leaderboard'>Leaderboard</Link></li>
+                <li><Link to='/threshold'>Thresholds</Link></li>
+                <li style={{textAlign: 'center', margin: '0 20px'}}>Hi,<br/> <span style={{fontWeight: '600'}}>{user} </span></li>
                 <LongMenu userName={'user'}/>
             </ul>
             :

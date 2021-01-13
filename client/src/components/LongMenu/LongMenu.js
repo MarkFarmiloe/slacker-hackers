@@ -58,16 +58,8 @@ export default function LongMenu() {
       >
         {
           <div>
-          <MenuItem key={3}>
-              <a href="/#/" style={{textDecoration:'none',color:'black'}}>Home</a>
-            </MenuItem>
-            <MenuItem key={0} onClick={() => {
-              history.push('/threshold') 
-              handleClose(); 
-              }
-          }>
-              Threshold
-            </MenuItem>
+          
+            
             <MenuItem key={0} onClick={() => {
               history.push('/settings') 
               handleClose(); 
@@ -75,9 +67,7 @@ export default function LongMenu() {
           }>
               Settings
             </MenuItem>
-            <MenuItem key={2}>
-              <a href="/#/leaderboard/" style={{textDecoration:'none',color:'black'}}>LeaderBoard</a>
-            </MenuItem>
+           
             <MenuItem key={1} onClick={handleClickOption}>
               Logout
             </MenuItem>
