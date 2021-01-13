@@ -92,7 +92,7 @@ let threshold3 = {
 
 let thresholds = [threshold1, threshold2, threshold3] 
 
-export default function ThresholdBanner() {
+export default function ThresholdBanner({data}) {
 
     const history = useHistory();
     const classes = useStyles();
@@ -101,6 +101,7 @@ export default function ThresholdBanner() {
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+    
 
     return (
         <div style={{width: '100%'}}>
@@ -139,6 +140,8 @@ export default function ThresholdBanner() {
                                 </div>
                             )
                         })
+
+                       
                     }
                     
                 </Typography>
