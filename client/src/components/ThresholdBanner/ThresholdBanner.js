@@ -59,38 +59,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-let threshold1 = {
-    thresholdLevel: 'High',
-    thresholdValues: {
-        posts: 1,
-        reacts: 2, 
-        files: 3,
-        attachements: 4
-    }
-   
-}
-let threshold2 = {
-    thresholdLevel: 'Medium',
-    thresholdValues: {
-        posts: 1,
-        reacts: 2, 
-        files: 32,
-        attachements: 4
-    }
-   
-}
-let threshold3 = {
-    thresholdLevel: 'Low',
-    thresholdValues: {
-        posts: 1,
-        reacts: 2, 
-        files: 3,
-        attachements: 4
-    }
-   
-}
 
-let thresholds = [threshold1, threshold2, threshold3] 
 
 export default function ThresholdBanner({data}) {
 
@@ -101,7 +70,6 @@ export default function ThresholdBanner({data}) {
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
-    
 
     return (
         <div style={{width: '100%'}}>
@@ -119,29 +87,26 @@ export default function ThresholdBanner({data}) {
             <AccordionDetails>
                 <Typography component="div">
                     
+
                     {
-                        thresholds.map((threshold, index) => {
-                            return (
-                                <div className={`${classes.details} ${threshold.thresholdLevel =='High' ? classes.subheadingGreen : (threshold.thresholdLevel == 'Medium' ? classes.subheadingYellow : classes.subheadingRed)}`}>
+                        Object.entries(data).map(([level,value],index) => {
+                            return  <div className={`${classes.details} ${level =='high' ? classes.subheadingGreen : (level == 'medium' ? classes.subheadingYellow : classes.subheadingRed)}`}>
                                     
-                                    <h4 
-                                        className={classes.subheading}
-                                        key={index}
-                                
-                                    >
-                                        {threshold.thresholdLevel}
-                                    </h4>
-                                    {
-                                        Object.entries(threshold.thresholdValues).map(([key, value], index) => {
-                                            return <p className={classes.act} key={index}>{key}: <span className={classes.span}>{value}</span> </p>
-                                        })
-                                    }
+                                        <h4 
+                                            className={classes.subheading}
+                                            key={level}
+                                    
+                                        >
+                                            {level}
+                                        </h4>
+                                        {
+                                            Object.entries(value).map(([key, val], index) => {
+                                                return <p className={classes.act} key={index}>{key}: <span className={classes.span}>{val}</span> </p>
+                                            })
+                                        }
 
-                                </div>
-                            )
+                                    </div>
                         })
-
-                       
                     }
                     
                 </Typography>

@@ -14,7 +14,7 @@ export default function StudenProfile() {
       <div className='studentProfile-page'>
         <div className='studentProfile-info'>
             <StudentInfo />
-            <ThresholdBanner />
+            {/* <ThresholdBanner /> */}
         </div >
 
         <div className='studentProfile-charts'>

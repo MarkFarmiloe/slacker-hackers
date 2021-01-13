@@ -29,10 +29,9 @@ export default function LongMenu() {
   const handleClickOption = () => {
     setUser('');
     localStorage.clear();
+    history.push('/login');
   }
- function handleClickLeaderBoard(){
-   
- }
+
   return (
     <div>
       <IconButton
