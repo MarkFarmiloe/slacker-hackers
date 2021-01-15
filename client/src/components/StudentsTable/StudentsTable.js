@@ -16,8 +16,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import './StudentTable.css'
 import moment from 'moment'
-
-
 const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
@@ -89,8 +87,6 @@ function createData(name, calories, fat) {
   return { name, calories, fat };
 }
 
-
-
 const useStyles2 = makeStyles({
   table: {
     minWidth: 500,
@@ -98,14 +94,19 @@ const useStyles2 = makeStyles({
 });
  function StudentTable(prop) {
   let searchData=[],cnt=0;
-  let temp=[];
-  searchData=prop.Data;
  
-  // temp=prop.Data.filter(function(obj){
-  //   console.log(obj)
-  //   return obj.report
-  // })
-  //////////
+  searchData=prop.Data;
+ let low=prop.thresholdData.filter(function(obj){
+      return obj.level==="low"
+ })
+
+ let medium=prop.thresholdData.filter(function(obj){
+  return obj.level==="medium"
+})
+
+let high=prop.thresholdData.filter(function(obj){
+  return obj.level==="high"
+})
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -124,9 +125,9 @@ const useStyles2 = makeStyles({
   
    
   };
+ 
+if(prop.thresholdData.length>0 && searchData.length>0){
   return (
-    
-  
     <TableContainer component={Paper} >
       <Table  id="studentContainer" className={classes.table} aria-label="custom pagination table">
         <TableBody >
@@ -144,8 +145,16 @@ const useStyles2 = makeStyles({
             ? searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : searchData
           ).map((obj) => (
-           
-            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('#F1959B'):obj.posts>=5 && obj.posts<=10?('#FFFFB7'):'#ABE098'}}>
+          
+            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor
+            :((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
+            &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight))?('green')
+            :((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
+            &&(obj.files>=medium[0].filesWeight))?('yellow')
+            :(((obj.posts>=low[0].postsWeight))&&
+           (obj.reactions>=low[0].reactsWeight)&&(obj.attachments>=low[0].attachmentsWeight)
+           &&(obj.files>=low[0].filesWeight))?('pink')
+            :('gray')}}>
               <TableCell style={{ width: 'auto' }} align="left">
                 <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}
@@ -153,27 +162,27 @@ const useStyles2 = makeStyles({
               </TableCell>
              
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.classname}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.posts}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.reactions}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.attachments}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.files}
                 </a>
               </TableCell>
@@ -208,6 +217,9 @@ const useStyles2 = makeStyles({
       </Table>
     </TableContainer>
   );
+}else{
+  return false;
+}
 }
 
 export default StudentTable;

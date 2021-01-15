@@ -45,13 +45,13 @@ console.log(value)
 
 
     return (
-        <div style={{width: 'max-content', display: 'flex', alignItems: 'center'}}>
+        <div style={{width: 'max-content', display: 'flex', alignItems: 'center', background:'white', padding: '20px 50px'}}>
             <Alert severity="success">
                 {
                     editable ?
                 <TextField
                     id="outlined-number"
-                    label="Token"
+                    label="New Token"
                     type="text"
                     onChange={handleChange}
                     InputLabelProps={{

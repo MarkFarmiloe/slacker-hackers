@@ -8,7 +8,9 @@ export default function Dashboard() {
   //default data
   const [byDefault, setDefault] = useState(null);
   const [data, setData] = useState([]);
+  const [thresholdData, setThresholdData] = useState([]);
   const [thresholds, setThresholds] = useState({});
+  const [avg,setAvg]=useState(7.8)
   //default data update when location or class select
   const [updatedData, setUpdatedData] = useState(null);
 
@@ -43,12 +45,31 @@ export default function Dashboard() {
     setCount(weeks);
   
   }
+  ////////////////////threshhols call
+  useEffect( () => {
+    fetch("https://slacker-hackers.herokuapp.com/api/threshold")
+    .then(res => res.json())
+    .then(obj=> {
+      setThresholdData(obj)
+    })
+    .catch(err => alert(err));
+    
+    
+    setActivateClassName(null);
+    setActivatePerformance(null);
+    setActiveName(null);
+    setUpdatedData(null)
+    setPerformData(null)
+    setNameData(null)
+  }, [count])
   //extract data from server through API
   useEffect(
     function () {
+     
       // https://hackz.glitch.me/student'
       //https://slacker-hackers.herokuapp.com/api/perform
-      //https://slackerhackers.glitch.me/students/${count}
+      //https://slackerhacke
+     // rs.glitch.me/students/${count}
       fetch(`https://slacker-hackers.herokuapp.com/api/students/${count}`)
         .then(function (obj) {
           return obj.json();
@@ -74,6 +95,7 @@ export default function Dashboard() {
     },
     [count]
   );
+  
   //activate when default data is called
   function filterDefaultFunc(val) {
     setDefault(val);
@@ -84,9 +106,11 @@ export default function Dashboard() {
 
   //activate when class is selected against location
   function filterClassFunc(clas) {
-    let classData = data.filter(function (obj) {
+    let classData
+     classData = data.filter(function (obj) {
       return obj.classname.toLowerCase() === clas.toLowerCase();
     });
+  
     if (classData.length > 0) {
       setUpdatedData(classData);
       setActivateClassName(classData);
@@ -102,54 +126,95 @@ export default function Dashboard() {
     setNameData(null)
   }
   //activate when performance is selected against location and class
+      
   function filterPerformanceFunc(val) {
+    ////////////////////////////
+    let low=thresholdData.filter(function(obj){
+      return obj.level==="low"
+     })
+
+    let medium=thresholdData.filter(function(obj){
+      return obj.level==="medium"
+    })
+
+    let high=thresholdData.filter(function(obj){
+      return obj.level==="high"
+    })
     let performanceData = [];
     let allData = [];
-    if (updatedData) {
-      performanceData = updatedData.filter(function (obj) {
-        if (val === "Poor") {
-          return obj.posts < 5;
-        }
-        if (val === "Average") {
-          return obj.posts >= 5 && obj.posts <= 10;
-        }
-        if (val === "Good") {
-          return obj.posts > 10;
-        }
+    if (updatedData){
+      let poorData=[];
+      let averageData=[];
+      let goodData=[]
+      updatedData.forEach(function (obj) {
+        if((obj.posts >= high[0].postsWeight)&&(obj.reactions >= high[0].reactsWeight)&&(obj.attachments >= high[0].attachmentsWeight)&&(obj.files >= high[0].filesWeight)){
+          goodData.push(obj)
+        }else if((obj.posts >= medium[0].postsWeight)&&(obj.reactions >= medium[0].reactsWeight)&&(obj.attachments >= medium[0].attachmentsWeight)&&(obj.files >= medium[0].filesWeight)){
+          averageData.push(obj)
+        }else if((obj.posts >= low[0].postsWeight)&&(obj.reactions >= low[0].reactsWeight)&&(obj.attachments >= low[0].attachmentsWeight)&&(obj.files >= low[0].filesWeight)){
+          poorData.push(obj)
+        }  
       });
+      if(val==="Poor"){
+        performanceData=poorData;
+      }
+      if(val==="Average"){
+        performanceData=averageData
+      }
+      if(val==="Good"){
+        performanceData=goodData;
+      }
       allData = updatedData;
-    } else {
-      performanceData = data.filter(function (obj) {
-        if (val === "Poor") {
-          return obj.posts < 5;
-        }
-        if (val === "Average") {
-          return obj.posts >= 5 && obj.posts <= 10;
-        }
-        if (val === "Good") {
-          return obj.posts > 10;
-        }
+    }
+    else {
+      let poorData=[];
+      let averageData=[];
+      let goodData=[]
+      data.forEach(function (obj) {
+       
+        if((obj.posts >= high[0].postsWeight)&&(obj.reactions >= high[0].reactsWeight)&&(obj.attachments >= high[0].attachmentsWeight)&&(obj.files >= high[0].filesWeight)){
+          goodData.push(obj)
+        }else if((obj.posts >= medium[0].postsWeight)&&(obj.reactions >= medium[0].reactsWeight)&&(obj.attachments >= medium[0].attachmentsWeight)&&(obj.files >= medium[0].filesWeight)){
+          averageData.push(obj)
+        }else if((obj.posts >= low[0].postsWeight)&&(obj.reactions >= low[0].reactsWeight)&&(obj.attachments >= low[0].attachmentsWeight)&&(obj.files >= low[0].filesWeight)){
+          poorData.push(obj)
+        }  
       });
+      if(val==="Poor"){
+        performanceData=poorData;
+      }
+      if(val==="Average"){
+        performanceData=averageData
+      }
+      if(val==="Good"){
+        performanceData=goodData;
+      }
       allData = data;
     }
     if (performanceData.length > 0) {
       setActivatePerformance(performanceData);
       setPerformData(performanceData);
-    } else {
+    } 
+    else {
       if (val === "All") {
         setActivatePerformance(allData);
         setPerformData(allData);
       } else {
         alert(`${val} data is not exist`);
-        setActivatePerformance(updateData);
-      setPerformData(updateData);
+        if(updatedData){
+          setActivatePerformance(updatedData);
+          setPerformData(updatedData);
+        }else{
+          setActivatePerformance(data);
+          setPerformData(data);
+        }
+       
       }
     }
     setDefault(null);
     setActivateClassName(null);
     setActiveName(null);
     setNameData(null)
-   
   }
   //activate when term/name is type against location/class/performance or combination of two or three
   function filterNameFunc(val) {
@@ -207,8 +272,8 @@ export default function Dashboard() {
     setActivateClassName(null);
     setActivatePerformance(null);
   }
-
-  return data.length > 0 ? (
+ 
+  return ((data.length > 0)&&(thresholdData.length>0 )) ? (
     <div className="dashboard-page" style={{ margin: "20px 5%" }}>
       <ThresholdBanner data={thresholds}/>
       <Filter
@@ -218,10 +283,10 @@ export default function Dashboard() {
         filterNameFunc={filterNameFunc}
         filterPerformanceFunc={filterPerformanceFunc}
       />
-      {byDefault && <StudentsTable Data={data} />}
-      {activatePerformance && <StudentsTable Data={performData} />}
-      {activeName && <StudentsTable Data={nameData} />}
-      {activateClassName && <StudentsTable Data={updatedData} />}
+      {byDefault && <StudentsTable Data={data} thresholdData={thresholdData} />}
+      {activatePerformance && <StudentsTable Data={performData} thresholdData={thresholdData} />}
+      {activeName && <StudentsTable Data={nameData} thresholdData={thresholdData} />}
+      {activateClassName && <StudentsTable Data={updatedData} thresholdData={thresholdData} />}
     </div>
   ) : (
     <div

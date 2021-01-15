@@ -14,10 +14,6 @@ import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Input from '@material-ui/core/Input';
 import SaveIcon from '@material-ui/icons/Save';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-
-
-
-
 export default function ThresholdForm({level, color, postsWeight, reactsWeight, filesWeight, attachmentsWeight}) {
     const useStyles = makeStyles((theme) => ({
         root: {
