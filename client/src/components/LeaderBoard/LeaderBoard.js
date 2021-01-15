@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-<<<<<<< HEAD
 import './leaderboard.css';
 
 import First from './medals/1st.jpg'
@@ -35,20 +34,6 @@ const useStyles = makeStyles((theme) => ({
     color: '#3F0F3F',
     marginTop: '30px',
     fontSize: '25px'
-=======
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import gold from './madels/gold.jpg'
-import silver from './madels/silver.jpg'
-import bronze from './madels/3rd.jpg'
-const useStyles2 = makeStyles({
-  table: {
-    minWidth: 500,
->>>>>>> f8d7befd8fc963667b70b1ad1f7bd17fce8b8a89
   },
   heading: {
       margin: '0 auto 50px auto',
@@ -84,53 +69,15 @@ const useStyles2 = makeStyles({
     },
     []
   );
-  ///////calculte the slack usuage/////////////////////////////////////////////
   
+  ///////calculte the slack usuage
     let topThreeList=data.sort(function(a, b) {
       return (parseInt(b.posts)+parseInt(b.reactions)+parseInt(b.attachments)+parseInt(b.files)) - (parseInt(a.posts)+parseInt(a.reactions)+parseInt(a.attachments)+parseInt(a.files));
     });
 
-<<<<<<< HEAD
     topThreeList = topThreeList.slice(0,3);
 
 
-=======
-  const studentContainer={
-      width: '98%',
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-    //////////////////////////
-    const [thresholdData, setThresholdData] = useState([]);
-
-    useEffect( () => {
-      fetch("https://slacker-hackers.herokuapp.com/api/threshold")
-      .then(res => res.json())
-      .then(obj=> {
-        setThresholdData(obj)
-      })
-      .catch(err => alert(err));
-      
-      
-     
-    }, [])
-  let low,medium,high;
- if(thresholdData.length>0){
-      low=thresholdData.filter(function(obj){
-          return obj.level==="low"
-    })
-
-    medium=thresholdData.filter(function(obj){
-      return obj.level==="medium"
-    })
-
-    high=thresholdData.filter(function(obj){
-      return obj.level==="high"
-})
-  }
-  
-  if(thresholdData.length>0 && topThreeList.length>0){
->>>>>>> f8d7befd8fc963667b70b1ad1f7bd17fce8b8a89
   return (
     <div className={classes.container}>
     <h2 className={classes.heading}>Leaderboard - <span className={classes.subheading}>See the winners of this week</span></h2>
@@ -159,75 +106,7 @@ const useStyles2 = makeStyles({
     </div>
     
     </div>
-<<<<<<< HEAD
-=======
-    <hr></hr>
-    <TableContainer component={Paper} >
-      <Table  style={studentContainer}  aria-label="custom pagination table">
-        <TableBody >
-        <TableRow>
-          <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold' }} align="left">Name</TableCell>
-          <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Class</TableCell>
-          <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Posts</TableCell>
-          <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Reactions</TableCell>
-          <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Attachments</TableCell>
-          <TableCell component="th" scope="row" style={{ width: 'auto',fontWeight:'bold'}} align="left">Files</TableCell>
-        </TableRow>
-          {topThreeList.map((obj) => (
-           
-            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor
-            :((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
-            &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight))?('green')
-            :((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
-            &&(obj.files>=medium[0].filesWeight))?('yellow')
-            :(((obj.posts>=low[0].postsWeight))&&
-           (obj.reactions>=low[0].reactsWeight)&&(obj.attachments>=low[0].attachmentsWeight)
-           &&(obj.files>=low[0].filesWeight))?('pink')
-            :('gray')}}>              
-            <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.username}
-                </a>
-              </TableCell>
-             
-              <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.classname}
-                </a>
-              </TableCell>
-              <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.posts}
-                </a>
-              </TableCell>
-              <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.reactions}
-                </a>
-              </TableCell>
-              <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.attachments}
-                </a>
-              </TableCell>
-              <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
-                  {obj.files}
-                </a>
-              </TableCell>
-              
-            </TableRow>
-          ))}         
-        </TableBody>
-        
-      </Table>
-    </TableContainer>
-    </>
->>>>>>> f8d7befd8fc963667b70b1ad1f7bd17fce8b8a89
   );
-}else{
-  return false;
-}
 }
 
 export default LeaderBoard;
