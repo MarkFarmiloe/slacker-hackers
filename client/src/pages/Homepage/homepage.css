@@ -1,0 +1,32 @@
+.homepage{
+    padding: 0 3%;
+    background: white;
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly; 
+    margin-top: -50px;
+    
+}
+.homepage-img{
+    width: 40%;
+    padding: 0 40px;
+}
+.homepage-box{
+    color: #481449;
+    
+}
+.homepage-list{
+    list-style-type: square;
+}
+.homepage-box h1{
+    font-size: 60px;
+    margin-bottom: 30px;
+}
+
+.homepage-list{
+    font-size: 20px;
+    margin-left: 50px;
+}
+
+

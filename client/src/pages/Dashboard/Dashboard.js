@@ -4,6 +4,7 @@ import StudentsTable from "../../components/StudentsTable/StudentsTable.js";
 import ThresholdBanner from "../../components/ThresholdBanner/ThresholdBanner.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { updateLocale } from "moment";
+import History from "../../components/History/History";
 export default function Dashboard() {
   //default data
   const [byDefault, setDefault] = useState(null);
@@ -283,6 +284,7 @@ export default function Dashboard() {
         filterNameFunc={filterNameFunc}
         filterPerformanceFunc={filterPerformanceFunc}
       />
+      <History />
       {byDefault && <StudentsTable Data={data} thresholdData={thresholdData} />}
       {activatePerformance && <StudentsTable Data={performData} thresholdData={thresholdData} />}
       {activeName && <StudentsTable Data={nameData} thresholdData={thresholdData} />}

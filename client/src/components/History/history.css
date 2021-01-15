@@ -1,0 +1,37 @@
+.history{
+    display: flex;
+    justify-content: flex-end;
+    width: max-content;
+    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+    background-color: white;
+    padding: 20px 0;
+    margin-left: auto;
+    margin-bottom: -2px;
+    
+}
+
+.history-square{
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    border: 1px solid #787878;
+}
+
+.history-box{
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+    
+}
+.square-gray{
+    background-color: #f3f3f3;
+}
+.square-red{
+    background-color: #F4433696;
+}
+.square-yellow{
+    background-color: #FF980096;
+}
+.square-green{
+    background-color: #4CAF5096;
+}
