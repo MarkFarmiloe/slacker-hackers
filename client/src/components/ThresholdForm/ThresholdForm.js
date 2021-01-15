@@ -49,8 +49,6 @@ export default function ThresholdForm({level, color, postsWeight, reactsWeight, 
     const [files, setFiles]=useState(filesWeight);
     const [attachments, setAttachments]=useState(attachmentsWeight);
     const [editable, setEditable]=useState(false);
-   
-
 
     const handleEdit = e => {
         setEditable(true)
@@ -83,11 +81,12 @@ export default function ThresholdForm({level, color, postsWeight, reactsWeight, 
         fetch("https://slacker-hackers.herokuapp.com/api/threshold", requestOptions)
         .then(res => res.json())
         .catch(err => alert(err));
+            
+          
+        
     }
     const handleChangePosts = e => {
-      
         setPosts(e.target.value)
-       
     }
     const handleChangeReacts = e => {
         setReacts(e.target.value)
