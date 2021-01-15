@@ -98,14 +98,24 @@ const useStyles2 = makeStyles({
 });
  function StudentTable(prop) {
   let searchData=[],cnt=0;
-  let temp=[];
-  searchData=prop.Data;
  
-  // temp=prop.Data.filter(function(obj){
-  //   console.log(obj)
-  //   return obj.report
-  // })
-  //////////
+  searchData=prop.Data;
+ let low=prop.thresholdData.filter(function(obj){
+      return obj.level==="low"
+ })
+
+ let medium=prop.thresholdData.filter(function(obj){
+  return obj.level==="medium"
+})
+
+let high=prop.thresholdData.filter(function(obj){
+  return obj.level==="high"
+})
+
+
+///console.log(low)
+
+// alert(prop.thresholdData[0].level)
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -124,6 +134,8 @@ const useStyles2 = makeStyles({
   
    
   };
+ 
+
   return (
     
   
@@ -144,8 +156,16 @@ const useStyles2 = makeStyles({
             ? searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : searchData
           ).map((obj) => (
-           
-            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('#F1959B'):obj.posts>=5 && obj.posts<=10?('#FFFFB7'):'#ABE098'}}>
+          
+            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor
+            :((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
+            &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight))?('green')
+            :((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
+            &&(obj.files>=medium[0].filesWeight))?('yellow')
+            :(((obj.posts>=low[0].postsWeight))&&
+           (obj.reactions>=low[0].reactsWeight)&&(obj.attachments>=low[0].attachmentsWeight)
+           &&(obj.files>=low[0].filesWeight))?('pink')
+            :('gray')}}>
               <TableCell style={{ width: 'auto' }} align="left">
                 <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}
