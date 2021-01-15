@@ -7,7 +7,7 @@ import moment from "moment";
 import { workSpace, users } from "./slack";
 import filter from "./data/filter";
 import testJSON from "./data/testPerformance";
-import slackUsers from "./data/users.json";
+//import slackUsers from "./data/users.json";
 
 
 const router = new Router();
@@ -39,6 +39,7 @@ const createUserList = (userList) => {
 router.post("/create/users", async (_, res, next) => {
 	const client = await Connection.connect();
 	try {
+		const slackUsers = {};
 		const usersToInsert = createUserList(slackUsers);
 		const  performSchema = sql.define({
 			name: "slackusers",
