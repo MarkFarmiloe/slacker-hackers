@@ -440,7 +440,7 @@ const addSlackIds = (users, userIdTable) => {
 	
 	const userList = users.map( user => {
 		let u = {};
-		console.log("addSlackIds")
+		//console.log("addSlackIds")
 		user[ "userid" ] = userMap[ user.username ];
 		//console.log("addSlackIds", user)
 		return user;
@@ -474,7 +474,7 @@ router.get("/students/:weeks",  async (req, res, next) => {
 		if( activeUsers.rowCount){
 			selectQuery = "SELECT * from slackusers";
 			const slackUserList =   await client.query(selectQuery);
-			const activeUserList = addSlackIds(activeUsers.rows, slackUserList.rows);
+			const activeUserList = await addSlackIds(activeUsers.rows, slackUserList.rows);
 			console.log("sending results to client")
 			const filter = await buildFilterOptions();
 			const thresholds = await getThresholds();
