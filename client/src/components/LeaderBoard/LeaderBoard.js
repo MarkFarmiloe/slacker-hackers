@@ -18,8 +18,8 @@ const useStyles2 = makeStyles({
 });
 /////////////////////////////
  function LeaderBoard() {
-  const [byDefault, setDefault] = useState(null);
   const [data, setData] = useState([]);
+  let madels=[];
   let cnt=1;
   useEffect(
     function () {
@@ -30,7 +30,7 @@ const useStyles2 = makeStyles({
         })
         .then(function (db) {
             setData(db.report);
-            setDefault(db.report);
+            // setDefault(db.report);
            
         })
         .then(function (error) {
@@ -39,19 +39,44 @@ const useStyles2 = makeStyles({
     },
     []
   );
-  //b.posts+b.reactions+b.files+b.attachments
-  let topThreeList=data.sort(function(a, b) {
-    return parseInt(b.posts) - parseInt(a.posts);
-});
-topThreeList=topThreeList.slice(0,3);
+  
+  ///////calculte the slack usuage
+    let topThreeList=data.sort(function(a, b) {
+      return (parseInt(b.posts)+parseInt(b.reactions)+parseInt(b.attachments)+parseInt(b.files)) - (parseInt(a.posts)+parseInt(a.reactions)+parseInt(a.attachments)+parseInt(a.files));
+  });
+  topThreeList=topThreeList.slice(0,3);
 
-  const studentContainer={
-    width: '98%',
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  }
- 
- 
+    const studentContainer={
+      width: '98%',
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }
+    //////////////////////////
+    const [thresholdData, setThresholdData] = useState([]);
+
+    useEffect( () => {
+      fetch("https://slacker-hackers.herokuapp.com/api/threshold")
+      .then(res => res.json())
+      .then(obj=> {
+        setThresholdData(obj)
+      })
+      .catch(err => alert(err));
+      
+      
+     
+    }, [])
+  let low=thresholdData.filter(function(obj){
+      return obj.level==="low"
+ })
+
+ let medium=thresholdData.filter(function(obj){
+  return obj.level==="medium"
+})
+
+let high=thresholdData.filter(function(obj){
+  return obj.level==="high"
+})
+    ///////////////////
   return (
     <>
     <hr></hr>
@@ -92,8 +117,16 @@ topThreeList=topThreeList.slice(0,3);
         </TableRow>
           {topThreeList.map((obj) => (
            
-            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor:obj.posts<5?('#F1959B'):obj.posts>=5 && obj.posts<=10?('#FFFFB7'):'#ABE098'}}>
-              <TableCell style={{ width: 'auto' }} align="left">
+            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor
+            :((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
+            &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight))?('green')
+            :((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
+            &&(obj.files>=medium[0].filesWeight))?('yellow')
+            :(((obj.posts>=low[0].postsWeight))&&
+           (obj.reactions>=low[0].reactsWeight)&&(obj.attachments>=low[0].attachmentsWeight)
+           &&(obj.files>=low[0].filesWeight))?('pink')
+            :('gray')}}>              
+            <TableCell style={{ width: 'auto' }} align="left">
                 <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}
                 </a>
@@ -126,9 +159,7 @@ topThreeList=topThreeList.slice(0,3);
               </TableCell>
               
             </TableRow>
-          ))}
-
-         
+          ))}         
         </TableBody>
         
       </Table>
