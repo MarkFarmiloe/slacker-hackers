@@ -95,7 +95,7 @@ function LogIn() {
         .then((res) => {
             //check if login credentials matched the db 
             if(res.status === 200){
-                history.push('/'); //send user to dashboard
+                 //send user to dashboard
             }
             return res.json();
         })
@@ -104,6 +104,10 @@ function LogIn() {
             localStorage.setItem('user', data.user); // store the incoming data localy
             localStorage.setItem('role', data.role); // store the incoming data localy
             setUser(data.user)
+
+            
+            
+            history.push('/dashboard')
         })
         .catch((err) => {
             alert(err);
