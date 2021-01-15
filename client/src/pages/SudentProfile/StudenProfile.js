@@ -10,10 +10,11 @@ import LineChart from '../../components/LineChart/LineChart';
 
 
 export default function StudenProfile() {
+  let name=window.location.toString().substring(40,window.location.toString().length).split("%20").join(" ")
     return (
       <div className='studentProfile-page'>
         <div className='studentProfile-info'>
-            <StudentInfo />
+            <StudentInfo name={name}/>
             {/* <ThresholdBanner /> */}
         </div >
 
