@@ -7,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
 import gold from './madels/gold.jpg'
 import silver from './madels/silver.jpg'
 import bronze from './madels/3rd.jpg'
@@ -39,14 +38,13 @@ const useStyles2 = makeStyles({
     },
     []
   );
-  
   ///////calculte the slack usuage
     let topThreeList=data.sort(function(a, b) {
       return (parseInt(b.posts)+parseInt(b.reactions)+parseInt(b.attachments)+parseInt(b.files)) - (parseInt(a.posts)+parseInt(a.reactions)+parseInt(a.attachments)+parseInt(a.files));
   });
   topThreeList=topThreeList.slice(0,3);
 
-    const studentContainer={
+  const studentContainer={
       width: '98%',
       marginLeft: 'auto',
       marginRight: 'auto'
@@ -135,27 +133,27 @@ let high=thresholdData.filter(function(obj){
               </TableCell>
              
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.classname}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.posts}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.reactions}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.attachments}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.files}
                 </a>
               </TableCell>
