@@ -76,7 +76,9 @@ const useStyles2 = makeStyles({
 let high=thresholdData.filter(function(obj){
   return obj.level==="high"
 })
+
     ///////////////////
+  if(thresholdData.length>0 && topThreeList.length>0){
   return (
     <>
     <hr></hr>
@@ -166,6 +168,9 @@ let high=thresholdData.filter(function(obj){
     </TableContainer>
     </>
   );
+}else{
+  return false;
+}
 }
 
 export default LeaderBoard;

@@ -89,8 +89,6 @@ function createData(name, calories, fat) {
   return { name, calories, fat };
 }
 
-
-
 const useStyles2 = makeStyles({
   table: {
     minWidth: 500,
@@ -135,10 +133,8 @@ let high=prop.thresholdData.filter(function(obj){
    
   };
  
-
+if(prop.thresholdData.length>0 && searchData.length>0){
   return (
-    
-  
     <TableContainer component={Paper} >
       <Table  id="studentContainer" className={classes.table} aria-label="custom pagination table">
         <TableBody >
@@ -228,6 +224,9 @@ let high=prop.thresholdData.filter(function(obj){
       </Table>
     </TableContainer>
   );
+}else{
+  return false;
+}
 }
 
 export default StudentTable;
