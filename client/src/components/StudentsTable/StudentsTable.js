@@ -16,8 +16,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import './StudentTable.css'
 import moment from 'moment'
-
-
 const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
@@ -89,8 +87,6 @@ function createData(name, calories, fat) {
   return { name, calories, fat };
 }
 
-
-
 const useStyles2 = makeStyles({
   table: {
     minWidth: 500,
@@ -111,11 +107,6 @@ const useStyles2 = makeStyles({
 let high=prop.thresholdData.filter(function(obj){
   return obj.level==="high"
 })
-
-
-///console.log(low)
-
-// alert(prop.thresholdData[0].level)
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -135,10 +126,8 @@ let high=prop.thresholdData.filter(function(obj){
    
   };
  
-
+if(prop.thresholdData.length>0 && searchData.length>0){
   return (
-    
-  
     <TableContainer component={Paper} >
       <Table  id="studentContainer" className={classes.table} aria-label="custom pagination table">
         <TableBody >
@@ -173,27 +162,27 @@ let high=prop.thresholdData.filter(function(obj){
               </TableCell>
              
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.classname}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.posts}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.reactions}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.attachments}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.name)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
                   {obj.files}
                 </a>
               </TableCell>
@@ -228,6 +217,9 @@ let high=prop.thresholdData.filter(function(obj){
       </Table>
     </TableContainer>
   );
+}else{
+  return false;
+}
 }
 
 export default StudentTable;
