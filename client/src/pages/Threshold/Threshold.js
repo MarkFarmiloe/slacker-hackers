@@ -7,18 +7,26 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const useStyles = makeStyles((theme) => ({
     
     container:{
-      display: 'flex', 
-      flexDirection: 'column',
-      alignItems: 'center',
-      margin: '100px auto'
+      padding: '20px 5%',
+    
     },
     heading: {
-        margin: '0 auto 50px auto'
+        margin: '0 auto 50px auto',
+        background: '#3F0F3F',
+        color: 'white',
+        padding: 10
+    },
+    subheading:{
+      fontSize: '16px',
+      fontWeight: '300'
     },
     box:{
         display: 'flex',
         justifyContent: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        padding: '50px 20px',
+        background: 'white',
+        boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'
     }
   }));
 
@@ -28,10 +36,6 @@ export default function Threshold() {
   const [data, setData] = useState([]);
   const [fetched, setFetched] = useState(false);
   
-  // function getDataFromServer(data){
-  //   setData(data)
-  //   console.log('from page',data)
-  // }
 
   useEffect( () => {
     fetch("https://slacker-hackers.herokuapp.com/api/threshold")
@@ -43,17 +47,14 @@ export default function Threshold() {
     .catch(err => alert(err));
   }, [])
 
-  // const findCorrespondingObj = (level) => {
-  //   const found = data.find(element => element.level == level)
-  //   return found;
-  // }
+
   const thresholdLow = data.find(element => element.level == 'low');
   const thresholdLMedium = data.find(element => element.level == 'medium');
   const thresholdHigh = data.find(element => element.level == 'high');
 
   return fetched ? (
     <div  className={classes.container}>
-        <h1 className={classes.heading}>Configure the thresholds</h1>
+        <h2 className={classes.heading}>Edit thresholds - <span className={classes.subheading}>set different thresholds for students</span></h2>
         <div className={classes.box} >
             <ThresholdForm level={'High'} color={'#ABE098'}  postsWeight={thresholdHigh.postsWeight}  reactsWeight={thresholdHigh.reactsWeight}  filesWeight={thresholdHigh.filesWeight}  attachmentsWeight={thresholdHigh.attachmentsWeight}/>
             <ThresholdForm level={'Medium'} color={'#FFFFB7'}   postsWeight={thresholdLMedium.postsWeight}  reactsWeight={thresholdLMedium.reactsWeight}  filesWeight={thresholdLMedium.filesWeight}  attachmentsWeight={thresholdLMedium.attachmentsWeight}/>
