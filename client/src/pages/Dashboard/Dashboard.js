@@ -155,13 +155,13 @@ export default function Dashboard() {
           poorData.push(obj)
         }  
       });
-      if(val==="Poor"){
+      if(val==="Low"){
         performanceData=poorData;
       }
-      if(val==="Average"){
+      if(val==="Medium"){
         performanceData=averageData
       }
-      if(val==="Good"){
+      if(val==="High"){
         performanceData=goodData;
       }
       allData = updatedData;
@@ -180,13 +180,13 @@ export default function Dashboard() {
           poorData.push(obj)
         }  
       });
-      if(val==="Poor"){
+      if(val==="Low"){
         performanceData=poorData;
       }
-      if(val==="Average"){
+      if(val==="Medium"){
         performanceData=averageData
       }
-      if(val==="Good"){
+      if(val==="High"){
         performanceData=goodData;
       }
       allData = data;

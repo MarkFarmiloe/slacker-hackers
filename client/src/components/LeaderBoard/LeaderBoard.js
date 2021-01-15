@@ -38,7 +38,8 @@ const useStyles2 = makeStyles({
     },
     []
   );
-  ///////calculte the slack usuage
+  ///////calculte the slack usuage/////////////////////////////////////////////
+  
     let topThreeList=data.sort(function(a, b) {
       return (parseInt(b.posts)+parseInt(b.reactions)+parseInt(b.attachments)+parseInt(b.files)) - (parseInt(a.posts)+parseInt(a.reactions)+parseInt(a.attachments)+parseInt(a.files));
   });
@@ -63,19 +64,21 @@ const useStyles2 = makeStyles({
       
      
     }, [])
-  let low=thresholdData.filter(function(obj){
-      return obj.level==="low"
- })
+  let low,medium,high;
+ if(thresholdData.length>0){
+      low=thresholdData.filter(function(obj){
+          return obj.level==="low"
+    })
 
- let medium=thresholdData.filter(function(obj){
-  return obj.level==="medium"
+    medium=thresholdData.filter(function(obj){
+      return obj.level==="medium"
+    })
+
+    high=thresholdData.filter(function(obj){
+      return obj.level==="high"
 })
-
-let high=thresholdData.filter(function(obj){
-  return obj.level==="high"
-})
-
-    ///////////////////
+  }
+  
   if(thresholdData.length>0 && topThreeList.length>0){
   return (
     <>
