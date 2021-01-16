@@ -1,31 +1,31 @@
 import React from "react";
 import { ResponsivePie } from '@nivo/pie'
 
-  const data =[
-    {
-      "id": "reacts",
-      "label": "reacts",
-      "value": 312,
-    },
-    {
-      "id": "posts",
-      "label": "posts",
-      "value": 321,
-    },
-    {
-      "id": "files",
-      "label": "files",
-      "value": 221,
-    },
-    {
-      "id": "attachments",
-      "label": "attachments",
-      "value": 123,
-    }
+  // const data =[
+  //   {
+  //     "id": "reacts",
+  //     "label": "reacts",
+  //     "value": 312,
+  //   },
+  //   {
+  //     "id": "posts",
+  //     "label": "posts",
+  //     "value": 321,
+  //   },
+  //   {
+  //     "id": "files",
+  //     "label": "files",
+  //     "value": 221,
+  //   },
+  //   {
+  //     "id": "attachments",
+  //     "label": "attachments",
+  //     "value": 123,
+  //   }
     
-  ]
+  // ]
 
-export function PieChart(){
+export function PieChart({data}){
     return(
         <div style={{height: '500px', width: 'auto'}}>
             
