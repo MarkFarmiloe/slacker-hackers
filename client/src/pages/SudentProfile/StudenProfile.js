@@ -1,5 +1,5 @@
 import { Container,Typography, Box } from '@material-ui/core'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './studentProfile.css'
 import { ResponsivePie } from '@nivo/pie';
 import StudentInfo from '../../components/StudentInfo/StudentInfo'
@@ -9,9 +9,24 @@ import PieChart from '../../components/PieChart/PieChart';
 import LineChart from '../../components/LineChart/LineChart';
 
 
+
+
+
 export default function StudenProfile() {
+
+  
+  const [studentData, setStudentData] = useState({});
+
+  useEffect( () => {
+    fetch('https://slacker-hackers.herokuapp.com/api/student-profile/UQWK7NNLR')
+    .then(res => res.json())
+    .then(data=> setStudentData(data))
+  }, [])
+
   let name=window.location.toString().substring(40,window.location.toString().length).split("%20").join(" ")
-    return (
+     
+    
+  return (Object.entries(studentData).length > 0 ?(
       <div className='studentProfile-page'>
         <div className='studentProfile-info'>
             <StudentInfo name={name}/>
@@ -21,7 +36,7 @@ export default function StudenProfile() {
         <div className='studentProfile-charts'>
           <div className='studentProfile-chart'>
                <h2 className='studentProfile-heading'>Weekly stats</h2>
-               <BarChart />
+               <BarChart data={studentData.report["Weekly Stats"].week} />
           </div>
           <div className='studentProfile-chart'>
                <h2 className='studentProfile-heading'>Total stats</h2>
@@ -35,4 +50,6 @@ export default function StudenProfile() {
           </div>
       </div>
     )
+    :
+    <div>Wait</div>)
 }
