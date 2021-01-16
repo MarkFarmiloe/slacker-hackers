@@ -404,6 +404,7 @@ const getUsername = async (id) => {
 	const selectQuery = "SELECT name FROM slackusers WHERE userid = $1";
 	let client = await Connection.connect();
 	const username =  await client.query(selectQuery, [ id ]);
+	client.release();
 	return username.rows[0].name;
 }
 
@@ -437,12 +438,9 @@ const addSlackIds = (users, userIdTable) => {
 		return userMap [ user.name ] = user.userid;
 	});
 
-	
 	const userList = users.map( user => {
 		let u = {};
-		//console.log("addSlackIds")
 		user[ "userid" ] = userMap[ user.username ];
-		//console.log("addSlackIds", user)
 		return user;
 	});
 
