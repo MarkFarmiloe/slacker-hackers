@@ -20,23 +20,18 @@ export function App() {
 	const [userSlackId, setUserSlackId] = useState(null);
 
 	//check if user exists in local storage and keep it logged in
-	useEffect(() => {
-		const loggedInUser = localStorage.getItem('user');
-		const loggedInUserRole = localStorage.getItem('role');
-		const loggedInUserSlackId = localStorage.getItem('id');
+	useEffect(  () => {
+		const loggedInUser =  localStorage.getItem('user');
+		const loggedInUserRole =  localStorage.getItem('role');
+		const loggedInUserSlackId =  localStorage.getItem('id');
 		
-		if (loggedInUser) {
+		if (loggedInUser && loggedInUserRole && loggedInUserSlackId) {
 		  setUser(loggedInUser);
-		  setUserRole(loggedInUserRole);
+		  setUserRole(loggedInUserRole.toLowerCase());	
 		  setUserSlackId(loggedInUserSlackId);
+		 
 		}
-	  }, []);
-
-	  
-	  console.log('role', userRole)
-	  console.log('user', user)
-	  console.log('ID', userSlackId)
-
+	  }, [user]);
 
 	return (
 		<main role="main" style={{ backgroundColor: 'rgb(243,244,246)', minHeight: '100vh'}}>
@@ -45,14 +40,41 @@ export function App() {
 					<UserSlackIdContext.Provider value={{userSlackId, setUserSlackId}}>
 						<Heading />
 						
-						<Route exact path='/' render={ user ? '':Homepage} />
-						<Route exact path='/dashboard' render={() => user && (userRole == 'mentor' || userRole == 'admin') ? Dashboard: ''} />
-						<Route exact path='/login' render={ user ? '' : LogIn} />
-						<Route exact path='/sign-up' render={ user ? '' : SignUp} />
+						{
+							user  
+							?
+							<div></div>
+							:
+							<Route exact path='/' component={Homepage} />
+						}
+						
+						{
+							user && (userRole == 'mentor' || userRole == 'admin') 
+							?
+							<Route exact path='/dashboard' component={Dashboard} />
+							:
+							<div></div>
+						}
+						{
+							user && (userRole == 'admin') 
+							?
+							<Route exact path='/threshold' component={Threshold} />
+							:
+							<div></div>
+						}
+						{
+							user && (userRole == 'admin') 
+							?
+							<Route exact path='/settings' component={Settings} />
+							:
+							<div></div>
+						}
+						
+						<Route exact path='/login' component={LogIn} />
+						<Route exact path='/sign-up' component={SignUp} />
 						<Route path='/student-profile/:name' component={StudenProfile} />
-						<Route exact path='/threshold' render={() => user && userRole == 'admin' ? Threshold: ''} />
 						<Route exact path='/leaderboard' component={LeaderBoard} />
-						<Route exact path='/settings' render={() => user && userRole == 'admin' ? Settings: ''}/> 
+
 					</UserSlackIdContext.Provider>
 				</UserRoleContext.Provider>
 			</UserContext.Provider>

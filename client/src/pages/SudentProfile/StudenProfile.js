@@ -5,7 +5,7 @@ import StudentInfo from '../../components/StudentInfo/StudentInfo'
 import BarChart from '../../components/BarChart/BarChart';
 import PieChart from '../../components/PieChart/PieChart';
 import LineChart from '../../components/LineChart/LineChart';
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 
@@ -50,5 +50,14 @@ export default function StudenProfile() {
       </div>
     )
     :
-    <div>Wait</div>)
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        margin: "100px auto",
+      }}
+    >
+      <CircularProgress />
+    </div>
+    )
 }
