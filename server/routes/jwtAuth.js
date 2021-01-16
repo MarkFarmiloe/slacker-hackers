@@ -43,7 +43,7 @@ router.post("/signup",  validate, async (req, res) => {
 				 user = await client.query(insertQuery, [ name, email, encryptedPassword, slackId, 1 ]);
 			}else if(role == 'student'){
 				const insertQuery = `INSERT INTO trainees (username, email, password, "slackUserId", "classId") VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-				 user = await client.query(insertQuery, [ name, email, encryptedPassword, slackId, 1 ]);
+				user = await client.query(insertQuery, [ name, email, encryptedPassword, slackId, 1 ]);
 			}
 			if(user.rowCount){          
 				const token = await jwtGenerator(user.rows[0].user_id);
@@ -100,10 +100,15 @@ router.post("/login",  validate, async (req, res) => {
 					//let token = await jwtGenerator(user.rows[0].user_id);
 					//const userAuth = { jwt: token, authLevel: 0 };
 					//res.json({ userAuth });
+					
+					const slackId = await client.query(` SELECT "slackUserId" FROM trainees WHERE email='${email}'`);
+					const slackName = await client.query(` SELECT "name" FROM slackusers WHERE "userid"='${slackId.rows[0].slackUserId}'`);
+
 					res.json({
 						user: userTrainee.rows[0].username,
+						slackUserName: slackName.rows[0].name,
+						userSlackId: slackId.rows[0].slackUserId,
 						role: 'student'
-					
 					});
 				}
 			}

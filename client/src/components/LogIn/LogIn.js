@@ -100,7 +100,7 @@ function LogIn() {
             return res.json();
         })
         .then(data =>  {
-            console.log(data)
+            console.log('data',data)
             localStorage.setItem('user', data.user); // store the incoming data localy
             localStorage.setItem('role', data.role); // store the incoming data localy
             setUser(data.user)

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         color: 'white'
     },
     heading: {
-      fontSize: theme.typography.pxToRem(15),
+      fontSize: theme.typography.pxToRem(20),
       flexBasis: '50%',
       flexShrink: 0,
       alignSelf: 'center',
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-export default function StudentInfo(prop) {
+export default function StudentInfo({name}) {
 
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -46,7 +46,7 @@ export default function StudentInfo(prop) {
                     id="panel1bh-header"
                     className={classes.accordionSummary}
                 >
-                    <Typography className={classes.heading}>{prop.slackId}</Typography>
+                    <Typography className={classes.heading}>{name}</Typography>
                 </AccordionSummary>
 
                 <AccordionDetails>

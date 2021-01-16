@@ -1,9 +1,7 @@
-import { Container,Typography, Box } from '@material-ui/core'
+
 import React, {useEffect, useState} from 'react'
 import './studentProfile.css'
-import { ResponsivePie } from '@nivo/pie';
 import StudentInfo from '../../components/StudentInfo/StudentInfo'
-import ThresholdBanner from '../../components/ThresholdBanner/ThresholdBanner';
 import BarChart from '../../components/BarChart/BarChart';
 import PieChart from '../../components/PieChart/PieChart';
 import LineChart from '../../components/LineChart/LineChart';
@@ -16,20 +14,21 @@ export default function StudenProfile() {
 
   
   const [studentData, setStudentData] = useState({});
+ 
+  let slackIdFromUrl = window.location.toString().substring(40,window.location.toString().length).split("%20").join(" ");
 
   useEffect( () => {
-    fetch('https://slacker-hackers.herokuapp.com/api/student-profile/UQWK7NNLR')
+    fetch(`https://slacker-hackers.herokuapp.com/api/student-profile/${slackIdFromUrl}`)
     .then(res => res.json())
     .then(data=> setStudentData(data))
   }, [])
 
-  let name=window.location.toString().substring(40,window.location.toString().length).split("%20").join(" ")
-    
+  
     
   return (Object.entries(studentData).length > 0 ?(
       <div className='studentProfile-page'>
         <div className='studentProfile-info'>
-            <StudentInfo name={name}/>
+            <StudentInfo name={studentData.report.name}/>
             {/* <ThresholdBanner /> */}
         </div >
 
@@ -40,13 +39,13 @@ export default function StudenProfile() {
           </div>
           <div className='studentProfile-chart'>
                <h2 className='studentProfile-heading'>Total stats</h2>
-               <PieChart />
+               <PieChart data={studentData.report["Total Stats"].totals} />
           </div>
         </div>
 
         <div  className='studentProfile-chart-line'>
                <h2 className='studentProfile-heading'>Monthly stats</h2>
-               <LineChart />
+               <LineChart data={studentData.report["Last 4 Weeks"]} />
           </div>
       </div>
     )
