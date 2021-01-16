@@ -82,10 +82,13 @@ router.post("/login",  validate, async (req, res) => {
 					//const userAuth = { jwt: token, authLevel: 0 };
 					//res.json({ userAuth });
 					let isTheMentorAdmin = userMentor.rows[0].isadmin == 'true' ? 'admin' : 'mentor';
+					const slackId = await client.query(` SELECT "slackUserId" FROM mentors WHERE email='${email}'`);
+					const slackName = await client.query(` SELECT "name" FROM slackusers WHERE "userid"='${slackId.rows[0].slackUserId}'`);
 					res.json({
 						user: userMentor.rows[0].username,
-						isAdmin: userMentor.rows[0].isadmin,
-						role: isTheMentorAdmin 
+						slackUserName: slackName.rows[0].name,
+						userSlackId: slackId.rows[0].slackUserId,
+						role: isTheMentorAdmin
 					});
 				}
 			}
@@ -103,7 +106,7 @@ router.post("/login",  validate, async (req, res) => {
 					
 					const slackId = await client.query(` SELECT "slackUserId" FROM trainees WHERE email='${email}'`);
 					const slackName = await client.query(` SELECT "name" FROM slackusers WHERE "userid"='${slackId.rows[0].slackUserId}'`);
-
+					
 					res.json({
 						user: userTrainee.rows[0].username,
 						slackUserName: slackName.rows[0].name,
