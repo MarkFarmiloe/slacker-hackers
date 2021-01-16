@@ -9,35 +9,35 @@ import { ResponsiveBar } from '@nivo/bar'
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
-let data = [
-        {
-          "action": "POSTS",
-          "Done": 3,
-          "Left To Do": 15,
-        },
-        {
-          "action": "REACTS",
-          "Done": 10,
-          "Left To Do": 25,
+// let data = [
+//         {
+//           "action": "POSTS",
+//           "Done": 3,
+//           "Left To Do": 15,
+//         },
+//         {
+//           "action": "REACTS",
+//           "Done": 10,
+//           "Left To Do": 25,
           
-        },
-        {
-          "action": "FILES",
-          "Done": 5,
-          "Left To Do": 7,
+//         },
+//         {
+//           "action": "FILES",
+//           "Done": 5,
+//           "Left To Do": 7,
 
-        },
-        {
-          "action": "ATTACHMETS",
-          "Done": 1,
-          "Left To Do": 5,
-        }
-]
+//         },
+//         {
+//           "action": "ATTACHMETS",
+//           "Done": 1,
+//           "Left To Do": 5,
+//         }
+// ]
 
 const colors = { 'Done': '#4DAF4A', 'Left To Do': '#E41A1C' }
 const getColor = bar => colors[bar.id];
 
-const BarChart = () => (
+const BarChart = ({data}) => (
     <div style={{height: '500px', width: 'auto'}}>
     <ResponsiveBar
         data={data}
