@@ -113,7 +113,6 @@ const useStyles = makeStyles((theme) => ({
   high=thresholdData.filter(function(obj){
     return obj.level==="high"
   })
-//////////////////////////////////
 let topperData=data.sort(function(a,b){
   return (b.posts+b.reactions+b.attachments+b.files)-(a.posts+a.reactions+a.attachments+a.files)
 })

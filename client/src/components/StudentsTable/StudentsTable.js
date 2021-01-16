@@ -93,9 +93,10 @@ const useStyles2 = makeStyles({
   },
 });
  function StudentTable(prop) {
-  let searchData=[],cnt=0;
+   //////////////////////////////////////slack 
+   let searchData=[],cnt=0;
+   searchData=prop.Data;
  
-  searchData=prop.Data;
  let low=prop.thresholdData.filter(function(obj){
       return obj.level==="low"
  })
@@ -107,6 +108,31 @@ const useStyles2 = makeStyles({
 let high=prop.thresholdData.filter(function(obj){
   return obj.level==="high"
 })
+///////////////////////////////////////today change
+searchData=searchData.sort(function(a,b){
+  return (b.posts+b.reactions+b.attachments+b.files)-(a.posts+a.reactions+a.attachments+a.files)
+})
+let green=[],yellow=[],pink=[],gray=[]
+searchData.forEach(function(obj){
+  if((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
+  &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight)){
+    green.push(obj)
+  }else if((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
+  &&(obj.files>=medium[0].filesWeight)){
+    yellow.push(obj)
+  }else if(((obj.posts>=low[0].postsWeight))&&
+  (obj.reactions>=low[0].reactsWeight)&&(obj.attachments>=low[0].attachmentsWeight)
+  &&(obj.files>=low[0].filesWeight)){
+    pink.push(obj)
+  }else{
+    gray.push(obj)
+  }
+})
+let mixArr=green.concat(yellow);
+mixArr=mixArr.concat(pink)
+mixArr=mixArr.concat(gray)
+searchData=mixArr
+//////////////////////////////////////////////////////////////////
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -125,7 +151,7 @@ let high=prop.thresholdData.filter(function(obj){
   
    
   };
- 
+
 if(prop.thresholdData.length>0 && searchData.length>0){
   return (
     <TableContainer component={Paper} >
