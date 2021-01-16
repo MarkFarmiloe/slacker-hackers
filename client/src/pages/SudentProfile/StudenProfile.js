@@ -10,10 +10,11 @@ import LineChart from '../../components/LineChart/LineChart';
 
 
 export default function StudenProfile() {
+let slackId=window.location.href.toString().substring(40,window.location.href.toString().length);
     return (
       <div className='studentProfile-page'>
         <div className='studentProfile-info'>
-            <StudentInfo />
+            <StudentInfo slackId={slackId} />
             {/* <ThresholdBanner /> */}
         </div >
 

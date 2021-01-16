@@ -34,15 +34,16 @@ const useStyles = makeStyles((theme) => ({
     subheading: {
         width: '100px',
         padding: '10px',
+        textTransform: 'capitalize'
       },
     subheadingGreen: {
-      background: '#ABE098',
+      background: '#4CAF5096',
     },
     subheadingYellow: {
-      background: '#FFFFB7'
+      background: '#FF980096'
     },
     subheadingRed: {
-      background: '#F1959B'
+      background: '#F4433696'
     },
 
     details: {
@@ -51,10 +52,12 @@ const useStyles = makeStyles((theme) => ({
     },
     act: {
         margin: '0 10px',
-        padding: '10px'
+        padding: '10px',
+        textTransform: 'capitalize'
     },
     span: {
         fontWeight: '600',
+        textTransform: 'capitalize'
         
     }
   }));

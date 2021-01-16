@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-export default function StudentInfo() {
+export default function StudentInfo(prop) {
 
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -46,7 +46,7 @@ export default function StudentInfo() {
                     id="panel1bh-header"
                     className={classes.accordionSummary}
                 >
-                    <Typography className={classes.heading}>Student Info</Typography>
+                    <Typography className={classes.heading}>{prop.slackId}</Typography>
                 </AccordionSummary>
 
                 <AccordionDetails>

@@ -148,13 +148,13 @@ if(prop.thresholdData.length>0 && searchData.length>0){
           
             <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor
             :((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
-            &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight))?('green')
+            &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight))?('#4CAF5096')
             :((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
-            &&(obj.files>=medium[0].filesWeight))?('yellow')
+            &&(obj.files>=medium[0].filesWeight))?(' #FF980096')
             :(((obj.posts>=low[0].postsWeight))&&
            (obj.reactions>=low[0].reactsWeight)&&(obj.attachments>=low[0].attachmentsWeight)
-           &&(obj.files>=low[0].filesWeight))?('pink')
-            :('gray')}}>
+           &&(obj.files>=low[0].filesWeight))?('#F4433696')
+            :('#f3f3f3')}}>
               <TableCell style={{ width: 'auto' }} align="left">
                 <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}
