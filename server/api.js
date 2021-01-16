@@ -404,6 +404,7 @@ const getUsername = async (id) => {
 	const selectQuery = "SELECT name FROM slackusers WHERE userid = $1";
 	let client = await Connection.connect();
 	const username =  await client.query(selectQuery, [ id ]);
+	client.release();
 	return username.rows[0].name;
 }
 
@@ -437,12 +438,9 @@ const addSlackIds = (users, userIdTable) => {
 		return userMap [ user.name ] = user.userid;
 	});
 
-	
 	const userList = users.map( user => {
 		let u = {};
-		console.log("addSlackIds")
 		user[ "userid" ] = userMap[ user.username ];
-		//console.log("addSlackIds", user)
 		return user;
 	});
 
@@ -474,7 +472,7 @@ router.get("/students/:weeks",  async (req, res, next) => {
 		if( activeUsers.rowCount){
 			selectQuery = "SELECT * from slackusers";
 			const slackUserList =   await client.query(selectQuery);
-			const activeUserList = addSlackIds(activeUsers.rows, slackUserList.rows);
+			const activeUserList = await addSlackIds(activeUsers.rows, slackUserList.rows);
 			console.log("sending results to client")
 			const filter = await buildFilterOptions();
 			const thresholds = await getThresholds();

@@ -24,7 +24,7 @@ export default function StudenProfile() {
   }, [])
 
   let name=window.location.toString().substring(40,window.location.toString().length).split("%20").join(" ")
-     
+    
     
   return (Object.entries(studentData).length > 0 ?(
       <div className='studentProfile-page'>
