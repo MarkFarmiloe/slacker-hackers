@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+export default function LongMenu({role}) {
 
   const {user, setUser} = useContext(UserContext);
   const {userRole, setUserRole} = useContext(UserRoleContext);
@@ -34,7 +34,7 @@ export default function LongMenu() {
     setUserRole('');
     setUserSlackId('');
     localStorage.clear();
-    // history.push('/');
+    history.push('/');
   }
 
   return (
@@ -63,14 +63,20 @@ export default function LongMenu() {
         {
           <div>
           
+            {
+              role == 'admin' 
+              ?
+              <MenuItem key={0} onClick={() => {
+                history.push('/settings') 
+                handleClose(); 
+                }
+              }>
+                Settings
+              </MenuItem>
+              :
+              ''
+            }
             
-            <MenuItem key={0} onClick={() => {
-              history.push('/settings') 
-              handleClose(); 
-              }
-          }>
-              Settings
-            </MenuItem>
            
             <MenuItem key={1} onClick={handleClickOption}>
               Logout

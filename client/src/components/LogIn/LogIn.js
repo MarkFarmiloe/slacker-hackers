@@ -101,14 +101,16 @@ function LogIn() {
         })
         .then(data =>  {
             console.log('data',data)
+            
             localStorage.setItem('user', data.user); // store the incoming data localy
             localStorage.setItem('role', data.role); // store the incoming data localy
             localStorage.setItem('id', data.userSlackId); // store the incoming data localy
             setUser(data.user)
             
+            
             if(data.role == 'student'){
                 history.push(`/student-profile/${data.userSlackId}`)
-            }else{
+            }else if(data.role == 'mentor' || data.role == 'admin'){
                 history.push('/dashboard');
             } 
         })
