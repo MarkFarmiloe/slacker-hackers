@@ -424,6 +424,7 @@ router.get("/student-profile/:userid",  async (req, res, next) => {
 			report[ "Weekly Stats" ]  = weekly;
 			report[ "Total Stats" ]  = total;
 			report[ "Last 4 Weeks" ]  = fourWeeks;
+			report[ "thresholds"] = thresholds;
 			res.json({ report });
 		} else {
 			res.status(404).send("/student-profle/:name: recieved an invalid name");
