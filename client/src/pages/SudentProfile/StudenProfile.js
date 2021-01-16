@@ -6,17 +6,18 @@ import BarChart from '../../components/BarChart/BarChart';
 import PieChart from '../../components/PieChart/PieChart';
 import LineChart from '../../components/LineChart/LineChart';
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import {useHistory} from 'react-router-dom';
 
 
 
 export default function StudenProfile() {
-
+  const history = useHistory();
   
   const [studentData, setStudentData] = useState({});
  
-  let slackIdFromUrl = window.location.toString().substring(40,window.location.toString().length).split("%20").join(" ");
-
+  let  urlPath = history.location.pathname;
+  let  slackIdFromUrl = urlPath.replace('/student-profile/', '');
+ 
   useEffect( () => {
     fetch(`https://slacker-hackers.herokuapp.com/api/student-profile/${slackIdFromUrl}`)
     .then(res => res.json())
