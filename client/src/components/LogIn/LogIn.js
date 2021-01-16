@@ -103,11 +103,14 @@ function LogIn() {
             console.log('data',data)
             localStorage.setItem('user', data.user); // store the incoming data localy
             localStorage.setItem('role', data.role); // store the incoming data localy
+            localStorage.setItem('id', data.userSlackId); // store the incoming data localy
             setUser(data.user)
-
             
-            
-            history.push('/dashboard')
+            if(data.role == 'student'){
+                history.push(`/student-profile/${data.userSlackId}`)
+            }else{
+                history.push('/dashboard');
+            } 
         })
         .catch((err) => {
             alert(err);

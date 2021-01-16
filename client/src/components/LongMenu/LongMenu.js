@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { UserContext } from '../../contexts/userContext';
+import { UserContext, UserRoleContext, UserSlackIdContext } from '../../contexts/userContext';
 import { useHistory } from 'react-router-dom';
 
 
@@ -12,6 +12,9 @@ const ITEM_HEIGHT = 48;
 export default function LongMenu() {
 
   const {user, setUser} = useContext(UserContext);
+  const {userRole, setUserRole} = useContext(UserRoleContext);
+  const {userSlackId, setUserSlackId} = useContext(UserSlackIdContext);
+
   const history = useHistory();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -28,8 +31,10 @@ export default function LongMenu() {
 
   const handleClickOption = () => {
     setUser('');
+    setUserRole('');
+    setUserSlackId('');
     localStorage.clear();
-    history.push('/');
+    // history.push('/');
   }
 
   return (
