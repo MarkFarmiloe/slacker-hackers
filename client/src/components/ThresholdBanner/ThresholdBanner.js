@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
         color: '#3F0F3F'
     },
     heading: {
-      fontSize: theme.typography.pxToRem(15),
       flexBasis: '50%',
       flexShrink: 0,
       alignSelf: 'center',

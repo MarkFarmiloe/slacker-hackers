@@ -23,7 +23,7 @@ export default function Settings() {
     const classes = useStyles();
     return (
         <div className='settings-page'>
-            <h2 className={classes.heading}>Token - <span className={classes.subheading}>copy token or modify it if in doubt of security</span></h2>
+            <h2 className={classes.heading}>Token - <span className={classes.subheading}>used to provide access to mentors when they Register</span></h2>
             <Token />
         </div>
     )

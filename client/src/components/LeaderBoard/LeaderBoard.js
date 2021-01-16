@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
         .then(function (db) {
             setData(db.report);
         })
-        .then(function (error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -141,7 +141,7 @@ topThreeList=mixArr.slice(0,3)
   if(thresholdData.length>0 && data.length>0 && topThreeList.length>0){
   return (
     <div className={classes.container}>
-    <h2 className={classes.heading}>Leaderboard - <span className={classes.subheading}>See the winners of this week</span></h2>
+    <h2 className={classes.heading}>Leaderboard - <span className={classes.subheading}>Check the winners of this week</span></h2>
 
     <div className={classes.medalsContainer}>
       <div className={classes.medalBox}>
@@ -189,35 +189,35 @@ topThreeList=mixArr.slice(0,3)
            &&(obj.files>=low[0].filesWeight))?('#F4433696')
             :('#f3f3f3')}}>              
             <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
+                <p  style={{textDecoration:'none',color:'black', cursor: 'pointer'}} >
                   {obj.username}
-                </a>
+                </p>
               </TableCell>
              
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
+                <p  style={{textDecoration:'none',color:'black', cursor: 'pointer'}} >
                   {obj.classname}
-                </a>
+                </p>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
+              <p  style={{textDecoration:'none',color:'black', cursor: 'pointer'}} >
                   {obj.posts}
-                </a>
+                </p>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
+              <p  style={{textDecoration:'none',color:'black', cursor: 'pointer'}} >
                   {obj.reactions}
-                </a>
+                </p>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
+              <p  style={{textDecoration:'none',color:'black', cursor: 'pointer'}} >
                   {obj.attachments}
-                </a>
+                </p>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
+              <p  style={{textDecoration:'none',color:'black', cursor: 'pointer'}} >
                   {obj.files}
-                </a>
+                </p>
               </TableCell>
               
             </TableRow>
