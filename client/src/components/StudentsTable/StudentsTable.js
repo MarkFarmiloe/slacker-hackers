@@ -156,33 +156,33 @@ if(prop.thresholdData.length>0 && searchData.length>0){
            &&(obj.files>=low[0].filesWeight))?('pink')
             :('gray')}}>
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}
                 </a>
               </TableCell>
              
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.classname}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.posts}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.reactions}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.attachments}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.files}
                 </a>
               </TableCell>

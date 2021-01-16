@@ -43,7 +43,8 @@ const useStyles2 = makeStyles({
     let topThreeList=data.sort(function(a, b) {
       return (parseInt(b.posts)+parseInt(b.reactions)+parseInt(b.attachments)+parseInt(b.files)) - (parseInt(a.posts)+parseInt(a.reactions)+parseInt(a.attachments)+parseInt(a.files));
   });
-  topThreeList=topThreeList.slice(0,3);
+  topThreeList=topThreeList;
+  //.slice(0,3);
 
   const studentContainer={
       width: '98%',
@@ -77,7 +78,33 @@ const useStyles2 = makeStyles({
     high=thresholdData.filter(function(obj){
       return obj.level==="high"
 })
+
+//////////////////////////////////
+let topperData=data.sort(function(a,b){
+  return (b.posts+b.reactions+b.attachments+b.files)-(b.posts+b.reactions+b.attachments+b.files)
+})
+let green=[],yellow=[],pink=[],gray=[]
+topperData.forEach(function(obj){
+  if((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
+  &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight)){
+    green.push(obj)
+  }else if((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
+  &&(obj.files>=medium[0].filesWeight)){
+    yellow.push(obj)
+  }else if(((obj.posts>=low[0].postsWeight))&&
+  (obj.reactions>=low[0].reactsWeight)&&(obj.attachments>=low[0].attachmentsWeight)
+  &&(obj.files>=low[0].filesWeight)){
+    pink.push(obj)
+  }else{
+    gray.push(obj)
   }
+})
+let mixArr=green.concat(yellow);
+mixArr=mixArr.concat(pink)
+mixArr=mixArr.concat(gray)
+topThreeList=mixArr.slice(0,3)
+
+}
   
   if(thresholdData.length>0 && topThreeList.length>0){
   return (
@@ -120,7 +147,7 @@ const useStyles2 = makeStyles({
         </TableRow>
           {topThreeList.map((obj) => (
            
-            <TableRow  id={"/#/student-profile/".concat(obj.username)} key={Math.random(100)} style={{backgroundColor
+            <TableRow  id={"/#/student-profile/".concat(obj.userid)} key={Math.random(100)} style={{backgroundColor
             :((obj.posts>=high[0].postsWeight)&&(obj.reactions>=high[0].reactsWeight)
             &&(obj.attachments>=high[0].attachmentsWeight)&&(obj.files>=high[0].filesWeight))?('green')
             :((obj.posts>=medium[0].postsWeight)&&(obj.reactions>=medium[0].reactsWeight)&&(obj.attachments>=medium[0].attachmentsWeight)
@@ -130,33 +157,33 @@ const useStyles2 = makeStyles({
            &&(obj.files>=low[0].filesWeight))?('pink')
             :('gray')}}>              
             <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.username}
                 </a>
               </TableCell>
              
               <TableCell style={{ width: 'auto' }} align="left">
-                <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+                <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.classname}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.posts}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.reactions}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.attachments}
                 </a>
               </TableCell>
               <TableCell style={{ width: 'auto' }} align="left">
-              <a href={"/#/student-profile/".concat(obj.username)} style={{textDecoration:'none',color:'black'}} >
+              <a href={"/#/student-profile/".concat(obj.userid)} style={{textDecoration:'none',color:'black'}} >
                   {obj.files}
                 </a>
               </TableCell>
