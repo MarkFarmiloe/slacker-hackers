@@ -3,10 +3,16 @@
 
 }
 .studentProfile-info{
-    display: flex;
+    /* display: flex; */
     width: 100%;
     background: #ffffff;
     padding: 20px; 
+}
+.studentProfile-header{
+    font-size: 35px;
+    color: #3F0F3F;
+    text-align: center;
+    margin-bottom: 30px;
 }
 .studentProfile-heading{
     background-color: #3F0F3F;

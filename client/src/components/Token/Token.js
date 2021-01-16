@@ -15,7 +15,7 @@ export default function Token() {
         .catch(err => alert(err))
     }, [])
         
-console.log(value)
+
     const handleClickEdit = e => {
         setEditable(true);
     }
@@ -63,7 +63,7 @@ console.log(value)
                 :
                 <div>
                     <AlertTitle>Token</AlertTitle>
-                    <p>This is the current token — <strong>{value}</strong></p>
+                    <p>This is the current token — <strong style={{fontSize: '22px'}}>{value}</strong></p>
                 </div>
                 }
                 

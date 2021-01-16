@@ -81,7 +81,7 @@ export default function Dashboard() {
             setThresholds(db.thresholds);
            
         })
-        .then(function (error) {
+        .catch(function (error) {
           console.log(error);
         });
        

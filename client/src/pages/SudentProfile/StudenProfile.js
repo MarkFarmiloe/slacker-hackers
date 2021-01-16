@@ -7,6 +7,7 @@ import PieChart from '../../components/PieChart/PieChart';
 import LineChart from '../../components/LineChart/LineChart';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useHistory} from 'react-router-dom';
+import ThresholdBanner from '../../components/ThresholdBanner/ThresholdBanner';
 
 
 
@@ -28,14 +29,15 @@ export default function StudenProfile() {
     
   return (Object.entries(studentData).length > 0 ?(
       <div className='studentProfile-page'>
+        <h2 className='studentProfile-header'>{studentData.report.name}</h2>
         <div className='studentProfile-info'>
-            <StudentInfo name={studentData.report.name}/>
-            {/* <ThresholdBanner /> */}
+            <StudentInfo name={'Student Info'} classs={studentData.report["classname"]} />
+            <ThresholdBanner data={studentData.report['thresholds']}/>
         </div >
 
         <div className='studentProfile-charts'>
           <div className='studentProfile-chart'>
-               <h2 className='studentProfile-heading'>Weekly stats</h2>
+               <h2 className='studentProfile-heading'>Weekly goal</h2>
                <BarChart data={studentData.report["Weekly Stats"].week} />
           </div>
           <div className='studentProfile-chart'>

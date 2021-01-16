@@ -20,15 +20,17 @@ const useStyles = makeStyles((theme) => ({
         color: 'white'
     },
     heading: {
-      fontSize: theme.typography.pxToRem(20),
       flexBasis: '50%',
       flexShrink: 0,
       alignSelf: 'center',
+    },
+    text: {
+        fontSize: '16px'
     }
   }));
 
 
-export default function StudentInfo({name}) {
+export default function StudentInfo({name, classs}) {
 
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -38,7 +40,7 @@ export default function StudentInfo({name}) {
     };
 
     return (
-        <div style={{marginRight: '50px', width: '100%'}}>
+        <div style={{marginBottom: '20px', width: '100%'}}>
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon style={{fill: "white"}}/>}
@@ -53,14 +55,14 @@ export default function StudentInfo({name}) {
 
                     <List component="nav" className={classes.root} aria-label="mailbox folders">
                         <ListItem button>
-                            <ListItemText primary="Email: student@cyf.co.uk" />
+                            <p className={classes.text}><strong>Email:</strong> not available</p>
                         </ListItem>
                         <Divider />
-                        <ListItem button divider>
-                            <ListItemText primary="Location: Birmingham" />
+                        <ListItem button divider> 
+                            <p className={classes.text}><strong>Location:</strong> WestMidlands</p>
                         </ListItem>
                         <ListItem button>
-                            <ListItemText primary="Class: WestMidlands Class 1" />
+                            <p className={classes.text}><strong>Class:</strong> {classs}</p>
                         </ListItem>
                         
                     </List>
@@ -68,6 +70,7 @@ export default function StudentInfo({name}) {
                     
                 </AccordionDetails>
             </Accordion>
+            
         </div>
     )
 }

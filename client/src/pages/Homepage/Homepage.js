@@ -8,12 +8,12 @@ export default function Homepage() {
         <div className='homepage'>
             <img className='homepage-img' src={BgImage} />
             <div className='homepage-box'>
-                <h1>Slacker Hackers App</h1>
+                <h1>Slack Dashboard</h1>
                 <ul className='homepage-list'>
-                    <li className='homepage-list-item'>Lorem Ipsum is simply dummy</li>
-                    <li className='homepage-list-item'>text of the printing</li>
-                    <li className='homepage-list-item'>and typesetting industry.</li>
-                    <li className='homepage-list-item'>lorem Ipsum is </li>
+                    <li className='homepage-list-item'>Track level of communication in Slack</li>
+                    <li className='homepage-list-item'>Set weekly goals</li>
+                    <li className='homepage-list-item'>Check individual student stats</li>
+                    <li className='homepage-list-item'>Get on the podium at the end of the week</li>
                 </ul>
                 <div className='homepage-buttons' style={{margin: '30px 0'}}>
                     <Button 
