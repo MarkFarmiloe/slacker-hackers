@@ -347,17 +347,18 @@ const getTotalStats = async (name, thresholdLevels) => {
 };
 
 const getWeeklyStats = async (name, thresholdLevels) => {
-	let  selectQuery = "SELECT username,  ";
+	let  selectQuery = "SELECT username,  classname, ";
 	selectQuery += "SUM(posts) AS posts, SUM(reactions) AS reactions, SUM(attachments) AS attachments, SUM(files) AS files ";
 	selectQuery += "FROM slackactivity ";
 	selectQuery += "WHERE date >=  $1 AND date <= $2 AND username = $3 ";
-	selectQuery += "GROUP BY username;";
+	selectQuery += "GROUP BY username, classname;";
 
 	const diff = new Date().getDay() - 1;
 	const startDate = moment().subtract( diff, 'day').format('YYYY-MM-DD');
 	const endDate = moment().add( 6 - diff , 'day').format('YYYY-MM-DD');
 	let client = await Connection.connect();
 	const userStats = await client.query(selectQuery, [ startDate, endDate, name ]);
+	const classname =  userStats.rowCount ? userStats.rows[0].classname : "";
 	const slackUser = userStats.rowCount ? userStats.rows[0] : 0;  //weekRange: report.weekRange, goals: report.week
 	let report = { weekRange: `${startDate} ${endDate}`, week: [] } ;
 	const activityList = Object.keys(thresholdLevels);
@@ -365,25 +366,25 @@ const getWeeklyStats = async (name, thresholdLevels) => {
 		let goal = {};
 		switch(activity){
 			case "posts":
-				goal[ "action" ] = "POSTS";
+				goal[ "action" ] = "Posts";
 				goal[ "Done" ] = userStats.rowCount ? slackUser.posts : 0;
 				goal[ "Left To Do"  ] = thresholdLevels.posts <= goal[ "Done" ] ? 0 : thresholdLevels.posts - goal[ "Done" ];
 				report.week.push(goal);
 				break;
 			case "reacts":
-					goal[ "action" ] = "REACTS";
+					goal[ "action" ] = "Reacts";
 					goal[ "Done" ] = userStats.rowCount ? slackUser.reactions: 0;
 					goal[ "Left To Do"  ] = thresholdLevels.reacts <= goal[ "Done" ] ? 0 : thresholdLevels.reacts - goal[ "Done" ];
 					report.week.push(goal);
 					break;
 			case "attachments":
-					goal[ "action" ] = "ATTACHMENTS";
+					goal[ "action" ] = "Attachments";
 					goal[ "Done" ] = userStats.rowCount ? slackUser.attachments : 0;
 					goal[ "Left To Do"  ] = thresholdLevels.attachments <= goal[ "Done" ]  ? 0 : thresholdLevels.attachments - goal[ "Done" ];
 					report.week.push(goal);
 					break;
 			case "files":
-					goal[ "action" ] = "FILES";
+					goal[ "action" ] = "Files";
 					goal[ "Done" ] = userStats.rowCount ? slackUser.files : 0;
 					goal[ "Left To Do"  ] = thresholdLevels.files <= goal[ "Done" ] ? 0 : thresholdLevels.files - goal[ "Done" ];
 					report.week.push(goal);
@@ -391,7 +392,7 @@ const getWeeklyStats = async (name, thresholdLevels) => {
 		}
 		});
 	client.release();
-	return report;
+	return [ classname, report ];
 };
 
 router.get("/report/lastfourweeks/:name",  async (req, res, next) => {
@@ -414,11 +415,12 @@ router.get("/student-profile/:userid",  async (req, res, next) => {
 		const name = await getUsername(userid);
 		if(userid && name){
 			const thresholds = await getThresholds();
-			const weekly = await getWeeklyStats(name, thresholds[ "high"]);
+			const [ classname, weekly] = await getWeeklyStats(name, thresholds[ "high"]);
 			const total = await getTotalStats(name, thresholds[ "high"]);
 			const fourWeeks = await getLastFourWeeks(name);
 			let report = {};
 			report[ "name" ] = name;
+			report ["classname" ] = classname;
 			report[ "Weekly Stats" ]  = weekly;
 			report[ "Total Stats" ]  = total;
 			report[ "Last 4 Weeks" ]  = fourWeeks;
